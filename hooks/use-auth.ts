@@ -8,6 +8,7 @@ import {
 } from "@/lib/api/generated/auth/auth"
 import { useRouter } from "next/navigation"
 import type { LoginDto } from "@/lib/api/generated/model/loginDto"
+import { CurrentUserResponseDtoRole } from "@/lib/api/generated/model/currentUserResponseDtoRole"
 
 function useHasToken() {
   const [hasToken, setHasToken] = React.useState(false)
@@ -39,7 +40,12 @@ export function useAuth() {
     const response = await loginMutation.mutateAsync({ data: credentials })
     if (response?.data?.access_token) {
       localStorage.setItem("access_token", response.data.access_token)
-      router.push("/")
+      const role = response.data.user?.role
+      if (role === CurrentUserResponseDtoRole.super_admin) {
+        router.push("/admin")
+      } else {
+        router.push("/")
+      }
     }
     return response
   }
