@@ -28,7 +28,7 @@ export const UpsertMessageFeedbackBody = zod.object({
     .max(upsertMessageFeedbackBodyRatingMax)
     .optional(),
   comment: zod.string().optional(),
-  metadata: zod.looseObject({}).optional(),
+  metadata: zod.record(zod.string(), zod.unknown()).optional(),
 })
 
 export const UpsertMessageFeedbackResponse = zod
@@ -90,7 +90,7 @@ export const UpsertConversationFeedbackBody = zod.object({
     .enum(["satisfied", "neutral", "unsatisfied"])
     .optional(),
   comment: zod.string().optional(),
-  metadata: zod.looseObject({}).optional(),
+  metadata: zod.record(zod.string(), zod.unknown()).optional(),
 })
 
 export const UpsertConversationFeedbackResponse = zod

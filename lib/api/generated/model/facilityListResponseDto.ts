@@ -5,10 +5,10 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { FacilityResponseDto } from "./facilityResponseDto"
+import type { FacilityListItemResponseDto } from "./facilityListItemResponseDto"
 import type { PaginationDto } from "./paginationDto"
 
 export interface FacilityListResponseDto {
-  items: FacilityResponseDto[]
+  items: FacilityListItemResponseDto[]
   pagination: PaginationDto
 }

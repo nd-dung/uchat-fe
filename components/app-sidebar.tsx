@@ -24,6 +24,7 @@ import {
   FrameIcon,
   PieChartIcon,
   MapIcon,
+  Building2Icon,
 } from "lucide-react"
 
 const data = {
@@ -54,13 +55,17 @@ const data = {
       title: "Quản lý người dùng",
       url: "#",
       icon: <UsersIcon />,
-      isActive: true,
       items: [
         {
           title: "Danh sách người dùng",
           url: "/admin/users",
         },
       ],
+    },
+    {
+      title: "Quản lý khoa",
+      url: "/admin/facilities",
+      icon: <Building2Icon />,
     },
     {
       title: "Models",

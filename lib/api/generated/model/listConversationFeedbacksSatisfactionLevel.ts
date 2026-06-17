@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type FindAllSatisfactionLevel =
-  (typeof FindAllSatisfactionLevel)[keyof typeof FindAllSatisfactionLevel]
+export type ListConversationFeedbacksSatisfactionLevel =
+  (typeof ListConversationFeedbacksSatisfactionLevel)[keyof typeof ListConversationFeedbacksSatisfactionLevel]
 
-export const FindAllSatisfactionLevel = {
+export const ListConversationFeedbacksSatisfactionLevel = {
   satisfied: "satisfied",
   neutral: "neutral",
   unsatisfied: "unsatisfied",

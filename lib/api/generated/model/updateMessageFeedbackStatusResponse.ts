@@ -6,8 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 import type { ApiSuccessResponseDto } from "./apiSuccessResponseDto"
-import type { ConversationFeedbackDetailResponseDto } from "./conversationFeedbackDetailResponseDto"
+import type { MessageFeedbackResponseDto } from "./messageFeedbackResponseDto"
 
-export type FindOneResponse = ApiSuccessResponseDto & {
-  data?: ConversationFeedbackDetailResponseDto
+export type UpdateMessageFeedbackStatusResponse = ApiSuccessResponseDto & {
+  data?: MessageFeedbackResponseDto
 }

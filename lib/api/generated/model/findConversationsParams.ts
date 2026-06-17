@@ -6,11 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 import type { FindConversationsStatus } from "./findConversationsStatus"
-import type { Object } from "./object"
 
 export type FindConversationsParams = {
-  page?: Object
-  limit?: Object
+  page?: number
+  limit?: number
   status?: FindConversationsStatus
   chatbot_id?: number
   assigned_staff_id?: number

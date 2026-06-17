@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type FindAllFeedbackType =
-  (typeof FindAllFeedbackType)[keyof typeof FindAllFeedbackType]
+export type ListMessageFeedbacksFeedbackType =
+  (typeof ListMessageFeedbacksFeedbackType)[keyof typeof ListMessageFeedbacksFeedbackType]
 
-export const FindAllFeedbackType = {
+export const ListMessageFeedbacksFeedbackType = {
   helpful: "helpful",
   not_helpful: "not_helpful",
   incorrect: "incorrect",

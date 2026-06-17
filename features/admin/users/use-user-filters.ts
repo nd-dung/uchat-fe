@@ -1,22 +1,25 @@
 "use client"
 
-import { useQueryState, parseAsString } from "nuqs"
+import * as React from "react"
+import { useQueryState, parseAsString, parseAsInteger } from "nuqs"
 
 export function useUserFilters() {
   const [search, setSearch] = useQueryState("search", parseAsString.withDefault(""))
   const [role, setRole] = useQueryState("role", parseAsString.withDefault("all"))
   const [status, setStatus] = useQueryState("status", parseAsString.withDefault("all"))
   const [facility, setFacility] = useQueryState("facility", parseAsString.withDefault("all"))
+  const [page, setPage] = useQueryState("page", parseAsInteger.withDefault(1))
+  const [limit] = React.useState(10)
 
   const listParams = (() => {
-    const params: Record<string, string | number> = {}
+    const params: Record<string, string | number> = { page, limit }
     if (search) params.search = search
     if (role !== "all") params.role = role
     if (status !== "all") params.status = status
     if (facility !== "all") {
       params.facility_id = Number(facility)
     }
-    return Object.keys(params).length > 0 ? params : undefined
+    return params
   })()
 
   const isFiltered = role !== "all" || status !== "all" || facility !== "all"
@@ -25,6 +28,7 @@ export function useUserFilters() {
     setRole("all")
     setStatus("all")
     setFacility("all")
+    setPage(1)
   }
 
   return {
@@ -36,6 +40,9 @@ export function useUserFilters() {
     setStatus,
     facility,
     setFacility,
+    page,
+    setPage,
+    limit,
     listParams,
     isFiltered,
     clearFilters,

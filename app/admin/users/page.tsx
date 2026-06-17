@@ -1,12 +1,27 @@
 "use client"
 
-import * as React from "react"
+export const dynamic = "force-dynamic"import * as React from "react"
+import { useQueryState, parseAsStringLiteral } from "nuqs"
 import { useQueryClient } from "@tanstack/react-query"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { Separator } from "@/components/ui/separator"
+import { SidebarTrigger } from "@/components/ui/sidebar"
+import { AdminTabs, AdminTabItem, AdminTabContent } from "@/components/feature/admin/users/admin-tabs"
+import { ListIcon, BarChart3Icon } from "lucide-react"
 import { UserToolbar } from "@/components/feature/admin/users/user-toolbar"
 import { UserTable } from "@/components/feature/admin/users/user-table"
 import { UserTableSkeleton } from "@/components/feature/admin/users/user-table-skeleton"
 import { UserFormDialog, type UserFormValues } from "@/components/feature/admin/users/user-form-dialog"
 import { UserDeleteDialog } from "@/components/feature/admin/users/user-delete-dialog"
+import { UserPagination } from "@/components/feature/admin/users/user-pagination"
+import { UserAnalytics } from "@/components/feature/admin/users/user-analytics"
 import {
   useListUsers,
   useCreateUser,
@@ -28,13 +43,35 @@ export default function UsersPage() {
     setStatus,
     facility,
     setFacility,
+    page,
+    setPage,
+    limit,
     listParams,
     isFiltered,
     clearFilters,
   } = useUserFilters()
 
+  const [tab, setTab] = useQueryState(
+    "tab",
+    parseAsStringLiteral(["users", "analytics"] as const).withDefault("users")
+  )
+
   const { data: usersData, isLoading: isLoadingUsers } = useListUsers(listParams)
   const { data: facilitiesData } = useListFacilities({})
+
+  const prevFiltersRef = React.useRef({ search, role, status, facility })
+  React.useEffect(() => {
+    const prev = prevFiltersRef.current
+    if (
+      prev.search !== search ||
+      prev.role !== role ||
+      prev.status !== status ||
+      prev.facility !== facility
+    ) {
+      setPage(1)
+      prevFiltersRef.current = { search, role, status, facility }
+    }
+  }, [search, role, status, facility, setPage])
 
   const facilities = React.useMemo(
     () => facilitiesData?.data?.items ?? [],
@@ -49,6 +86,7 @@ export default function UsersPage() {
   }, [facilities])
 
   const users = usersData?.data?.items ?? []
+  const pagination = usersData?.data?.pagination
 
   const createUserMutation = useCreateUser()
   const updateUserMutation = useUpdateUser()
@@ -131,51 +169,95 @@ export default function UsersPage() {
   }
 
   return (
-    <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-      <UserToolbar
-        search={search}
-        onSearchChange={setSearch}
-        roleFilter={role}
-        onRoleChange={setRole}
-        statusFilter={status}
-        onStatusChange={setStatus}
-        facilityFilter={facility}
-        onFacilityChange={setFacility}
-        facilities={facilities}
-        isFiltered={isFiltered}
-        onClearFilters={clearFilters}
-        onAddUser={openCreate}
-      />
+    <div className="flex flex-1 flex-col">
+      <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+        <div className="flex items-center gap-2 px-4">
+          <SidebarTrigger className="-ml-1" />
+          <Separator
+            orientation="vertical"
+            className="mr-2 data-vertical:h-4 data-vertical:self-auto"
+          />
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem className="hidden md:block">
+                <BreadcrumbLink href="/admin">Admin</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator className="hidden md:block" />
+              <BreadcrumbItem>
+                <BreadcrumbPage>Quản lý người dùng</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
+      </header>
 
-      {isLoadingUsers ? (
-        <UserTableSkeleton />
-      ) : (
-        <UserTable
-          users={users}
-          facilityMap={facilityMap}
-          onToggleStatus={handleToggleStatus}
-          onEdit={openEdit}
-          onDelete={openDelete}
-          isMutating={updateUserMutation.isPending}
-        />
-      )}
+      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+        <AdminTabs value={tab ?? "users"} onChange={(v) => setTab(v as "users" | "analytics")}>
+          <AdminTabItem value="users" label="Danh sách" icon={<ListIcon className="h-3.5 w-3.5" />} />
+          <AdminTabItem value="analytics" label="Thống kê" icon={<BarChart3Icon className="h-3.5 w-3.5" />} />
+        </AdminTabs>
 
-      <UserFormDialog
-        open={dialogOpen}
-        onOpenChange={setDialogOpen}
-        editingUser={editingUser}
-        facilities={facilities}
-        isSubmitting={createUserMutation.isPending || updateUserMutation.isPending}
-        onSubmit={handleSubmit}
-      />
+        <AdminTabContent value="users" current={tab ?? "users"}>
+          <div className="flex flex-col gap-6">
+            <UserToolbar
+              search={search}
+              onSearchChange={setSearch}
+              roleFilter={role}
+              onRoleChange={setRole}
+              statusFilter={status}
+              onStatusChange={setStatus}
+              facilityFilter={facility}
+              onFacilityChange={setFacility}
+              facilities={facilities}
+              isFiltered={isFiltered}
+              onClearFilters={clearFilters}
+              onAddUser={openCreate}
+            />
 
-      <UserDeleteDialog
-        open={deleteOpen}
-        onOpenChange={setDeleteOpen}
-        user={deletingUser}
-        isDeleting={deleteUserMutation.isPending}
-        onConfirm={handleDelete}
-      />
+            {isLoadingUsers ? (
+              <UserTableSkeleton />
+            ) : (
+              <UserTable
+                users={users}
+                facilityMap={facilityMap}
+                onToggleStatus={handleToggleStatus}
+                onEdit={openEdit}
+                onDelete={openDelete}
+                isMutating={updateUserMutation.isPending}
+              />
+            )}
+
+            {!isLoadingUsers && pagination && pagination.total_pages > 1 && (
+              <UserPagination
+                page={pagination.page}
+                totalPages={pagination.total_pages}
+                onPageChange={setPage}
+              />
+            )}
+
+            <UserFormDialog
+              open={dialogOpen}
+              onOpenChange={setDialogOpen}
+              editingUser={editingUser}
+              facilities={facilities}
+              isSubmitting={createUserMutation.isPending || updateUserMutation.isPending}
+              onSubmit={handleSubmit}
+            />
+
+            <UserDeleteDialog
+              open={deleteOpen}
+              onOpenChange={setDeleteOpen}
+              user={deletingUser}
+              isDeleting={deleteUserMutation.isPending}
+              onConfirm={handleDelete}
+            />
+          </div>
+        </AdminTabContent>
+
+        <AdminTabContent value="analytics" current={tab ?? "users"}>
+          <UserAnalytics />
+        </AdminTabContent>
+      </div>
     </div>
   )
 }

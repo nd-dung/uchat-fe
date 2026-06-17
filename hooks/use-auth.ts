@@ -41,8 +41,15 @@ export function useAuth() {
     if (response?.data?.access_token) {
       localStorage.setItem("access_token", response.data.access_token)
       const role = response.data.user?.role
+      const facilityId = response.data.user?.facility_id
       if (role === CurrentUserResponseDtoRole.super_admin) {
         router.push("/admin")
+      } else if (
+        (role === CurrentUserResponseDtoRole.facility_admin ||
+          role === CurrentUserResponseDtoRole.facility_staff) &&
+        facilityId
+      ) {
+        router.push(`/facility/${facilityId}/dashboard`)
       } else {
         router.push("/")
       }

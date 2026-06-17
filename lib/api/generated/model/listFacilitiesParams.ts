@@ -5,12 +5,20 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
+import type { ListFacilitiesSortBy } from "./listFacilitiesSortBy"
+import type { ListFacilitiesSortOrder } from "./listFacilitiesSortOrder"
 import type { ListFacilitiesStatus } from "./listFacilitiesStatus"
 import type { Object } from "./object"
 
 export type ListFacilitiesParams = {
   search?: string
   status?: ListFacilitiesStatus
+  /**
+   * Lọc khoa có hoặc chưa có người dùng.
+   */
+  has_users?: boolean
+  sort_by?: ListFacilitiesSortBy
+  sort_order?: ListFacilitiesSortOrder
   page?: Object
   limit?: Object
 }

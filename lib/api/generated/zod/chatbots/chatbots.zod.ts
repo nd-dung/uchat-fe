@@ -46,6 +46,7 @@ export const ListChatbotsResponse = zod
               updated_by: zod.number().optional(),
               created_at: zod.string(),
               updated_at: zod.string(),
+              avatar_url: zod.string().nullish(),
             })
           ),
           pagination: zod.object({

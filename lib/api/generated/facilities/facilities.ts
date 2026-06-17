@@ -27,6 +27,7 @@ import type {
   CreateFacilityResponse,
   DeleteFacilityResponse,
   GetFacilityResponse,
+  GetFacilityStatisticsOverviewResponse,
   ListFacilitiesParams,
   ListFacilitiesResponse,
   UpdateFacilityDto,
@@ -255,6 +256,154 @@ export const useCreateFacility = <
 > => {
   return useMutation(getCreateFacilityMutationOptions(options), queryClient)
 }
+export const getFacilityStatisticsOverview = (
+  options?: SecondParameter<typeof apiClient>,
+  signal?: AbortSignal
+) => {
+  return apiClient<GetFacilityStatisticsOverviewResponse>(
+    { url: `/api/facilities/statistics/overview`, method: "GET", signal },
+    options
+  )
+}
+
+export const getGetFacilityStatisticsOverviewQueryKey = () => {
+  return [`/api/facilities/statistics/overview`] as const
+}
+
+export const getGetFacilityStatisticsOverviewQueryOptions = <
+  TData = Awaited<ReturnType<typeof getFacilityStatisticsOverview>>,
+  TError = ErrorType<ApiErrorResponseDto>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getFacilityStatisticsOverview>>,
+      TError,
+      TData
+    >
+  >
+  request?: SecondParameter<typeof apiClient>
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetFacilityStatisticsOverviewQueryKey()
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getFacilityStatisticsOverview>>
+  > = ({ signal }) => getFacilityStatisticsOverview(requestOptions, signal)
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getFacilityStatisticsOverview>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetFacilityStatisticsOverviewQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getFacilityStatisticsOverview>>
+>
+export type GetFacilityStatisticsOverviewQueryError =
+  ErrorType<ApiErrorResponseDto>
+
+export function useGetFacilityStatisticsOverview<
+  TData = Awaited<ReturnType<typeof getFacilityStatisticsOverview>>,
+  TError = ErrorType<ApiErrorResponseDto>,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getFacilityStatisticsOverview>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getFacilityStatisticsOverview>>,
+          TError,
+          Awaited<ReturnType<typeof getFacilityStatisticsOverview>>
+        >,
+        "initialData"
+      >
+    request?: SecondParameter<typeof apiClient>
+  },
+  queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetFacilityStatisticsOverview<
+  TData = Awaited<ReturnType<typeof getFacilityStatisticsOverview>>,
+  TError = ErrorType<ApiErrorResponseDto>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getFacilityStatisticsOverview>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getFacilityStatisticsOverview>>,
+          TError,
+          Awaited<ReturnType<typeof getFacilityStatisticsOverview>>
+        >,
+        "initialData"
+      >
+    request?: SecondParameter<typeof apiClient>
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetFacilityStatisticsOverview<
+  TData = Awaited<ReturnType<typeof getFacilityStatisticsOverview>>,
+  TError = ErrorType<ApiErrorResponseDto>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getFacilityStatisticsOverview>>,
+        TError,
+        TData
+      >
+    >
+    request?: SecondParameter<typeof apiClient>
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+
+export function useGetFacilityStatisticsOverview<
+  TData = Awaited<ReturnType<typeof getFacilityStatisticsOverview>>,
+  TError = ErrorType<ApiErrorResponseDto>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getFacilityStatisticsOverview>>,
+        TError,
+        TData
+      >
+    >
+    request?: SecondParameter<typeof apiClient>
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions = getGetFacilityStatisticsOverviewQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return { ...query, queryKey: queryOptions.queryKey }
+}
+
 export const getFacility = (
   id: number,
   options?: SecondParameter<typeof apiClient>,

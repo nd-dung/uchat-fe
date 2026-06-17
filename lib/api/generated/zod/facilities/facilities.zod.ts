@@ -7,9 +7,22 @@
  */
 import * as zod from "zod"
 
+export const listFacilitiesQuerySortByDefault = `created_at`
+export const listFacilitiesQuerySortOrderDefault = `desc`
+
 export const ListFacilitiesQueryParams = zod.object({
   search: zod.string().optional(),
   status: zod.enum(["active", "inactive"]).optional(),
+  has_users: zod
+    .boolean()
+    .optional()
+    .describe("Lọc khoa có hoặc chưa có người dùng."),
+  sort_by: zod
+    .enum(["name", "created_at", "user_count"])
+    .default(listFacilitiesQuerySortByDefault),
+  sort_order: zod
+    .enum(["asc", "desc"])
+    .default(listFacilitiesQuerySortOrderDefault),
   page: zod.looseObject({}).optional(),
   limit: zod.looseObject({}).optional(),
 })
@@ -39,6 +52,7 @@ export const ListFacilitiesResponse = zod
               status: zod.enum(["active", "inactive"]),
               created_at: zod.string(),
               updated_at: zod.string(),
+              user_count: zod.number(),
             })
           ),
           pagination: zod.object({
@@ -83,6 +97,31 @@ export const CreateFacilityResponse = zod
           status: zod.enum(["active", "inactive"]),
           created_at: zod.string(),
           updated_at: zod.string(),
+        })
+        .optional(),
+    })
+  )
+
+export const GetFacilityStatisticsOverviewResponse = zod
+  .object({
+    success: zod.boolean(),
+    status_code: zod.number(),
+    message: zod.string(),
+    meta_data: zod.object({
+      timestamp: zod.string(),
+      path: zod.string(),
+      method: zod.string(),
+    }),
+  })
+  .and(
+    zod.object({
+      data: zod
+        .object({
+          total: zod.number(),
+          active: zod.number(),
+          inactive: zod.number(),
+          with_users: zod.number(),
+          without_users: zod.number(),
         })
         .optional(),
     })

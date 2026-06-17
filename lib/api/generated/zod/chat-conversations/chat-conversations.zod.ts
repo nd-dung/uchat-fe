@@ -50,8 +50,8 @@ export const findConversationsQueryPageDefault = 1
 export const findConversationsQueryLimitDefault = 20
 
 export const FindConversationsQueryParams = zod.object({
-  page: zod.looseObject({}).default(findConversationsQueryPageDefault),
-  limit: zod.looseObject({}).default(findConversationsQueryLimitDefault),
+  page: zod.number().default(findConversationsQueryPageDefault),
+  limit: zod.number().default(findConversationsQueryLimitDefault),
   status: zod
     .enum([
       "bot_active",
@@ -171,6 +171,59 @@ export const FindConversationResponse = zod
     })
   )
 
+export const UpdateStatusParams = zod.object({
+  id: zod.number(),
+})
+
+export const UpdateStatusBody = zod.object({
+  status: zod.enum([
+    "bot_active",
+    "handoff_requested",
+    "staff_assigned",
+    "staff_active",
+    "closed",
+  ]),
+})
+
+export const UpdateStatusResponse = zod
+  .object({
+    success: zod.boolean(),
+    status_code: zod.number(),
+    message: zod.string(),
+    meta_data: zod.object({
+      timestamp: zod.string(),
+      path: zod.string(),
+      method: zod.string(),
+    }),
+  })
+  .and(
+    zod.object({
+      data: zod
+        .object({
+          id: zod.number(),
+          visitor_id: zod.number(),
+          chatbot_id: zod.number(),
+          facility_id: zod.number(),
+          assigned_staff_id: zod.number().nullish(),
+          status: zod.enum([
+            "bot_active",
+            "handoff_requested",
+            "staff_assigned",
+            "staff_active",
+            "closed",
+          ]),
+          channel: zod.string(),
+          started_at: zod.string(),
+          last_message_at: zod.string().nullish(),
+          ended_at: zod.string().nullish(),
+          metadata: zod.looseObject({}).nullish(),
+          created_at: zod.string(),
+          updated_at: zod.string(),
+        })
+        .optional(),
+    })
+  )
+
 export const CreateStaffMessageParams = zod.object({
   id: zod.number(),
 })
@@ -214,11 +267,11 @@ export const CreateStaffMessageResponse = zod
     })
   )
 
-export const FindByConversationParams = zod.object({
+export const FindFeedbackCollectionByConversationParams = zod.object({
   conversation_id: zod.number(),
 })
 
-export const FindByConversationResponse = zod
+export const FindFeedbackCollectionByConversationResponse = zod
   .object({
     success: zod.boolean(),
     status_code: zod.number(),

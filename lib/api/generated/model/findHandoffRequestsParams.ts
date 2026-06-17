@@ -7,11 +7,10 @@
  */
 import type { FindHandoffRequestsPriority } from "./findHandoffRequestsPriority"
 import type { FindHandoffRequestsStatus } from "./findHandoffRequestsStatus"
-import type { Object } from "./object"
 
 export type FindHandoffRequestsParams = {
-  page?: Object
-  limit?: Object
+  page?: number
+  limit?: number
   status?: FindHandoffRequestsStatus
   priority?: FindHandoffRequestsPriority
   assigned_staff_id?: number

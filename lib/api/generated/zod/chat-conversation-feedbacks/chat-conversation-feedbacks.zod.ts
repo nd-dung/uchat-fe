@@ -7,61 +7,20 @@
  */
 import * as zod from "zod"
 
-export const UpdateStatusParams = zod.object({
-  id: zod.number(),
-})
+export const listConversationFeedbacksQueryPageDefault = 1
+export const listConversationFeedbacksQueryLimitDefault = 20
+export const listConversationFeedbacksQueryRatingMax = 5
 
-export const UpdateStatusBody = zod.object({
-  status: zod.enum(["new", "reviewing", "resolved", "ignored"]),
-})
-
-export const UpdateStatusResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          id: zod.number(),
-          conversation_id: zod.number(),
-          visitor_id: zod.number(),
-          chatbot_id: zod.number(),
-          facility_id: zod.number(),
-          rating: zod.number().nullish(),
-          satisfaction_level: zod
-            .enum(["satisfied", "neutral", "unsatisfied"])
-            .nullish(),
-          comment: zod.looseObject({}).nullish(),
-          status: zod.enum(["new", "reviewing", "resolved", "ignored"]),
-          reviewed_by: zod.number().nullish(),
-          reviewed_at: zod.string().nullish(),
-          resolved_at: zod.string().nullish(),
-          metadata: zod.looseObject({}).nullish(),
-          created_at: zod.string(),
-          updated_at: zod.string(),
-        })
-        .optional(),
-    })
-  )
-
-export const findAllQueryPageDefault = 1
-export const findAllQueryLimitDefault = 20
-export const findAllQueryRatingMax = 5
-
-export const FindAllQueryParams = zod.object({
-  page: zod.looseObject({}).default(findAllQueryPageDefault),
-  limit: zod.looseObject({}).default(findAllQueryLimitDefault),
+export const ListConversationFeedbacksQueryParams = zod.object({
+  page: zod.number().default(listConversationFeedbacksQueryPageDefault),
+  limit: zod.number().default(listConversationFeedbacksQueryLimitDefault),
   chatbot_id: zod.number().optional(),
   conversation_id: zod.number().optional(),
-  rating: zod.number().min(1).max(findAllQueryRatingMax).optional(),
+  rating: zod
+    .number()
+    .min(1)
+    .max(listConversationFeedbacksQueryRatingMax)
+    .optional(),
   status: zod.enum(["new", "reviewing", "resolved", "ignored"]).optional(),
   from_date: zod.string().optional(),
   to_date: zod.string().optional(),
@@ -71,7 +30,7 @@ export const FindAllQueryParams = zod.object({
     .optional(),
 })
 
-export const FindAllResponse = zod
+export const ListConversationFeedbacksResponse = zod
   .object({
     success: zod.boolean(),
     status_code: zod.number(),
@@ -146,11 +105,11 @@ export const FindAllResponse = zod
     })
   )
 
-export const FindOneParams = zod.object({
+export const GetConversationFeedbackParams = zod.object({
   id: zod.number(),
 })
 
-export const FindOneResponse = zod
+export const GetConversationFeedbackResponse = zod
   .object({
     success: zod.boolean(),
     status_code: zod.number(),
@@ -227,6 +186,51 @@ export const FindOneResponse = zod
               updated_at: zod.string(),
             })
           ),
+        })
+        .optional(),
+    })
+  )
+
+export const UpdateConversationFeedbackStatusParams = zod.object({
+  id: zod.number(),
+})
+
+export const UpdateConversationFeedbackStatusBody = zod.object({
+  status: zod.enum(["new", "reviewing", "resolved", "ignored"]),
+})
+
+export const UpdateConversationFeedbackStatusResponse = zod
+  .object({
+    success: zod.boolean(),
+    status_code: zod.number(),
+    message: zod.string(),
+    meta_data: zod.object({
+      timestamp: zod.string(),
+      path: zod.string(),
+      method: zod.string(),
+    }),
+  })
+  .and(
+    zod.object({
+      data: zod
+        .object({
+          id: zod.number(),
+          conversation_id: zod.number(),
+          visitor_id: zod.number(),
+          chatbot_id: zod.number(),
+          facility_id: zod.number(),
+          rating: zod.number().nullish(),
+          satisfaction_level: zod
+            .enum(["satisfied", "neutral", "unsatisfied"])
+            .nullish(),
+          comment: zod.looseObject({}).nullish(),
+          status: zod.enum(["new", "reviewing", "resolved", "ignored"]),
+          reviewed_by: zod.number().nullish(),
+          reviewed_at: zod.string().nullish(),
+          resolved_at: zod.string().nullish(),
+          metadata: zod.looseObject({}).nullish(),
+          created_at: zod.string(),
+          updated_at: zod.string(),
         })
         .optional(),
     })

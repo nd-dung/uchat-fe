@@ -8,6 +8,7 @@
 import type { ApiSuccessResponseDto } from "./apiSuccessResponseDto"
 import type { ConversationFeedbackCollectionResponseDto } from "./conversationFeedbackCollectionResponseDto"
 
-export type FindByConversationResponse = ApiSuccessResponseDto & {
-  data?: ConversationFeedbackCollectionResponseDto
-}
+export type FindFeedbackCollectionByConversationResponse =
+  ApiSuccessResponseDto & {
+    data?: ConversationFeedbackCollectionResponseDto
+  }

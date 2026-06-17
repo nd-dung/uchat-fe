@@ -25,11 +25,13 @@ import type {
   ApiErrorResponseDto,
   CreateStaffMessageDto,
   CreateStaffMessageResponse,
-  FindByConversationResponse,
   FindConversationResponse,
   FindConversationsParams,
   FindConversationsResponse,
+  FindFeedbackCollectionByConversationResponse,
   FindMessagesResponse,
+  UpdateConversationStatusDto,
+  UpdateStatusResponse,
 } from "../model"
 
 import { apiClient } from "../../axios"
@@ -492,6 +494,90 @@ export function useFindConversation<
   return { ...query, queryKey: queryOptions.queryKey }
 }
 
+export const updateStatus = (
+  id: number,
+  updateConversationStatusDto: BodyType<UpdateConversationStatusDto>,
+  options?: SecondParameter<typeof apiClient>,
+  signal?: AbortSignal
+) => {
+  return apiClient<UpdateStatusResponse>(
+    {
+      url: `/api/chat-conversations/${id}/status`,
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      data: updateConversationStatusDto,
+      signal,
+    },
+    options
+  )
+}
+
+export const getUpdateStatusMutationOptions = <
+  TError = ErrorType<ApiErrorResponseDto>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateStatus>>,
+    TError,
+    { id: number; data: BodyType<UpdateConversationStatusDto> },
+    TContext
+  >
+  request?: SecondParameter<typeof apiClient>
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateStatus>>,
+  TError,
+  { id: number; data: BodyType<UpdateConversationStatusDto> },
+  TContext
+> => {
+  const mutationKey = ["updateStatus"]
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof updateStatus>>,
+    { id: number; data: BodyType<UpdateConversationStatusDto> }
+  > = (props) => {
+    const { id, data } = props ?? {}
+
+    return updateStatus(id, data, requestOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type UpdateStatusMutationResult = NonNullable<
+  Awaited<ReturnType<typeof updateStatus>>
+>
+export type UpdateStatusMutationBody = BodyType<UpdateConversationStatusDto>
+export type UpdateStatusMutationError = ErrorType<ApiErrorResponseDto>
+
+export const useUpdateStatus = <
+  TError = ErrorType<ApiErrorResponseDto>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof updateStatus>>,
+      TError,
+      { id: number; data: BodyType<UpdateConversationStatusDto> },
+      TContext
+    >
+    request?: SecondParameter<typeof apiClient>
+  },
+  queryClient?: QueryClient
+): UseMutationResult<
+  Awaited<ReturnType<typeof updateStatus>>,
+  TError,
+  { id: number; data: BodyType<UpdateConversationStatusDto> },
+  TContext
+> => {
+  return useMutation(getUpdateStatusMutationOptions(options), queryClient)
+}
 export const createStaffMessage = (
   id: number,
   createStaffMessageDto: BodyType<CreateStaffMessageDto>,
@@ -576,12 +662,12 @@ export const useCreateStaffMessage = <
 > => {
   return useMutation(getCreateStaffMessageMutationOptions(options), queryClient)
 }
-export const findByConversation = (
+export const findFeedbackCollectionByConversation = (
   conversationId: number,
   options?: SecondParameter<typeof apiClient>,
   signal?: AbortSignal
 ) => {
-  return apiClient<FindByConversationResponse>(
+  return apiClient<FindFeedbackCollectionByConversationResponse>(
     {
       url: `/api/chat-conversations/${conversationId}/feedbacks`,
       method: "GET",
@@ -591,19 +677,21 @@ export const findByConversation = (
   )
 }
 
-export const getFindByConversationQueryKey = (conversationId: number) => {
+export const getFindFeedbackCollectionByConversationQueryKey = (
+  conversationId: number
+) => {
   return [`/api/chat-conversations/${conversationId}/feedbacks`] as const
 }
 
-export const getFindByConversationQueryOptions = <
-  TData = Awaited<ReturnType<typeof findByConversation>>,
+export const getFindFeedbackCollectionByConversationQueryOptions = <
+  TData = Awaited<ReturnType<typeof findFeedbackCollectionByConversation>>,
   TError = ErrorType<ApiErrorResponseDto>,
 >(
   conversationId: number,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof findByConversation>>,
+        Awaited<ReturnType<typeof findFeedbackCollectionByConversation>>,
         TError,
         TData
       >
@@ -614,11 +702,13 @@ export const getFindByConversationQueryOptions = <
   const { query: queryOptions, request: requestOptions } = options ?? {}
 
   const queryKey =
-    queryOptions?.queryKey ?? getFindByConversationQueryKey(conversationId)
+    queryOptions?.queryKey ??
+    getFindFeedbackCollectionByConversationQueryKey(conversationId)
 
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof findByConversation>>
-  > = ({ signal }) => findByConversation(conversationId, requestOptions, signal)
+    Awaited<ReturnType<typeof findFeedbackCollectionByConversation>>
+  > = ({ signal }) =>
+    findFeedbackCollectionByConversation(conversationId, requestOptions, signal)
 
   return {
     queryKey,
@@ -626,35 +716,36 @@ export const getFindByConversationQueryOptions = <
     enabled: conversationId !== null && conversationId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
-    Awaited<ReturnType<typeof findByConversation>>,
+    Awaited<ReturnType<typeof findFeedbackCollectionByConversation>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type FindByConversationQueryResult = NonNullable<
-  Awaited<ReturnType<typeof findByConversation>>
+export type FindFeedbackCollectionByConversationQueryResult = NonNullable<
+  Awaited<ReturnType<typeof findFeedbackCollectionByConversation>>
 >
-export type FindByConversationQueryError = ErrorType<ApiErrorResponseDto>
+export type FindFeedbackCollectionByConversationQueryError =
+  ErrorType<ApiErrorResponseDto>
 
-export function useFindByConversation<
-  TData = Awaited<ReturnType<typeof findByConversation>>,
+export function useFindFeedbackCollectionByConversation<
+  TData = Awaited<ReturnType<typeof findFeedbackCollectionByConversation>>,
   TError = ErrorType<ApiErrorResponseDto>,
 >(
   conversationId: number,
   options: {
     query: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof findByConversation>>,
+        Awaited<ReturnType<typeof findFeedbackCollectionByConversation>>,
         TError,
         TData
       >
     > &
       Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof findByConversation>>,
+          Awaited<ReturnType<typeof findFeedbackCollectionByConversation>>,
           TError,
-          Awaited<ReturnType<typeof findByConversation>>
+          Awaited<ReturnType<typeof findFeedbackCollectionByConversation>>
         >,
         "initialData"
       >
@@ -664,24 +755,24 @@ export function useFindByConversation<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-export function useFindByConversation<
-  TData = Awaited<ReturnType<typeof findByConversation>>,
+export function useFindFeedbackCollectionByConversation<
+  TData = Awaited<ReturnType<typeof findFeedbackCollectionByConversation>>,
   TError = ErrorType<ApiErrorResponseDto>,
 >(
   conversationId: number,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof findByConversation>>,
+        Awaited<ReturnType<typeof findFeedbackCollectionByConversation>>,
         TError,
         TData
       >
     > &
       Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof findByConversation>>,
+          Awaited<ReturnType<typeof findFeedbackCollectionByConversation>>,
           TError,
-          Awaited<ReturnType<typeof findByConversation>>
+          Awaited<ReturnType<typeof findFeedbackCollectionByConversation>>
         >,
         "initialData"
       >
@@ -691,15 +782,15 @@ export function useFindByConversation<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-export function useFindByConversation<
-  TData = Awaited<ReturnType<typeof findByConversation>>,
+export function useFindFeedbackCollectionByConversation<
+  TData = Awaited<ReturnType<typeof findFeedbackCollectionByConversation>>,
   TError = ErrorType<ApiErrorResponseDto>,
 >(
   conversationId: number,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof findByConversation>>,
+        Awaited<ReturnType<typeof findFeedbackCollectionByConversation>>,
         TError,
         TData
       >
@@ -711,15 +802,15 @@ export function useFindByConversation<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 
-export function useFindByConversation<
-  TData = Awaited<ReturnType<typeof findByConversation>>,
+export function useFindFeedbackCollectionByConversation<
+  TData = Awaited<ReturnType<typeof findFeedbackCollectionByConversation>>,
   TError = ErrorType<ApiErrorResponseDto>,
 >(
   conversationId: number,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof findByConversation>>,
+        Awaited<ReturnType<typeof findFeedbackCollectionByConversation>>,
         TError,
         TData
       >
@@ -730,7 +821,7 @@ export function useFindByConversation<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
-  const queryOptions = getFindByConversationQueryOptions(
+  const queryOptions = getFindFeedbackCollectionByConversationQueryOptions(
     conversationId,
     options
   )

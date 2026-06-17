@@ -11,8 +11,8 @@ export const findHandoffRequestsQueryPageDefault = 1
 export const findHandoffRequestsQueryLimitDefault = 20
 
 export const FindHandoffRequestsQueryParams = zod.object({
-  page: zod.looseObject({}).default(findHandoffRequestsQueryPageDefault),
-  limit: zod.looseObject({}).default(findHandoffRequestsQueryLimitDefault),
+  page: zod.number().default(findHandoffRequestsQueryPageDefault),
+  limit: zod.number().default(findHandoffRequestsQueryLimitDefault),
   status: zod
     .enum(["pending", "assigned", "in_progress", "resolved", "cancelled"])
     .optional(),
