@@ -21,12 +21,10 @@ export const ChatPreview = React.memo(function ChatPreview({
 }: ChatPreviewProps) {
   const [message, setMessage] = useState("")
 
-  const previewBackdrop = `color-mix(in srgb, ${style.backgroundColor}, transparent 88%)`
-
   return (
     <div
-      className="flex justify-center items-center min-h-full p-10"
-      style={{ backgroundColor: previewBackdrop }}
+      className="flex justify-center items-center min-h-full"
+      style={{ backgroundColor: `${style.backgroundColor}1f` }}
     >
       <div
         className="transition-all duration-300 figma-hover"
@@ -38,7 +36,7 @@ export const ChatPreview = React.memo(function ChatPreview({
         }}
       >
         <div
-          className="rounded-lg overflow-hidden shadow-2xl relative"
+          className="rounded-lg overflow-hidden shadow-2xl relative flex flex-col"
           style={{
             backgroundColor: style.backgroundColor,
             borderColor: style.chatWindowBorderColor,
@@ -48,6 +46,7 @@ export const ChatPreview = React.memo(function ChatPreview({
             boxShadow: style.chatWindowShadow ? "0 8px 24px rgba(0,0,0,0.15)" : "none",
             transition: style.animationEnabled ? "all 200ms cubic-bezier(0.4, 0, 0.2, 1)" : "none",
             maxWidth: `${style.chatWindowWidth}px`,
+            height: `${style.chatWindowHeight}px`,
           }}
         >
           <div
@@ -93,7 +92,7 @@ export const ChatPreview = React.memo(function ChatPreview({
           </div>
 
           <div
-            className="p-4 h-80 overflow-y-auto custom-scrollbar"
+            className="p-4 flex-1 overflow-y-auto custom-scrollbar"
             style={{
               backgroundColor: style.messageAreaBackgroundColor,
               paddingLeft: `${style.messageAreaPadding}px`,
