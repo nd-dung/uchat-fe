@@ -22,7 +22,10 @@ export const ChatPreview = React.memo(function ChatPreview({
   const [message, setMessage] = useState("")
 
   return (
-    <div className="flex justify-center items-center min-h-full">
+    <div
+      className="flex justify-center items-center min-h-full"
+      style={{ backgroundColor: `${style.backgroundColor}1f` }}
+    >
       <div
         className="transition-all duration-300 figma-hover"
         style={{
@@ -43,8 +46,6 @@ export const ChatPreview = React.memo(function ChatPreview({
             boxShadow: style.chatWindowShadow ? "0 8px 24px rgba(0,0,0,0.15)" : "none",
             transition: style.animationEnabled ? "all 200ms cubic-bezier(0.4, 0, 0.2, 1)" : "none",
             maxWidth: `${style.chatWindowWidth}px`,
-            outline: `10px solid ${style.backgroundColor}`,
-            outlineOffset: "8px",
           }}
         >
           <div
