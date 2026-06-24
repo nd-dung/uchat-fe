@@ -61,8 +61,8 @@ export const ChatPreview = React.memo(function ChatPreview({
       <div
         className="transition-all duration-300 figma-hover relative"
         style={{
-          width: deviceSizes[activeDevice].width,
-          maxWidth: deviceSizes[activeDevice].maxWidth,
+          width: `${style.chatWindowWidth + Math.max(style.launcherSize, 80) + launcherMargin * 2}px`,
+          maxWidth: "100%",
           transform: `scale(${zoomLevel / 100})`,
           transformOrigin: "center",
           padding: `${Math.max(style.launcherSize, 80) + launcherMargin}px`,
