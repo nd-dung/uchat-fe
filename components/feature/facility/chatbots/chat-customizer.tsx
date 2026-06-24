@@ -11,6 +11,17 @@ import { Separator } from "@/components/ui/separator"
 import { Switch } from "@/components/ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import {
+  useGetChatbotUiSetting,
+  useUpdateChatbotUiSetting,
+} from "@/lib/api/generated/chatbots/chatbots"
+import type {
+  ChatbotUiSettingResponseDto,
+  UpdateChatbotUiSettingDto,
+  ApiErrorResponseDto,
+} from "@/lib/api/generated/model"
+import { AxiosError } from "axios"
+import { toast } from "sonner"
+import {
   Monitor,
   Tablet,
   Smartphone,
@@ -34,6 +45,7 @@ import {
   Circle,
   MousePointer2,
   Hand,
+  Loader2Icon,
 } from "lucide-react"
 
 interface ChatStyle {
@@ -70,6 +82,112 @@ interface ChatStyle {
   headerShadow: boolean
   inputShadow: boolean
   bubbleShadow: boolean
+}
+
+function apiToStyle(api: ChatbotUiSettingResponseDto): ChatStyle {
+  const chatWindow = api.chat_window as {
+    chat_window_border_color?: string
+    chat_window_border_width?: number
+    chat_window_width?: number
+  } | undefined
+  const message = api.message as {
+    message_area_background_color?: string
+    message_area_padding?: number
+    message_spacing?: number
+    bot_message_background_color?: string
+    bot_message_text_color?: string
+    user_message_background_color?: string
+    user_message_text_color?: string
+    message_bubble_radius?: number
+  } | undefined
+  const typography = api.typography as {
+    base_font_size?: number
+  } | undefined
+  const input = api.input as {
+    input_background_color?: string
+    input_border_radius?: number
+  } | undefined
+  const header = api.header as {
+    header_height?: number
+    header_background_color?: string
+    header_text_color?: string
+  } | undefined
+  const animation = api.animation as {
+    animation_enabled?: boolean
+  } | undefined
+
+  return {
+    backgroundColor: api.background_color,
+    textColor: header?.header_text_color ?? api.header_text_color,
+    borderRadius: message?.message_bubble_radius ?? api.border_radius,
+    userBubbleColor: message?.user_message_background_color ?? api.user_message_background_color,
+    botBubbleColor: message?.bot_message_background_color ?? api.bot_message_background_color,
+    userTextColor: message?.user_message_text_color ?? api.user_message_text_color,
+    botTextColor: message?.bot_message_text_color ?? api.bot_message_text_color,
+    chatBackground: message?.message_area_background_color ?? api.background_color,
+    borderColor: chatWindow?.chat_window_border_color ?? "oklch(0.925 0.005 214.3)",
+    borderWidth: chatWindow?.chat_window_border_width ?? 1,
+    shadowIntensity: 8,
+    messageSpacing: message?.message_spacing ?? 16,
+    fontSize: typography?.base_font_size ?? 14,
+    fontWeight: "400",
+    inputHeight: 48,
+    headerHeight: header?.header_height ?? 72,
+    animationSpeed: 200,
+    enableAnimations: animation?.animation_enabled ?? true,
+    bubbleOpacity: 100,
+    headerBackground: header?.header_background_color ?? api.header_background_color,
+    inputBackground: input?.input_background_color ?? api.background_color,
+    scrollbarColor: "oklch(0.56 0.021 213.5)",
+    glowEffect: false,
+    gradientBackground: false,
+    blurEffect: 0,
+    letterSpacing: 0,
+    lineHeight: 1.5,
+    paddingX: message?.message_area_padding ?? 16,
+    paddingY: 12,
+    maxWidth: chatWindow?.chat_window_width ?? api.chat_window_width,
+    headerShadow: false,
+    inputShadow: false,
+    bubbleShadow: false,
+  }
+}
+
+function styleToApiUpdate(style: ChatStyle): UpdateChatbotUiSettingDto {
+  return {
+    primary_color: style.userBubbleColor as unknown as UpdateChatbotUiSettingDto["primary_color"],
+    background_color: style.backgroundColor as unknown as UpdateChatbotUiSettingDto["background_color"],
+    chat_window: {
+      chat_window_border_color: style.borderColor,
+      chat_window_border_width: style.borderWidth,
+      chat_window_width: style.maxWidth,
+    } as unknown as UpdateChatbotUiSettingDto["chat_window"],
+    message: {
+      message_area_background_color: style.chatBackground,
+      message_area_padding: style.paddingX,
+      message_spacing: style.messageSpacing,
+      bot_message_background_color: style.botBubbleColor,
+      bot_message_text_color: style.botTextColor,
+      user_message_background_color: style.userBubbleColor,
+      user_message_text_color: style.userTextColor,
+      message_bubble_radius: style.borderRadius,
+    } as unknown as UpdateChatbotUiSettingDto["message"],
+    typography: {
+      base_font_size: style.fontSize,
+    } as unknown as UpdateChatbotUiSettingDto["typography"],
+    input: {
+      input_background_color: style.inputBackground,
+      input_border_radius: style.borderRadius,
+    } as unknown as UpdateChatbotUiSettingDto["input"],
+    header: {
+      header_height: style.headerHeight,
+      header_background_color: style.headerBackground,
+      header_text_color: style.textColor,
+    } as unknown as UpdateChatbotUiSettingDto["header"],
+    animation: {
+      animation_enabled: style.enableAnimations,
+    } as unknown as UpdateChatbotUiSettingDto["animation"],
+  }
 }
 
 const defaultStyle: ChatStyle = {
@@ -125,8 +243,15 @@ const sampleMessages = [
   },
 ]
 
-export function ChatCustomizer() {
+interface ChatCustomizerProps {
+  chatbotId: number
+}
+
+export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
+  const { data: uiSettingData, isLoading: isLoadingUiSetting } = useGetChatbotUiSetting(chatbotId, {})
+  const uiSetting = uiSettingData?.data
   const [style, setStyle] = useState<ChatStyle>(defaultStyle)
+  const [hasLocalChanges, setHasLocalChanges] = useState(false)
   const [activeDevice, setActiveDevice] = useState<keyof typeof deviceSizes>("desktop")
   const [message, setMessage] = useState("")
   const [selectedElement, setSelectedElement] = useState<string>("container")
@@ -142,9 +267,30 @@ export function ChatCustomizer() {
   })
 
   const canvasRef = useRef<HTMLDivElement>(null)
+  const updateMutation = useUpdateChatbotUiSetting()
+
+  useEffect(() => {
+    if (uiSetting) {
+      setStyle(apiToStyle(uiSetting))
+      setHasLocalChanges(false)
+    }
+  }, [uiSetting])
 
   const updateStyle = (key: keyof ChatStyle, value: string | number | boolean) => {
     setStyle((prev) => ({ ...prev, [key]: value }))
+    setHasLocalChanges(true)
+  }
+
+  const handleSave = async () => {
+    try {
+      await updateMutation.mutateAsync({ id: chatbotId, data: styleToApiUpdate(style) })
+      toast.success("Lưu giao diện thành công")
+      setHasLocalChanges(false)
+    } catch (err) {
+      const error = err as AxiosError<ApiErrorResponseDto>
+      const message = error.response?.data?.message || "Có lỗi xảy ra, vui lòng thử lại"
+      toast.error(message)
+    }
   }
 
   const handleElementClick = (elementType: string, event?: React.MouseEvent) => {
@@ -402,6 +548,15 @@ export function ChatCustomizer() {
       </div>
     </div>
   )
+
+  if (isLoadingUiSetting) {
+    return (
+      <div className="flex flex-1 items-center justify-center text-muted-foreground">
+        <Loader2Icon className="h-6 w-6 animate-spin" />
+        <span className="ml-2 text-sm">Đang tải cấu hình giao diện...</span>
+      </div>
+    )
+  }
 
   return (
     <div className="h-screen flex bg-background text-foreground">
@@ -706,7 +861,7 @@ export function ChatCustomizer() {
         <div className="p-4 border-b border-border">
           <div className="flex items-center justify-between">
             <h3 className="font-semibold text-sm text-foreground">Design</h3>
-            <div className="flex gap-1">
+            <div className="flex items-center gap-1">
               <Button variant="ghost" size="sm" onClick={resetToDefault} className="h-8 w-8 p-0">
                 <RotateCcw className="w-4 h-4" />
               </Button>
@@ -715,6 +870,15 @@ export function ChatCustomizer() {
               </Button>
               <Button variant="ghost" size="sm" onClick={exportConfig} className="h-8 w-8 p-0">
                 <Download className="w-4 h-4" />
+              </Button>
+              <Button
+                size="sm"
+                onClick={handleSave}
+                disabled={!hasLocalChanges || updateMutation.isPending}
+                className="h-8"
+              >
+                {updateMutation.isPending ? <Loader2Icon className="mr-1 h-4 w-4 animate-spin" /> : null}
+                Lưu
               </Button>
             </div>
           </div>
