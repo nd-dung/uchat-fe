@@ -44,15 +44,9 @@ export function FacilitySidebar({
         icon: <UsersIcon />,
       },
       {
-        title: "Cấu hình chatbot",
-        url: "#",
+        title: "Chatbot Studio",
+        url: `/facility/${facilityId}/chatbots`,
         icon: <BotIcon />,
-        items: [
-          {
-            title: "Danh sách chatbot",
-            url: `/facility/${facilityId}/chatbots`,
-          },
-        ],
       },
       {
         title: "Thông tin khoa",
