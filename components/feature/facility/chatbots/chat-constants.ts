@@ -13,6 +13,49 @@ export const chatWindowPositions = [
   { value: "top_left", label: "Top Left" },
 ]
 
+export const headerLayouts = [
+  { value: "simple", label: "Simple" },
+  { value: "avatar_title", label: "Avatar + Title" },
+  { value: "centered", label: "Centered" },
+  { value: "compact", label: "Compact" },
+]
+
+export const sendButtonTypes = [
+  { value: "icon", label: "Icon" },
+  { value: "text", label: "Text" },
+  { value: "icon_text", label: "Icon + Text" },
+]
+
+export const launcherAnimations = [
+  { value: "none", label: "None" },
+  { value: "pulse", label: "Pulse" },
+  { value: "bounce", label: "Bounce" },
+]
+
+export const chatOpenAnimations = [
+  { value: "none", label: "None" },
+  { value: "fade", label: "Fade" },
+  { value: "slide_up", label: "Slide Up" },
+  { value: "scale", label: "Scale" },
+]
+
+export const messageAnimations = [
+  { value: "none", label: "None" },
+  { value: "fade", label: "Fade" },
+  { value: "slide", label: "Slide" },
+]
+
+export const typingIndicatorStyles = [
+  { value: "dots", label: "Dots" },
+  { value: "text", label: "Text" },
+]
+
+export const launcherTypes = [
+  { value: "circle", label: "Circle" },
+  { value: "rounded_square", label: "Rounded Square" },
+  { value: "pill", label: "Pill" },
+]
+
 export const sampleMessages = [
   { type: "bot", text: "Xin chào! Tôi có thể giúp gì cho bạn hôm nay?" },
   { type: "user", text: "Tôi muốn tìm hiểu về sản phẩm của bạn" },

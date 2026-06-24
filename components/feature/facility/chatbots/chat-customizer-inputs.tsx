@@ -6,6 +6,13 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Slider } from "@/components/ui/slider"
 import { Badge } from "@/components/ui/badge"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { ChevronDown, ChevronRight, type LucideIcon } from "lucide-react"
 
 export interface PropertySectionProps {
@@ -227,6 +234,40 @@ export const TextInput = React.memo(function TextInput({
         placeholder={placeholder}
         className="h-8 text-xs bg-input border-border"
       />
+    </div>
+  )
+})
+
+export interface SelectInputProps {
+  label: string
+  value: string
+  options: { value: string; label: string }[]
+  onChange: (value: string) => void
+}
+
+export const SelectInput = React.memo(function SelectInput({
+  label,
+  value,
+  options,
+  onChange,
+}: SelectInputProps) {
+  const handleValueChange = useCallback((newValue: string) => onChange(newValue), [onChange])
+
+  return (
+    <div className="space-y-2">
+      <Label className="text-xs font-medium text-muted-foreground">{label}</Label>
+      <Select value={value} onValueChange={handleValueChange}>
+        <SelectTrigger className="h-8 text-xs bg-input border-border">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {options.map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
     </div>
   )
 })

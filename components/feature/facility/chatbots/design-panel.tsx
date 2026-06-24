@@ -5,19 +5,38 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { Palette, Settings, Type, Copy, RotateCcw, Download, Loader2Icon } from "lucide-react"
-import { chatWindowPositions } from "./chat-constants"
+  Palette,
+  Settings,
+  Type,
+  Copy,
+  RotateCcw,
+  Download,
+  Loader2Icon,
+  PanelTop,
+  MessageSquare,
+  SquareTerminal,
+  Hand,
+  Sparkles,
+  Rocket,
+  Footprints,
+  Tags,
+} from "lucide-react"
+import {
+  chatWindowPositions,
+  headerLayouts,
+  sendButtonTypes,
+  launcherAnimations,
+  chatOpenAnimations,
+  messageAnimations,
+  typingIndicatorStyles,
+  launcherTypes,
+} from "./chat-constants"
 import {
   PropertySection,
   NumericInput,
   ColorInput,
   TextInput,
+  SelectInput,
 } from "./chat-customizer-inputs"
 import type { ChatStyle } from "./chat-style"
 
@@ -102,21 +121,12 @@ export const DesignPanel = React.memo(function DesignPanel({
           isCollapsed={collapsedSections.chatWindow}
           onToggle={onToggleSection}
         >
-          <div className="space-y-2">
-            <Label className="text-xs font-medium text-muted-foreground">Position</Label>
-            <Select value={style.chatWindowPosition} onValueChange={(value) => updateStyle("chatWindowPosition", value as ChatStyle["chatWindowPosition"])}>
-              <SelectTrigger className="h-8 text-xs bg-input border-border">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {chatWindowPositions.map((pos) => (
-                  <SelectItem key={pos.value} value={pos.value}>
-                    {pos.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          <SelectInput
+            label="Position"
+            value={style.chatWindowPosition}
+            options={chatWindowPositions}
+            onChange={(value) => updateStyle("chatWindowPosition", value as ChatStyle["chatWindowPosition"])}
+          />
           <NumericInput
             label="Width"
             value={style.chatWindowWidth}
@@ -156,19 +166,37 @@ export const DesignPanel = React.memo(function DesignPanel({
             max={40}
             unit="px"
           />
+          <NumericInput
+            label="Z-Index"
+            value={style.chatWindowZIndex}
+            onChange={(value) => updateStyle("chatWindowZIndex", value)}
+            min={0}
+            max={2147483647}
+            step={1000}
+          />
           <div className="flex items-center justify-between">
             <Label className="text-xs font-medium text-muted-foreground">Shadow</Label>
             <Switch checked={style.chatWindowShadow} onCheckedChange={(checked) => updateStyle("chatWindowShadow", checked)} />
+          </div>
+          <div className="flex items-center justify-between">
+            <Label className="text-xs font-medium text-muted-foreground">Mobile Fullscreen</Label>
+            <Switch checked={style.mobileFullscreenEnabled} onCheckedChange={(checked) => updateStyle("mobileFullscreenEnabled", checked)} />
           </div>
         </PropertySection>
 
         <PropertySection
           title="Header"
-          icon={Settings}
+          icon={PanelTop}
           sectionKey="header"
           isCollapsed={collapsedSections.header}
           onToggle={onToggleSection}
         >
+          <SelectInput
+            label="Layout"
+            value={style.headerLayout}
+            options={headerLayouts}
+            onChange={(value) => updateStyle("headerLayout", value as ChatStyle["headerLayout"])}
+          />
           <TextInput
             label="Title"
             value={style.headerTitle}
@@ -191,6 +219,17 @@ export const DesignPanel = React.memo(function DesignPanel({
             value={style.headerTextColor}
             onChange={(value) => updateStyle("headerTextColor", value)}
           />
+          <ColorInput
+            label="Status Color"
+            value={style.headerStatusColor}
+            onChange={(value) => updateStyle("headerStatusColor", value)}
+          />
+          <TextInput
+            label="Status Text"
+            value={style.headerStatusText}
+            onChange={(value) => updateStyle("headerStatusText", value)}
+            placeholder="Đang hoạt động"
+          />
           <NumericInput
             label="Height"
             value={style.headerHeight}
@@ -204,11 +243,15 @@ export const DesignPanel = React.memo(function DesignPanel({
             <Label className="text-xs font-medium text-muted-foreground">Show Status</Label>
             <Switch checked={style.headerShowStatus} onCheckedChange={(checked) => updateStyle("headerShowStatus", checked)} />
           </div>
+          <div className="flex items-center justify-between">
+            <Label className="text-xs font-medium text-muted-foreground">Show Close Button</Label>
+            <Switch checked={style.headerShowCloseButton} onCheckedChange={(checked) => updateStyle("headerShowCloseButton", checked)} />
+          </div>
         </PropertySection>
 
         <PropertySection
           title="Messages"
-          icon={Settings}
+          icon={MessageSquare}
           sectionKey="messages"
           isCollapsed={collapsedSections.messages}
           onToggle={onToggleSection}
@@ -244,6 +287,14 @@ export const DesignPanel = React.memo(function DesignPanel({
             max={40}
             unit="px"
           />
+          <NumericInput
+            label="Max Width"
+            value={style.messageMaxWidthPercent}
+            onChange={(value) => updateStyle("messageMaxWidthPercent", value)}
+            min={50}
+            max={100}
+            unit="%"
+          />
           <div className="flex items-center justify-between">
             <Label className="text-xs font-medium text-muted-foreground">Show Timestamp</Label>
             <Switch checked={style.showMessageTimestamp} onCheckedChange={(checked) => updateStyle("showMessageTimestamp", checked)} />
@@ -272,7 +323,7 @@ export const DesignPanel = React.memo(function DesignPanel({
 
         <PropertySection
           title="Input"
-          icon={Settings}
+          icon={SquareTerminal}
           sectionKey="input"
           isCollapsed={collapsedSections.input}
           onToggle={onToggleSection}
@@ -281,6 +332,21 @@ export const DesignPanel = React.memo(function DesignPanel({
             label="Background Color"
             value={style.inputBackgroundColor}
             onChange={(value) => updateStyle("inputBackgroundColor", value)}
+          />
+          <ColorInput
+            label="Text Color"
+            value={style.inputTextColor}
+            onChange={(value) => updateStyle("inputTextColor", value)}
+          />
+          <ColorInput
+            label="Placeholder Color"
+            value={style.inputPlaceholderColor}
+            onChange={(value) => updateStyle("inputPlaceholderColor", value)}
+          />
+          <ColorInput
+            label="Border Color"
+            value={style.inputBorderColor}
+            onChange={(value) => updateStyle("inputBorderColor", value)}
           />
           <NumericInput
             label="Border Radius"
@@ -296,26 +362,264 @@ export const DesignPanel = React.memo(function DesignPanel({
             onChange={(value) => updateStyle("placeholderText", value)}
             placeholder="Nhập tin nhắn của bạn..."
           />
+          <SelectInput
+            label="Send Button Type"
+            value={style.sendButtonType}
+            options={sendButtonTypes}
+            onChange={(value) => updateStyle("sendButtonType", value as ChatStyle["sendButtonType"])}
+          />
+          <ColorInput
+            label="Send Button Background"
+            value={style.sendButtonBackgroundColor}
+            onChange={(value) => updateStyle("sendButtonBackgroundColor", value)}
+          />
+          <ColorInput
+            label="Send Button Icon Color"
+            value={style.sendButtonIconColor}
+            onChange={(value) => updateStyle("sendButtonIconColor", value)}
+          />
+          <TextInput
+            label="Send Button Text"
+            value={style.sendButtonText}
+            onChange={(value) => updateStyle("sendButtonText", value)}
+            placeholder="Gửi"
+          />
+        </PropertySection>
+
+        <PropertySection
+          title="Typography"
+          icon={Type}
+          sectionKey="typography"
+          badge="Text"
+          isCollapsed={collapsedSections.typography}
+          onToggle={onToggleSection}
+        >
+          <TextInput
+            label="Font Family"
+            value={style.fontFamily}
+            onChange={(value) => updateStyle("fontFamily", value)}
+            placeholder="Inter, system-ui, sans-serif"
+          />
+          <NumericInput
+            label="Base Font Size"
+            value={style.baseFontSize}
+            onChange={(value) => updateStyle("baseFontSize", value)}
+            min={10}
+            max={24}
+            unit="px"
+          />
+          <NumericInput
+            label="Header Title Size"
+            value={style.headerTitleFontSize}
+            onChange={(value) => updateStyle("headerTitleFontSize", value)}
+            min={10}
+            max={32}
+            unit="px"
+          />
+          <NumericInput
+            label="Header Subtitle Size"
+            value={style.headerSubtitleFontSize}
+            onChange={(value) => updateStyle("headerSubtitleFontSize", value)}
+            min={8}
+            max={24}
+            unit="px"
+          />
+          <NumericInput
+            label="Message Font Size"
+            value={style.messageFontSize}
+            onChange={(value) => updateStyle("messageFontSize", value)}
+            min={8}
+            max={24}
+            unit="px"
+          />
+          <NumericInput
+            label="Input Font Size"
+            value={style.inputFontSize}
+            onChange={(value) => updateStyle("inputFontSize", value)}
+            min={8}
+            max={24}
+            unit="px"
+          />
         </PropertySection>
 
         <PropertySection
           title="Welcome"
-          icon={Settings}
+          icon={Hand}
           sectionKey="welcome"
           isCollapsed={collapsedSections.welcome}
           onToggle={onToggleSection}
         >
+          <div className="flex items-center justify-between">
+            <Label className="text-xs font-medium text-muted-foreground">Enable Welcome Screen</Label>
+            <Switch checked={style.welcomeScreenEnabled} onCheckedChange={(checked) => updateStyle("welcomeScreenEnabled", checked)} />
+          </div>
+          <TextInput
+            label="Welcome Title"
+            value={style.welcomeTitle}
+            onChange={(value) => updateStyle("welcomeTitle", value)}
+            placeholder="Chat Support"
+          />
+          <TextInput
+            label="Welcome Subtitle"
+            value={style.welcomeSubtitle}
+            onChange={(value) => updateStyle("welcomeSubtitle", value)}
+            placeholder="Đang hoạt động"
+          />
           <TextInput
             label="Welcome Message"
             value={style.welcomeMessage}
             onChange={(value) => updateStyle("welcomeMessage", value)}
             placeholder="Xin chào! Tôi có thể giúp gì cho bạn hôm nay?"
           />
+          <ColorInput
+            label="Welcome Background"
+            value={style.welcomeBackgroundColor}
+            onChange={(value) => updateStyle("welcomeBackgroundColor", value)}
+          />
+        </PropertySection>
+
+        <PropertySection
+          title="Animation"
+          icon={Sparkles}
+          sectionKey="animation"
+          isCollapsed={collapsedSections.animation}
+          onToggle={onToggleSection}
+        >
+          <div className="flex items-center justify-between">
+            <Label className="text-xs font-medium text-muted-foreground">Enable Animations</Label>
+            <Switch checked={style.animationEnabled} onCheckedChange={(checked) => updateStyle("animationEnabled", checked)} />
+          </div>
+          <SelectInput
+            label="Launcher Animation"
+            value={style.launcherAnimation}
+            options={launcherAnimations}
+            onChange={(value) => updateStyle("launcherAnimation", value as ChatStyle["launcherAnimation"])}
+          />
+          <SelectInput
+            label="Chat Open Animation"
+            value={style.chatOpenAnimation}
+            options={chatOpenAnimations}
+            onChange={(value) => updateStyle("chatOpenAnimation", value as ChatStyle["chatOpenAnimation"])}
+          />
+          <SelectInput
+            label="Message Animation"
+            value={style.messageAnimation}
+            options={messageAnimations}
+            onChange={(value) => updateStyle("messageAnimation", value as ChatStyle["messageAnimation"])}
+          />
+          <div className="flex items-center justify-between">
+            <Label className="text-xs font-medium text-muted-foreground">Typing Indicator</Label>
+            <Switch checked={style.typingIndicatorEnabled} onCheckedChange={(checked) => updateStyle("typingIndicatorEnabled", checked)} />
+          </div>
+          <SelectInput
+            label="Typing Indicator Style"
+            value={style.typingIndicatorStyle}
+            options={typingIndicatorStyles}
+            onChange={(value) => updateStyle("typingIndicatorStyle", value as ChatStyle["typingIndicatorStyle"])}
+          />
+        </PropertySection>
+
+        <PropertySection
+          title="Launcher"
+          icon={Rocket}
+          sectionKey="launcher"
+          isCollapsed={collapsedSections.launcher}
+          onToggle={onToggleSection}
+        >
+          <SelectInput
+            label="Launcher Type"
+            value={style.launcherType}
+            options={launcherTypes}
+            onChange={(value) => updateStyle("launcherType", value as ChatStyle["launcherType"])}
+          />
+          <NumericInput
+            label="Size"
+            value={style.launcherSize}
+            onChange={(value) => updateStyle("launcherSize", value)}
+            min={40}
+            max={80}
+            unit="px"
+          />
+          <ColorInput
+            label="Background Color"
+            value={style.launcherBackgroundColor}
+            onChange={(value) => updateStyle("launcherBackgroundColor", value)}
+          />
+          <ColorInput
+            label="Icon Color"
+            value={style.launcherIconColor}
+            onChange={(value) => updateStyle("launcherIconColor", value)}
+          />
+          <TextInput
+            label="Launcher Text"
+            value={style.launcherText}
+            onChange={(value) => updateStyle("launcherText", value)}
+            placeholder="Chat"
+          />
+          <ColorInput
+            label="Text Color"
+            value={style.launcherTextColor}
+            onChange={(value) => updateStyle("launcherTextColor", value)}
+          />
+          <NumericInput
+            label="Offset X"
+            value={style.launcherOffsetX}
+            onChange={(value) => updateStyle("launcherOffsetX", value)}
+            min={0}
+            max={100}
+            unit="px"
+          />
+          <NumericInput
+            label="Offset Y"
+            value={style.launcherOffsetY}
+            onChange={(value) => updateStyle("launcherOffsetY", value)}
+            min={0}
+            max={100}
+            unit="px"
+          />
+          <div className="flex items-center justify-between">
+            <Label className="text-xs font-medium text-muted-foreground">Shadow</Label>
+            <Switch checked={style.launcherShadow} onCheckedChange={(checked) => updateStyle("launcherShadow", checked)} />
+          </div>
+        </PropertySection>
+
+        <PropertySection
+          title="Footer"
+          icon={Footprints}
+          sectionKey="footer"
+          isCollapsed={collapsedSections.footer}
+          onToggle={onToggleSection}
+        >
+          <div className="flex items-center justify-between">
+            <Label className="text-xs font-medium text-muted-foreground">Enable Footer</Label>
+            <Switch checked={style.footerEnabled} onCheckedChange={(checked) => updateStyle("footerEnabled", checked)} />
+          </div>
+          <TextInput
+            label="Footer Text"
+            value={style.footerText}
+            onChange={(value) => updateStyle("footerText", value)}
+            placeholder="Powered by Uchat"
+          />
+          <ColorInput
+            label="Footer Text Color"
+            value={style.footerTextColor}
+            onChange={(value) => updateStyle("footerTextColor", value)}
+          />
+          <TextInput
+            label="Footer Link URL"
+            value={style.footerLinkUrl}
+            onChange={(value) => updateStyle("footerLinkUrl", value)}
+            placeholder="https://example.com"
+          />
+          <div className="flex items-center justify-between">
+            <Label className="text-xs font-medium text-muted-foreground">Show Powered By</Label>
+            <Switch checked={style.showPoweredBy} onCheckedChange={(checked) => updateStyle("showPoweredBy", checked)} />
+          </div>
         </PropertySection>
 
         <PropertySection
           title="Branding"
-          icon={Settings}
+          icon={Tags}
           sectionKey="branding"
           isCollapsed={collapsedSections.branding}
           onToggle={onToggleSection}
@@ -328,37 +632,30 @@ export const DesignPanel = React.memo(function DesignPanel({
             <Label className="text-xs font-medium text-muted-foreground">Show Logo</Label>
             <Switch checked={style.showLogo} onCheckedChange={(checked) => updateStyle("showLogo", checked)} />
           </div>
-        </PropertySection>
-
-        <PropertySection
-          title="Typography"
-          icon={Type}
-          sectionKey="typography"
-          badge="Text"
-          isCollapsed={collapsedSections.typography}
-          onToggle={onToggleSection}
-        >
-          <NumericInput
-            label="Base Font Size"
-            value={style.baseFontSize}
-            onChange={(value) => updateStyle("baseFontSize", value)}
-            min={10}
-            max={24}
-            unit="px"
+          <TextInput
+            label="Avatar URL"
+            value={style.avatarUrl}
+            onChange={(value) => updateStyle("avatarUrl", value)}
+            placeholder="https://..."
           />
-        </PropertySection>
-
-        <PropertySection
-          title="Animation"
-          icon={Settings}
-          sectionKey="animation"
-          isCollapsed={collapsedSections.animation}
-          onToggle={onToggleSection}
-        >
-          <div className="flex items-center justify-between">
-            <Label className="text-xs font-medium text-muted-foreground">Enable Animations</Label>
-            <Switch checked={style.animationEnabled} onCheckedChange={(checked) => updateStyle("animationEnabled", checked)} />
-          </div>
+          <TextInput
+            label="Logo URL"
+            value={style.logoUrl}
+            onChange={(value) => updateStyle("logoUrl", value)}
+            placeholder="https://..."
+          />
+          <TextInput
+            label="Launcher Icon URL"
+            value={style.launcherIconUrl}
+            onChange={(value) => updateStyle("launcherIconUrl", value)}
+            placeholder="https://..."
+          />
+          <TextInput
+            label="Welcome Avatar URL"
+            value={style.welcomeAvatarUrl}
+            onChange={(value) => updateStyle("welcomeAvatarUrl", value)}
+            placeholder="https://..."
+          />
         </PropertySection>
       </div>
     </div>
