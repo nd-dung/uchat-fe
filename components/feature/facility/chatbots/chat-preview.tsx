@@ -114,7 +114,7 @@ export const ChatPreview = React.memo(function ChatPreview({
                 {style.headerTitle}
               </h3>
               <p
-                className="text-sm opacity-70 truncate"
+                className="text-sm opacity-70"
                 style={{
                   color: style.headerTextColor,
                   fontSize: `${style.headerSubtitleFontSize}px`,
@@ -165,16 +165,18 @@ export const ChatPreview = React.memo(function ChatPreview({
                 >
                   {style.welcomeTitle}
                 </h3>
-                <p
-                  className="mb-3"
-                  style={{
-                    color: style.botMessageTextColor,
-                    fontSize: `${style.headerSubtitleFontSize}px`,
-                    opacity: 0.85,
-                  }}
-                >
-                  {style.welcomeSubtitle}
-                </p>
+                {style.welcomeSubtitle && (
+                  <p
+                    className="mb-3"
+                    style={{
+                      color: style.botMessageTextColor,
+                      fontSize: `${style.headerSubtitleFontSize}px`,
+                      opacity: 0.85,
+                    }}
+                  >
+                    {style.welcomeSubtitle}
+                  </p>
+                )}
                 <p
                   className="max-w-[80%]"
                   style={{
@@ -290,7 +292,7 @@ export const ChatPreview = React.memo(function ChatPreview({
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder={style.placeholderText}
-                className="flex-1 bg-input border-border"
+                className="flex-1 min-w-0 bg-input border-border truncate"
                 style={{
                   borderRadius: `${style.inputBorderRadius}px`,
                   borderColor: style.inputBorderColor,
@@ -325,15 +327,11 @@ export const ChatPreview = React.memo(function ChatPreview({
                 <span className="text-xs" style={{ color: style.footerTextColor }}>
                   {style.footerText}
                 </span>
-              ) : null}
-              {style.showPoweredBy && (
-                <span
-                  className={`text-xs block ${style.footerText ? "mt-0.5" : ""}`}
-                  style={{ color: style.footerTextColor, opacity: 0.7 }}
-                >
+              ) : style.showPoweredBy ? (
+                <span className="text-xs" style={{ color: style.footerTextColor, opacity: 0.7 }}>
                   Powered by Uchat
                 </span>
-              )}
+              ) : null}
             </div>
           )}
         </div>
