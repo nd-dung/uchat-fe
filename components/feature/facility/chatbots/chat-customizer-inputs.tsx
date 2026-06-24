@@ -152,6 +152,16 @@ export interface ColorInputProps {
   onChange: (value: string) => void
 }
 
+function toValidHexColor(value: string): string {
+  const trimmed = value.trim().toLowerCase()
+  if (/^#[0-9a-f]{6}$/.test(trimmed)) return trimmed
+  if (/^#[0-9a-f]{3}$/.test(trimmed)) {
+    const [, r, g, b] = trimmed
+    return `#${r}${r}${g}${g}${b}${b}`
+  }
+  return "#ffffff"
+}
+
 export const ColorInput = React.memo(function ColorInput({ label, value, onChange }: ColorInputProps) {
   const handleColorChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value),
@@ -161,6 +171,8 @@ export const ColorInput = React.memo(function ColorInput({ label, value, onChang
     (e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value),
     [onChange]
   )
+
+  const hexValue = toValidHexColor(value)
 
   return (
     <div className="space-y-2">
@@ -172,7 +184,7 @@ export const ColorInput = React.memo(function ColorInput({ label, value, onChang
         >
           <Input
             type="color"
-            value={value}
+            value={hexValue}
             onChange={handleColorChange}
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
           />
