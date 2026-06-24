@@ -14,7 +14,7 @@ import { Minus, Plus, Loader2Icon } from "lucide-react"
 import { ChatPreview } from "./chat-preview"
 import { DesignPanel } from "./design-panel"
 import { deviceSizes } from "./chat-constants"
-import { apiToStyle, styleToApiUpdate, defaultStyle, type ChatStyle } from "./chat-style"
+import { apiToStyle, styleToApiUpdate, type ChatStyle } from "./chat-style"
 
 interface ChatCustomizerProps {
   chatbotId: number
@@ -23,7 +23,8 @@ interface ChatCustomizerProps {
 export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
   const { data: uiSettingData, isLoading: isLoadingUiSetting } = useGetChatbotUiSetting(chatbotId, {})
   const uiSetting = uiSettingData?.data
-  const [style, setStyle] = useState<ChatStyle>(defaultStyle)
+  const [savedStyle, setSavedStyle] = useState<ChatStyle | undefined>(undefined)
+  const [style, setStyle] = useState<ChatStyle | undefined>(undefined)
   const [hasLocalChanges, setHasLocalChanges] = useState(false)
   const [activeDevice, setActiveDevice] = useState<keyof typeof deviceSizes>("desktop")
   const [collapsedSections, setCollapsedSections] = useState<{ [key: string]: boolean }>({})
@@ -33,17 +34,20 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
 
   useEffect(() => {
     if (uiSetting) {
-      setStyle(apiToStyle(uiSetting))
+      const loaded = apiToStyle(uiSetting)
+      setSavedStyle(loaded)
+      setStyle(loaded)
       setHasLocalChanges(false)
     }
   }, [uiSetting])
 
   const updateStyle = useCallback((key: keyof ChatStyle, value: string | number | boolean) => {
-    setStyle((prev) => ({ ...prev, [key]: value }))
+    setStyle((prev) => (prev ? { ...prev, [key]: value } : prev))
     setHasLocalChanges(true)
   }, [])
 
   const handleSave = async () => {
+    if (!style) return
     try {
       await updateMutation.mutateAsync({ id: chatbotId, data: styleToApiUpdate(style) })
       toast.success("Lưu giao diện thành công")
@@ -63,11 +67,14 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
   }, [])
 
   const resetToDefault = () => {
-    setStyle(defaultStyle)
-    setHasLocalChanges(true)
+    if (savedStyle) {
+      setStyle(savedStyle)
+      setHasLocalChanges(true)
+    }
   }
 
   const exportConfig = () => {
+    if (!style) return
     const config = {
       style,
       timestamp: new Date().toISOString(),
@@ -83,6 +90,7 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
   }
 
   const copyCSS = () => {
+    if (!style) return
     const css = `
 /* Chat Container */
 .chat-container {
@@ -134,7 +142,7 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
     navigator.clipboard.writeText(css)
   }
 
-  if (isLoadingUiSetting) {
+  if (isLoadingUiSetting || !style) {
     return (
       <div className="flex flex-1 items-center justify-center text-muted-foreground">
         <Loader2Icon className="h-6 w-6 animate-spin" />
