@@ -36,52 +36,46 @@ import {
   Settings,
   Copy,
   RotateCcw,
-  Eye,
-  EyeOff,
   Download,
   Minus,
   Plus,
   Square,
-  Circle,
-  MousePointer2,
-  Hand,
   Loader2Icon,
 } from "lucide-react"
 
 interface ChatStyle {
+  primaryColor: string
   backgroundColor: string
-  textColor: string
-  borderRadius: number
-  userBubbleColor: string
-  botBubbleColor: string
-  userTextColor: string
-  botTextColor: string
-  chatBackground: string
-  borderColor: string
-  borderWidth: number
-  shadowIntensity: number
-  messageSpacing: number
-  fontSize: number
-  fontWeight: string
-  inputHeight: number
+  headerBackgroundColor: string
+  headerTextColor: string
+  headerTitle: string
+  headerSubtitle: string
   headerHeight: number
-  animationSpeed: number
-  enableAnimations: boolean
-  bubbleOpacity: number
-  headerBackground: string
-  inputBackground: string
-  scrollbarColor: string
-  glowEffect: boolean
-  gradientBackground: boolean
-  blurEffect: number
-  letterSpacing: number
-  lineHeight: number
-  paddingX: number
-  paddingY: number
-  maxWidth: number
-  headerShadow: boolean
-  inputShadow: boolean
-  bubbleShadow: boolean
+  headerShowStatus: boolean
+  botMessageBackgroundColor: string
+  botMessageTextColor: string
+  userMessageBackgroundColor: string
+  userMessageTextColor: string
+  chatWindowBorderColor: string
+  chatWindowBorderWidth: number
+  chatWindowWidth: number
+  chatWindowHeight: number
+  chatWindowShadow: boolean
+  chatWindowPosition: "bottom_right" | "bottom_left" | "top_right" | "top_left"
+  borderRadius: number
+  messageBubbleRadius: number
+  messageAreaBackgroundColor: string
+  messageAreaPadding: number
+  messageSpacing: number
+  showMessageTimestamp: boolean
+  baseFontSize: number
+  inputBackgroundColor: string
+  inputBorderRadius: number
+  placeholderText: string
+  welcomeMessage: string
+  showAvatar: boolean
+  showLogo: boolean
+  animationEnabled: boolean
 }
 
 function apiToStyle(api: ChatbotUiSettingResponseDto): ChatStyle {
@@ -89,16 +83,20 @@ function apiToStyle(api: ChatbotUiSettingResponseDto): ChatStyle {
     chat_window_border_color?: string
     chat_window_border_width?: number
     chat_window_width?: number
+    chat_window_height?: number
+    chat_window_shadow?: boolean
+    chat_window_position?: "bottom_right" | "bottom_left" | "top_right" | "top_left"
+    border_radius?: number
+  } | undefined
+  const header = api.header as {
+    header_height?: number
+    header_show_status?: boolean
   } | undefined
   const message = api.message as {
     message_area_background_color?: string
     message_area_padding?: number
     message_spacing?: number
-    bot_message_background_color?: string
-    bot_message_text_color?: string
-    user_message_background_color?: string
-    user_message_text_color?: string
-    message_bubble_radius?: number
+    show_message_timestamp?: boolean
   } | undefined
   const typography = api.typography as {
     base_font_size?: number
@@ -106,124 +104,133 @@ function apiToStyle(api: ChatbotUiSettingResponseDto): ChatStyle {
   const input = api.input as {
     input_background_color?: string
     input_border_radius?: number
-  } | undefined
-  const header = api.header as {
-    header_height?: number
-    header_background_color?: string
-    header_text_color?: string
+    placeholder_text?: string
   } | undefined
   const animation = api.animation as {
     animation_enabled?: boolean
   } | undefined
+  const welcome = api.welcome as {
+    welcome_message?: string
+  } | undefined
 
   return {
+    primaryColor: api.primary_color,
     backgroundColor: api.background_color,
-    textColor: header?.header_text_color ?? api.header_text_color,
-    borderRadius: message?.message_bubble_radius ?? api.border_radius,
-    userBubbleColor: message?.user_message_background_color ?? api.user_message_background_color,
-    botBubbleColor: message?.bot_message_background_color ?? api.bot_message_background_color,
-    userTextColor: message?.user_message_text_color ?? api.user_message_text_color,
-    botTextColor: message?.bot_message_text_color ?? api.bot_message_text_color,
-    chatBackground: message?.message_area_background_color ?? api.background_color,
-    borderColor: chatWindow?.chat_window_border_color ?? "oklch(0.925 0.005 214.3)",
-    borderWidth: chatWindow?.chat_window_border_width ?? 1,
-    shadowIntensity: 8,
-    messageSpacing: message?.message_spacing ?? 16,
-    fontSize: typography?.base_font_size ?? 14,
-    fontWeight: "400",
-    inputHeight: 48,
+    headerBackgroundColor: api.header_background_color,
+    headerTextColor: api.header_text_color,
+    headerTitle: api.header_title ?? "Chat Support",
+    headerSubtitle: api.header_subtitle ?? "Đang hoạt động",
     headerHeight: header?.header_height ?? 72,
-    animationSpeed: 200,
-    enableAnimations: animation?.animation_enabled ?? true,
-    bubbleOpacity: 100,
-    headerBackground: header?.header_background_color ?? api.header_background_color,
-    inputBackground: input?.input_background_color ?? api.background_color,
-    scrollbarColor: "oklch(0.56 0.021 213.5)",
-    glowEffect: false,
-    gradientBackground: false,
-    blurEffect: 0,
-    letterSpacing: 0,
-    lineHeight: 1.5,
-    paddingX: message?.message_area_padding ?? 16,
-    paddingY: 12,
-    maxWidth: chatWindow?.chat_window_width ?? api.chat_window_width,
-    headerShadow: false,
-    inputShadow: false,
-    bubbleShadow: false,
+    headerShowStatus: header?.header_show_status ?? true,
+    botMessageBackgroundColor: api.bot_message_background_color,
+    botMessageTextColor: api.bot_message_text_color,
+    userMessageBackgroundColor: api.user_message_background_color,
+    userMessageTextColor: api.user_message_text_color,
+    chatWindowBorderColor: chatWindow?.chat_window_border_color ?? "oklch(0.925 0.005 214.3)",
+    chatWindowBorderWidth: chatWindow?.chat_window_border_width ?? 1,
+    chatWindowWidth: chatWindow?.chat_window_width ?? api.chat_window_width,
+    chatWindowHeight: chatWindow?.chat_window_height ?? api.chat_window_height,
+    chatWindowShadow: chatWindow?.chat_window_shadow ?? false,
+    chatWindowPosition: chatWindow?.chat_window_position ?? api.chat_window_position,
+    borderRadius: chatWindow?.border_radius ?? api.border_radius,
+    messageBubbleRadius: api.message_bubble_radius,
+    messageAreaBackgroundColor: message?.message_area_background_color ?? api.background_color,
+    messageAreaPadding: message?.message_area_padding ?? 16,
+    messageSpacing: message?.message_spacing ?? 16,
+    showMessageTimestamp: message?.show_message_timestamp ?? false,
+    baseFontSize: typography?.base_font_size ?? 14,
+    inputBackgroundColor: input?.input_background_color ?? api.background_color,
+    inputBorderRadius: input?.input_border_radius ?? 12,
+    placeholderText: input?.placeholder_text ?? api.placeholder_text,
+    welcomeMessage: welcome?.welcome_message ?? api.welcome_message,
+    showAvatar: api.show_avatar,
+    showLogo: api.show_logo,
+    animationEnabled: animation?.animation_enabled ?? true,
   }
 }
 
 function styleToApiUpdate(style: ChatStyle): UpdateChatbotUiSettingDto {
   return {
-    primary_color: style.userBubbleColor as unknown as UpdateChatbotUiSettingDto["primary_color"],
+    primary_color: style.primaryColor as unknown as UpdateChatbotUiSettingDto["primary_color"],
     background_color: style.backgroundColor as unknown as UpdateChatbotUiSettingDto["background_color"],
     chat_window: {
-      chat_window_border_color: style.borderColor,
-      chat_window_border_width: style.borderWidth,
-      chat_window_width: style.maxWidth,
+      chat_window_border_color: style.chatWindowBorderColor,
+      chat_window_border_width: style.chatWindowBorderWidth,
+      chat_window_width: style.chatWindowWidth,
+      chat_window_height: style.chatWindowHeight,
+      chat_window_shadow: style.chatWindowShadow,
+      chat_window_position: style.chatWindowPosition,
+      border_radius: style.borderRadius,
     } as unknown as UpdateChatbotUiSettingDto["chat_window"],
-    message: {
-      message_area_background_color: style.chatBackground,
-      message_area_padding: style.paddingX,
-      message_spacing: style.messageSpacing,
-      bot_message_background_color: style.botBubbleColor,
-      bot_message_text_color: style.botTextColor,
-      user_message_background_color: style.userBubbleColor,
-      user_message_text_color: style.userTextColor,
-      message_bubble_radius: style.borderRadius,
-    } as unknown as UpdateChatbotUiSettingDto["message"],
-    typography: {
-      base_font_size: style.fontSize,
-    } as unknown as UpdateChatbotUiSettingDto["typography"],
-    input: {
-      input_background_color: style.inputBackground,
-      input_border_radius: style.borderRadius,
-    } as unknown as UpdateChatbotUiSettingDto["input"],
     header: {
       header_height: style.headerHeight,
-      header_background_color: style.headerBackground,
-      header_text_color: style.textColor,
+      header_background_color: style.headerBackgroundColor,
+      header_text_color: style.headerTextColor,
+      header_title: style.headerTitle,
+      header_subtitle: style.headerSubtitle,
+      header_show_status: style.headerShowStatus,
     } as unknown as UpdateChatbotUiSettingDto["header"],
+    message: {
+      message_area_background_color: style.messageAreaBackgroundColor,
+      message_area_padding: style.messageAreaPadding,
+      message_spacing: style.messageSpacing,
+      show_message_timestamp: style.showMessageTimestamp,
+      bot_message_background_color: style.botMessageBackgroundColor,
+      bot_message_text_color: style.botMessageTextColor,
+      user_message_background_color: style.userMessageBackgroundColor,
+      user_message_text_color: style.userMessageTextColor,
+      message_bubble_radius: style.messageBubbleRadius,
+    } as unknown as UpdateChatbotUiSettingDto["message"],
+    typography: {
+      base_font_size: style.baseFontSize,
+    } as unknown as UpdateChatbotUiSettingDto["typography"],
+    input: {
+      input_background_color: style.inputBackgroundColor,
+      input_border_radius: style.inputBorderRadius,
+      placeholder_text: style.placeholderText,
+    } as unknown as UpdateChatbotUiSettingDto["input"],
     animation: {
-      animation_enabled: style.enableAnimations,
+      animation_enabled: style.animationEnabled,
     } as unknown as UpdateChatbotUiSettingDto["animation"],
+    welcome: {
+      welcome_message: style.welcomeMessage,
+    } as unknown as UpdateChatbotUiSettingDto["welcome"],
   }
 }
 
 const defaultStyle: ChatStyle = {
+  primaryColor: "oklch(0.488 0.243 264.376)",
   backgroundColor: "oklch(1 0 0)",
-  textColor: "oklch(0.148 0.004 228.8)",
-  borderRadius: 12,
-  userBubbleColor: "oklch(0.488 0.243 264.376)",
-  botBubbleColor: "oklch(0.967 0.001 286.375)",
-  userTextColor: "oklch(0.97 0.014 254.604)",
-  botTextColor: "oklch(0.21 0.006 285.885)",
-  chatBackground: "oklch(0.987 0.002 197.1)",
-  borderColor: "oklch(0.925 0.005 214.3)",
-  borderWidth: 1,
-  shadowIntensity: 8,
-  messageSpacing: 16,
-  fontSize: 14,
-  fontWeight: "400",
-  inputHeight: 48,
+  headerBackgroundColor: "oklch(1 0 0)",
+  headerTextColor: "oklch(0.148 0.004 228.8)",
+  headerTitle: "Chat Support",
+  headerSubtitle: "Đang hoạt động",
   headerHeight: 72,
-  animationSpeed: 200,
-  enableAnimations: true,
-  bubbleOpacity: 100,
-  headerBackground: "oklch(1 0 0)",
-  inputBackground: "oklch(1 0 0)",
-  scrollbarColor: "oklch(0.56 0.021 213.5)",
-  glowEffect: false,
-  gradientBackground: false,
-  blurEffect: 0,
-  letterSpacing: 0,
-  lineHeight: 1.5,
-  paddingX: 16,
-  paddingY: 12,
-  maxWidth: 400,
-  headerShadow: false,
-  inputShadow: false,
-  bubbleShadow: false,
+  headerShowStatus: true,
+  botMessageBackgroundColor: "oklch(0.967 0.001 286.375)",
+  botMessageTextColor: "oklch(0.21 0.006 285.885)",
+  userMessageBackgroundColor: "oklch(0.488 0.243 264.376)",
+  userMessageTextColor: "oklch(0.97 0.014 254.604)",
+  chatWindowBorderColor: "oklch(0.925 0.005 214.3)",
+  chatWindowBorderWidth: 1,
+  chatWindowWidth: 400,
+  chatWindowHeight: 600,
+  chatWindowShadow: false,
+  chatWindowPosition: "bottom_right",
+  borderRadius: 12,
+  messageBubbleRadius: 12,
+  messageAreaBackgroundColor: "oklch(0.987 0.002 197.1)",
+  messageAreaPadding: 16,
+  messageSpacing: 16,
+  showMessageTimestamp: false,
+  baseFontSize: 14,
+  inputBackgroundColor: "oklch(1 0 0)",
+  inputBorderRadius: 12,
+  placeholderText: "Nhập tin nhắn của bạn...",
+  welcomeMessage: "Xin chào! Tôi có thể giúp gì cho bạn hôm nay?",
+  showAvatar: true,
+  showLogo: false,
+  animationEnabled: true,
 }
 
 const deviceSizes = {
@@ -231,6 +238,13 @@ const deviceSizes = {
   tablet: { width: "100%", maxWidth: "340px", label: "Tablet", icon: Tablet },
   mobile: { width: "100%", maxWidth: "300px", label: "Mobile", icon: Smartphone },
 }
+
+const chatWindowPositions = [
+  { value: "bottom_right", label: "Bottom Right" },
+  { value: "bottom_left", label: "Bottom Left" },
+  { value: "top_right", label: "Top Right" },
+  { value: "top_left", label: "Top Left" },
+]
 
 const sampleMessages = [
   { type: "bot", text: "Xin chào! Tôi có thể giúp gì cho bạn hôm nay?" },
@@ -257,14 +271,6 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
   const [selectedElement, setSelectedElement] = useState<string>("container")
   const [collapsedSections, setCollapsedSections] = useState<{ [key: string]: boolean }>({})
   const [zoomLevel, setZoomLevel] = useState(100)
-  const [isDragging, setIsDragging] = useState(false)
-  const [tool, setTool] = useState<"select" | "hand">("select")
-  const [layerVisibility, setLayerVisibility] = useState<{ [key: string]: boolean }>({
-    header: true,
-    messages: true,
-    bubble: true,
-    input: true,
-  })
 
   const canvasRef = useRef<HTMLDivElement>(null)
   const updateMutation = useUpdateChatbotUiSetting()
@@ -305,13 +311,6 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
     }))
   }
 
-  const toggleLayerVisibility = (layerKey: string) => {
-    setLayerVisibility((prev) => ({
-      ...prev,
-      [layerKey]: !prev[layerKey],
-    }))
-  }
-
   const resetToDefault = () => {
     setStyle(defaultStyle)
     setSelectedElement("container")
@@ -338,55 +337,46 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
 .chat-container {
   background-color: ${style.backgroundColor};
   border-radius: ${style.borderRadius}px;
-  border: ${style.borderWidth}px solid ${style.borderColor};
-  box-shadow: 0 ${style.shadowIntensity}px ${style.shadowIntensity * 2}px rgba(0,0,0,0.1);
-  max-width: ${style.maxWidth}px;
-  ${style.glowEffect ? `box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);` : ""}
+  border: ${style.chatWindowBorderWidth}px solid ${style.chatWindowBorderColor};
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  width: ${style.chatWindowWidth}px;
+  height: ${style.chatWindowHeight}px;
 }
 
 /* Header */
 .chat-header {
-  background-color: ${style.headerBackground};
+  background-color: ${style.headerBackgroundColor};
+  color: ${style.headerTextColor};
   height: ${style.headerHeight}px;
-  padding: ${style.paddingY}px ${style.paddingX}px;
-  ${style.headerShadow ? `box-shadow: 0 2px 8px rgba(0,0,0,0.1);` : ""}
 }
 
 /* Messages */
 .chat-messages {
-  background-color: ${style.chatBackground};
-  padding: ${style.paddingX}px;
+  background-color: ${style.messageAreaBackgroundColor};
+  padding: ${style.messageAreaPadding}px;
   gap: ${style.messageSpacing}px;
 }
 
 /* Message Bubbles */
 .message-bubble {
-  border-radius: ${style.borderRadius}px;
-  padding: ${style.paddingY}px ${style.paddingX}px;
-  font-size: ${style.fontSize}px;
-  font-weight: ${style.fontWeight};
-  letter-spacing: ${style.letterSpacing}px;
-  line-height: ${style.lineHeight};
-  opacity: ${style.bubbleOpacity / 100};
-  ${style.bubbleShadow ? `box-shadow: 0 2px 8px rgba(0,0,0,0.1);` : ""}
+  border-radius: ${style.messageBubbleRadius}px;
+  font-size: ${style.baseFontSize}px;
 }
 
 .user-bubble {
-  background-color: ${style.userBubbleColor};
-  color: ${style.userTextColor};
+  background-color: ${style.userMessageBackgroundColor};
+  color: ${style.userMessageTextColor};
 }
 
 .bot-bubble {
-  background-color: ${style.botBubbleColor};
-  color: ${style.botTextColor};
+  background-color: ${style.botMessageBackgroundColor};
+  color: ${style.botMessageTextColor};
 }
 
 /* Input */
 .chat-input {
-  background-color: ${style.inputBackground};
-  height: ${style.inputHeight}px;
-  padding: ${style.paddingX}px;
-  ${style.inputShadow ? `box-shadow: 0 -2px 8px rgba(0,0,0,0.1);` : ""}
+  background-color: ${style.inputBackgroundColor};
+  border-radius: ${style.inputBorderRadius}px;
 }
     `.trim()
 
@@ -549,6 +539,28 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
     </div>
   )
 
+  const TextInput = ({
+    label,
+    value,
+    onChange,
+    placeholder,
+  }: {
+    label: string
+    value: string
+    onChange: (value: string) => void
+    placeholder?: string
+  }) => (
+    <div className="space-y-2">
+      <Label className="text-xs font-medium text-muted-foreground">{label}</Label>
+      <Input
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        className="h-8 text-xs bg-input border-border"
+      />
+    </div>
+  )
+
   if (isLoadingUiSetting) {
     return (
       <div className="flex flex-1 items-center justify-center text-muted-foreground">
@@ -572,7 +584,7 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
             { id: "container", name: "Container", icon: Square, color: "#8b5cf6" },
             { id: "header", name: "Header", icon: Square, color: "#10b981" },
             { id: "messages", name: "Messages Area", icon: Square, color: "#f59e0b" },
-            { id: "bubble", name: "Message Bubble", icon: Circle, color: "#ef4444" },
+            { id: "bubble", name: "Message Bubble", icon: Square, color: "#ef4444" },
             { id: "input", name: "Input Field", icon: Square, color: "#06b6d4" },
           ].map((layer) => (
             <div
@@ -582,15 +594,6 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
                 selectedElement === layer.id ? "bg-primary/20 text-primary" : "text-foreground"
               }`}
             >
-              <button
-                onClick={(e) => {
-                  e.stopPropagation()
-                  toggleLayerVisibility(layer.id)
-                }}
-                className="opacity-60 hover:opacity-100 transition-opacity"
-              >
-                {layerVisibility[layer.id] ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
-              </button>
               <div className="w-3 h-3 rounded-sm border border-border/50" style={{ backgroundColor: layer.color }} />
               <span className="text-sm font-medium flex-1">{layer.name}</span>
               {selectedElement === layer.id && <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />}
@@ -602,25 +605,6 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
       <div className="flex-1 flex flex-col">
         <div className="h-14 bg-card border-b border-border flex items-center justify-between px-4">
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1 bg-muted/50 rounded-md p-1">
-              <Button
-                variant={tool === "select" ? "default" : "ghost"}
-                size="sm"
-                onClick={() => setTool("select")}
-                className="h-7 w-7 p-0"
-              >
-                <MousePointer2 className="w-3 h-3" />
-              </Button>
-              <Button
-                variant={tool === "hand" ? "default" : "ghost"}
-                size="sm"
-                onClick={() => setTool("hand")}
-                className="h-7 w-7 p-0"
-              >
-                <Hand className="w-3 h-3" />
-              </Button>
-            </div>
-            <Separator orientation="vertical" className="h-6" />
             <div className="flex items-center gap-1 bg-muted/50 rounded-md p-1">
               <Button
                 variant="ghost"
@@ -664,7 +648,6 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
         <div
           ref={canvasRef}
           className="flex-1 p-8 overflow-auto bg-muted/20 custom-scrollbar"
-          style={{ cursor: tool === "hand" ? "grab" : "default" }}
         >
           <div className="flex justify-center items-center min-h-full">
             <div
@@ -679,178 +662,159 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
               <div
                 className={`rounded-lg overflow-hidden cursor-pointer shadow-2xl relative ${
                   selectedElement === "container" ? "ring-2 ring-primary ring-offset-2 ring-offset-background" : ""
-                } ${style.glowEffect ? "shadow-primary/20" : ""}`}
+                }`}
                 style={{
                   backgroundColor: style.backgroundColor,
-                  borderColor: style.borderColor,
-                  borderWidth: `${style.borderWidth}px`,
+                  borderColor: style.chatWindowBorderColor,
+                  borderWidth: `${style.chatWindowBorderWidth}px`,
                   borderStyle: "solid",
                   borderRadius: `${style.borderRadius}px`,
-                  boxShadow: style.glowEffect
-                    ? `0 0 30px oklch(0.488 0.243 264.376 / 0.2)`
-                    : `0 ${style.shadowIntensity}px ${style.shadowIntensity * 3}px rgba(0,0,0,0.15)`,
-                  transition: style.enableAnimations
-                    ? `all ${style.animationSpeed}ms cubic-bezier(0.4, 0, 0.2, 1)`
-                    : "none",
-                  backdropFilter: style.blurEffect > 0 ? `blur(${style.blurEffect}px)` : "none",
-                  maxWidth: `${style.maxWidth}px`,
+                  boxShadow: style.chatWindowShadow ? "0 8px 24px rgba(0,0,0,0.15)" : "none",
+                  transition: style.animationEnabled ? "all 200ms cubic-bezier(0.4, 0, 0.2, 1)" : "none",
+                  maxWidth: `${style.chatWindowWidth}px`,
                 }}
                 onClick={() => handleElementClick("container")}
               >
                 {/* Header */}
-                {layerVisibility.header && (
-                  <div
-                    className={`p-4 border-b cursor-pointer hover:bg-opacity-90 transition-all relative ${
-                      selectedElement === "header" ? "ring-2 ring-primary ring-inset" : ""
-                    }`}
-                    style={{
-                      borderColor: style.borderColor,
-                      backgroundColor: style.headerBackground,
-                      height: `${style.headerHeight}px`,
-                      display: "flex",
-                      alignItems: "center",
-                      paddingLeft: `${style.paddingX}px`,
-                      paddingRight: `${style.paddingX}px`,
-                      boxShadow: style.headerShadow ? "0 2px 8px rgba(0,0,0,0.1)" : "none",
-                    }}
-                    onClick={(e) => handleElementClick("header", e)}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shadow-lg">
-                        <Bot className="w-5 h-5 text-primary-foreground" />
-                      </div>
-                      <div>
-                        <h3
-                          className="font-semibold"
-                          style={{
-                            color: style.textColor,
-                            fontWeight: style.fontWeight,
-                            fontSize: `${style.fontSize + 2}px`,
-                            letterSpacing: `${style.letterSpacing}px`,
-                          }}
-                        >
-                          Chat Support
-                        </h3>
-                        <p
-                          className="text-sm opacity-70"
-                          style={{
-                            color: style.textColor,
-                            fontSize: `${style.fontSize - 2}px`,
-                          }}
-                        >
-                          Đang hoạt động
-                        </p>
-                      </div>
+                <div
+                  className={`p-4 border-b cursor-pointer hover:bg-opacity-90 transition-all relative ${
+                    selectedElement === "header" ? "ring-2 ring-primary ring-inset" : ""
+                  }`}
+                  style={{
+                    borderColor: style.chatWindowBorderColor,
+                    backgroundColor: style.headerBackgroundColor,
+                    height: `${style.headerHeight}px`,
+                    display: "flex",
+                    alignItems: "center",
+                    paddingLeft: `${style.messageAreaPadding}px`,
+                    paddingRight: `${style.messageAreaPadding}px`,
+                  }}
+                  onClick={(e) => handleElementClick("header", e)}
+                >
+                  <div className="flex items-center gap-3">
+                    <div
+                      className="w-10 h-10 rounded-full flex items-center justify-center shadow-lg"
+                      style={{ backgroundColor: style.primaryColor }}
+                    >
+                      <Bot className="w-5 h-5" style={{ color: style.userMessageTextColor }} />
                     </div>
-                  </div>
-                )}
-
-                {/* Messages */}
-                {layerVisibility.messages && (
-                  <div
-                    className={`p-4 h-80 overflow-y-auto cursor-pointer custom-scrollbar ${
-                      selectedElement === "messages" ? "ring-2 ring-primary ring-inset" : ""
-                    }`}
-                    style={{
-                      backgroundColor: style.chatBackground,
-                      paddingLeft: `${style.paddingX}px`,
-                      paddingRight: `${style.paddingX}px`,
-                    }}
-                    onClick={(e) => handleElementClick("messages", e)}
-                  >
-                    <div style={{ gap: `${style.messageSpacing}px` }} className="flex flex-col">
-                      {sampleMessages.map((msg, index) => (
-                        <div key={index} className={`flex ${msg.type === "user" ? "justify-end" : "justify-start"}`}>
-                          <div className="flex items-end gap-3 max-w-[85%]">
-                            {msg.type === "bot" && (
-                              <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center flex-shrink-0 shadow-md">
-                                <Bot className="w-4 h-4 text-primary-foreground" />
-                              </div>
-                            )}
-                            {layerVisibility.bubble && (
-                              <div
-                                className={`px-4 py-3 rounded-lg cursor-pointer hover:scale-[1.02] transition-all figma-transition relative ${
-                                  selectedElement === "bubble" ? "ring-2 ring-primary" : ""
-                                }`}
-                                style={{
-                                  backgroundColor: msg.type === "user" ? style.userBubbleColor : style.botBubbleColor,
-                                  color: msg.type === "user" ? style.userTextColor : style.botTextColor,
-                                  borderRadius: `${style.borderRadius}px`,
-                                  opacity: style.bubbleOpacity / 100,
-                                  fontSize: `${style.fontSize}px`,
-                                  fontWeight: style.fontWeight,
-                                  letterSpacing: `${style.letterSpacing}px`,
-                                  lineHeight: style.lineHeight,
-                                  paddingLeft: `${style.paddingX}px`,
-                                  paddingRight: `${style.paddingX}px`,
-                                  paddingTop: `${style.paddingY}px`,
-                                  paddingBottom: `${style.paddingY}px`,
-                                  boxShadow: style.bubbleShadow ? "0 2px 8px rgba(0,0,0,0.1)" : "none",
-                                  transition: style.enableAnimations
-                                    ? `all ${style.animationSpeed}ms cubic-bezier(0.4, 0, 0.2, 1)`
-                                    : "none",
-                                }}
-                                onClick={(e) => handleElementClick("bubble", e)}
-                              >
-                                <p>{msg.text}</p>
-                              </div>
-                            )}
-                            {msg.type === "user" && (
-                              <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center flex-shrink-0 shadow-md">
-                                <User className="w-4 h-4 text-primary-foreground" />
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Input */}
-                {layerVisibility.input && (
-                  <div
-                    className={`p-4 border-t cursor-pointer hover:bg-opacity-90 transition-colors ${
-                      selectedElement === "input" ? "ring-2 ring-primary ring-inset" : ""
-                    }`}
-                    style={{
-                      borderColor: style.borderColor,
-                      backgroundColor: style.inputBackground,
-                      paddingLeft: `${style.paddingX}px`,
-                      paddingRight: `${style.paddingX}px`,
-                      boxShadow: style.inputShadow ? "0 -2px 8px rgba(0,0,0,0.1)" : "none",
-                    }}
-                    onClick={(e) => handleElementClick("input", e)}
-                  >
-                    <div className="flex gap-3">
-                      <Input
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        placeholder="Nhập tin nhắn của bạn..."
-                        className="flex-1 bg-input border-border"
+                    <div>
+                      <h3
+                        className="font-semibold"
                         style={{
-                          borderRadius: `${style.borderRadius}px`,
-                          borderColor: style.borderColor,
-                          height: `${style.inputHeight}px`,
-                          fontSize: `${style.fontSize}px`,
-                          backgroundColor: style.inputBackground,
-                        }}
-                      />
-                      <Button
-                        size="icon"
-                        className="shadow-lg hover:shadow-xl transition-shadow"
-                        style={{
-                          backgroundColor: style.userBubbleColor,
-                          borderRadius: `${style.borderRadius}px`,
-                          height: `${style.inputHeight}px`,
-                          width: `${style.inputHeight}px`,
+                          color: style.headerTextColor,
+                          fontSize: `${style.baseFontSize + 2}px`,
                         }}
                       >
-                        <Send className="w-4 h-4" />
-                      </Button>
+                        {style.headerTitle}
+                      </h3>
+                      <p
+                        className="text-sm opacity-70"
+                        style={{
+                          color: style.headerTextColor,
+                          fontSize: `${style.baseFontSize - 2}px`,
+                        }}
+                      >
+                        {style.headerShowStatus && style.headerSubtitle}
+                      </p>
                     </div>
                   </div>
-                )}
+                </div>
+
+                {/* Messages */}
+                <div
+                  className={`p-4 h-80 overflow-y-auto cursor-pointer custom-scrollbar ${
+                    selectedElement === "messages" ? "ring-2 ring-primary ring-inset" : ""
+                  }`}
+                  style={{
+                    backgroundColor: style.messageAreaBackgroundColor,
+                    paddingLeft: `${style.messageAreaPadding}px`,
+                    paddingRight: `${style.messageAreaPadding}px`,
+                  }}
+                  onClick={(e) => handleElementClick("messages", e)}
+                >
+                  <div style={{ gap: `${style.messageSpacing}px` }} className="flex flex-col">
+                    {sampleMessages.map((msg, index) => (
+                      <div key={index} className={`flex ${msg.type === "user" ? "justify-end" : "justify-start"}`}>
+                        <div className="flex items-end gap-3 max-w-[85%]">
+                          {msg.type === "bot" && style.showAvatar && (
+                            <div
+                              className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 shadow-md"
+                              style={{ backgroundColor: style.primaryColor }}
+                            >
+                              <Bot className="w-4 h-4" style={{ color: style.userMessageTextColor }} />
+                            </div>
+                          )}
+                          <div
+                            className={`px-4 py-3 rounded-lg cursor-pointer hover:scale-[1.02] transition-all figma-transition relative ${
+                              selectedElement === "bubble" ? "ring-2 ring-primary" : ""
+                            }`}
+                            style={{
+                              backgroundColor: msg.type === "user" ? style.userMessageBackgroundColor : style.botMessageBackgroundColor,
+                              color: msg.type === "user" ? style.userMessageTextColor : style.botMessageTextColor,
+                              borderRadius: `${style.messageBubbleRadius}px`,
+                              fontSize: `${style.baseFontSize}px`,
+                              transition: style.animationEnabled ? "all 200ms cubic-bezier(0.4, 0, 0.2, 1)" : "none",
+                            }}
+                            onClick={(e) => handleElementClick("bubble", e)}
+                          >
+                            <p>{msg.text}</p>
+                            {style.showMessageTimestamp && (
+                              <p className="text-[10px] opacity-60 mt-1">{new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</p>
+                            )}
+                          </div>
+                          {msg.type === "user" && style.showAvatar && (
+                            <div
+                              className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 shadow-md"
+                              style={{ backgroundColor: style.primaryColor }}
+                            >
+                              <User className="w-4 h-4" style={{ color: style.userMessageTextColor }} />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Input */}
+                <div
+                  className={`p-4 border-t cursor-pointer hover:bg-opacity-90 transition-colors ${
+                    selectedElement === "input" ? "ring-2 ring-primary ring-inset" : ""
+                  }`}
+                  style={{
+                    borderColor: style.chatWindowBorderColor,
+                    backgroundColor: style.inputBackgroundColor,
+                    paddingLeft: `${style.messageAreaPadding}px`,
+                    paddingRight: `${style.messageAreaPadding}px`,
+                  }}
+                  onClick={(e) => handleElementClick("input", e)}
+                >
+                  <div className="flex gap-3">
+                    <Input
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder={style.placeholderText}
+                      className="flex-1 bg-input border-border"
+                      style={{
+                        borderRadius: `${style.inputBorderRadius}px`,
+                        borderColor: style.chatWindowBorderColor,
+                        fontSize: `${style.baseFontSize}px`,
+                        backgroundColor: style.inputBackgroundColor,
+                      }}
+                    />
+                    <Button
+                      size="icon"
+                      className="shadow-lg hover:shadow-xl transition-shadow"
+                      style={{
+                        backgroundColor: style.userMessageBackgroundColor,
+                        borderRadius: `${style.inputBorderRadius}px`,
+                      }}
+                    >
+                      <Send className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -893,224 +857,130 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
         </div>
 
         <div className="flex-1 overflow-auto p-4 space-y-4 custom-scrollbar">
-          <PropertySection title="Fill" icon={Palette} sectionKey="fill" badge="Color">
+          <PropertySection title="Theme" icon={Palette} sectionKey="theme">
             <ColorInput
-              label="Background"
-              value={
-                selectedElement === "header"
-                  ? style.headerBackground
-                  : selectedElement === "input"
-                    ? style.inputBackground
-                    : selectedElement === "messages"
-                      ? style.chatBackground
-                      : style.backgroundColor
-              }
-              onChange={(value) => {
-                if (selectedElement === "header") updateStyle("headerBackground", value)
-                else if (selectedElement === "input") updateStyle("inputBackground", value)
-                else if (selectedElement === "messages") updateStyle("chatBackground", value)
-                else updateStyle("backgroundColor", value)
-              }}
+              label="Primary Color"
+              value={style.primaryColor}
+              onChange={(value) => updateStyle("primaryColor", value)}
             />
-
-            {selectedElement === "bubble" && (
-              <>
-                <ColorInput
-                  label="User Bubble"
-                  value={style.userBubbleColor}
-                  onChange={(value) => updateStyle("userBubbleColor", value)}
-                />
-                <ColorInput
-                  label="Bot Bubble"
-                  value={style.botBubbleColor}
-                  onChange={(value) => updateStyle("botBubbleColor", value)}
-                />
-                <ColorInput
-                  label="User Text"
-                  value={style.userTextColor}
-                  onChange={(value) => updateStyle("userTextColor", value)}
-                />
-                <ColorInput
-                  label="Bot Text"
-                  value={style.botTextColor}
-                  onChange={(value) => updateStyle("botTextColor", value)}
-                />
-                <NumericInput
-                  label="Opacity"
-                  value={style.bubbleOpacity}
-                  onChange={(value) => updateStyle("bubbleOpacity", value)}
-                  min={10}
-                  max={100}
-                  step={5}
-                  unit="%"
-                />
-              </>
-            )}
-
-            {(selectedElement === "container" || selectedElement === "header" || selectedElement === "input") && (
-              <ColorInput
-                label="Text Color"
-                value={style.textColor}
-                onChange={(value) => updateStyle("textColor", value)}
-              />
-            )}
+            <ColorInput
+              label="Background Color"
+              value={style.backgroundColor}
+              onChange={(value) => updateStyle("backgroundColor", value)}
+            />
           </PropertySection>
 
-          <PropertySection title="Stroke" icon={Settings} sectionKey="stroke" badge="Border">
+          <PropertySection title="Chat Window" icon={Settings} sectionKey="chatWindow" badge="Window">
+            <div className="space-y-2">
+              <Label className="text-xs font-medium text-muted-foreground">Position</Label>
+              <Select value={style.chatWindowPosition} onValueChange={(value) => updateStyle("chatWindowPosition", value as ChatStyle["chatWindowPosition"])}>
+                <SelectTrigger className="h-8 text-xs bg-input border-border">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {chatWindowPositions.map((pos) => (
+                    <SelectItem key={pos.value} value={pos.value}>
+                      {pos.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <NumericInput
+              label="Width"
+              value={style.chatWindowWidth}
+              onChange={(value) => updateStyle("chatWindowWidth", value)}
+              min={280}
+              max={600}
+              step={10}
+              unit="px"
+            />
+            <NumericInput
+              label="Height"
+              value={style.chatWindowHeight}
+              onChange={(value) => updateStyle("chatWindowHeight", value)}
+              min={400}
+              max={900}
+              step={10}
+              unit="px"
+            />
             <ColorInput
               label="Border Color"
-              value={style.borderColor}
-              onChange={(value) => updateStyle("borderColor", value)}
+              value={style.chatWindowBorderColor}
+              onChange={(value) => updateStyle("chatWindowBorderColor", value)}
             />
             <NumericInput
               label="Border Width"
-              value={style.borderWidth}
-              onChange={(value) => updateStyle("borderWidth", value)}
+              value={style.chatWindowBorderWidth}
+              onChange={(value) => updateStyle("chatWindowBorderWidth", value)}
               min={0}
               max={8}
               unit="px"
             />
-          </PropertySection>
-
-          <PropertySection title="Corner Radius" icon={Settings} sectionKey="radius" badge="Shape">
             <NumericInput
-              label="Radius"
+              label="Border Radius"
               value={style.borderRadius}
               onChange={(value) => updateStyle("borderRadius", value)}
               min={0}
               max={40}
               unit="px"
             />
-          </PropertySection>
-
-          <PropertySection title="Effects" icon={Settings} sectionKey="effects" badge="Visual">
-            <NumericInput
-              label="Drop Shadow"
-              value={style.shadowIntensity}
-              onChange={(value) => updateStyle("shadowIntensity", value)}
-              min={0}
-              max={20}
-            />
-            <NumericInput
-              label="Blur Effect"
-              value={style.blurEffect}
-              onChange={(value) => updateStyle("blurEffect", value)}
-              min={0}
-              max={20}
-              unit="px"
-            />
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <Label className="text-xs font-medium text-muted-foreground">Glow Effect</Label>
-                <Switch checked={style.glowEffect} onCheckedChange={(checked) => updateStyle("glowEffect", checked)} />
-              </div>
-              <div className="flex items-center justify-between">
-                <Label className="text-xs font-medium text-muted-foreground">Animations</Label>
-                <Switch
-                  checked={style.enableAnimations}
-                  onCheckedChange={(checked) => updateStyle("enableAnimations", checked)}
-                />
-              </div>
-              {selectedElement === "header" && (
-                <div className="flex items-center justify-between">
-                  <Label className="text-xs font-medium text-muted-foreground">Header Shadow</Label>
-                  <Switch
-                    checked={style.headerShadow}
-                    onCheckedChange={(checked) => updateStyle("headerShadow", checked)}
-                  />
-                </div>
-              )}
-              {selectedElement === "input" && (
-                <div className="flex items-center justify-between">
-                  <Label className="text-xs font-medium text-muted-foreground">Input Shadow</Label>
-                  <Switch
-                    checked={style.inputShadow}
-                    onCheckedChange={(checked) => updateStyle("inputShadow", checked)}
-                  />
-                </div>
-              )}
-              {selectedElement === "bubble" && (
-                <div className="flex items-center justify-between">
-                  <Label className="text-xs font-medium text-muted-foreground">Bubble Shadow</Label>
-                  <Switch
-                    checked={style.bubbleShadow}
-                    onCheckedChange={(checked) => updateStyle("bubbleShadow", checked)}
-                  />
-                </div>
-              )}
-            </div>
-            {style.enableAnimations && (
-              <NumericInput
-                label="Duration"
-                value={style.animationSpeed}
-                onChange={(value) => updateStyle("animationSpeed", value)}
-                min={100}
-                max={1000}
-                step={50}
-                unit="ms"
-              />
-            )}
-          </PropertySection>
-
-          <PropertySection title="Typography" icon={Type} sectionKey="typography" badge="Text">
-            <NumericInput
-              label="Font Size"
-              value={style.fontSize}
-              onChange={(value) => updateStyle("fontSize", value)}
-              min={10}
-              max={24}
-              unit="px"
-            />
-            <NumericInput
-              label="Letter Spacing"
-              value={style.letterSpacing}
-              onChange={(value) => updateStyle("letterSpacing", value)}
-              min={-2}
-              max={4}
-              step={0.1}
-              unit="px"
-            />
-            <NumericInput
-              label="Line Height"
-              value={style.lineHeight}
-              onChange={(value) => updateStyle("lineHeight", value)}
-              min={1}
-              max={2}
-              step={0.1}
-            />
-            <div className="space-y-2">
-              <Label className="text-xs font-medium text-muted-foreground">Font Weight</Label>
-              <Select value={style.fontWeight} onValueChange={(value) => updateStyle("fontWeight", value)}>
-                <SelectTrigger className="h-8 text-xs bg-input border-border">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="300">Light</SelectItem>
-                  <SelectItem value="400">Regular</SelectItem>
-                  <SelectItem value="500">Medium</SelectItem>
-                  <SelectItem value="600">Semibold</SelectItem>
-                  <SelectItem value="700">Bold</SelectItem>
-                </SelectContent>
-              </Select>
+            <div className="flex items-center justify-between">
+              <Label className="text-xs font-medium text-muted-foreground">Shadow</Label>
+              <Switch checked={style.chatWindowShadow} onCheckedChange={(checked) => updateStyle("chatWindowShadow", checked)} />
             </div>
           </PropertySection>
 
-          <PropertySection title="Layout" icon={Settings} sectionKey="layout" badge="Spacing">
+          <PropertySection title="Header" icon={Settings} sectionKey="header">
+            <TextInput
+              label="Title"
+              value={style.headerTitle}
+              onChange={(value) => updateStyle("headerTitle", value)}
+              placeholder="Chat Support"
+            />
+            <TextInput
+              label="Subtitle"
+              value={style.headerSubtitle}
+              onChange={(value) => updateStyle("headerSubtitle", value)}
+              placeholder="Đang hoạt động"
+            />
+            <ColorInput
+              label="Background Color"
+              value={style.headerBackgroundColor}
+              onChange={(value) => updateStyle("headerBackgroundColor", value)}
+            />
+            <ColorInput
+              label="Text Color"
+              value={style.headerTextColor}
+              onChange={(value) => updateStyle("headerTextColor", value)}
+            />
             <NumericInput
-              label="Padding X"
-              value={style.paddingX}
-              onChange={(value) => updateStyle("paddingX", value)}
-              min={8}
-              max={32}
+              label="Height"
+              value={style.headerHeight}
+              onChange={(value) => updateStyle("headerHeight", value)}
+              min={50}
+              max={120}
               step={2}
               unit="px"
             />
+            <div className="flex items-center justify-between">
+              <Label className="text-xs font-medium text-muted-foreground">Show Status</Label>
+              <Switch checked={style.headerShowStatus} onCheckedChange={(checked) => updateStyle("headerShowStatus", checked)} />
+            </div>
+          </PropertySection>
+
+          <PropertySection title="Messages" icon={Settings} sectionKey="messages">
+            <ColorInput
+              label="Area Background Color"
+              value={style.messageAreaBackgroundColor}
+              onChange={(value) => updateStyle("messageAreaBackgroundColor", value)}
+            />
             <NumericInput
-              label="Padding Y"
-              value={style.paddingY}
-              onChange={(value) => updateStyle("paddingY", value)}
+              label="Area Padding"
+              value={style.messageAreaPadding}
+              onChange={(value) => updateStyle("messageAreaPadding", value)}
               min={8}
-              max={24}
+              max={32}
               step={2}
               unit="px"
             />
@@ -1124,36 +994,97 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
               unit="px"
             />
             <NumericInput
-              label="Max Width"
-              value={style.maxWidth}
-              onChange={(value) => updateStyle("maxWidth", value)}
-              min={280}
-              max={600}
-              step={10}
+              label="Bubble Radius"
+              value={style.messageBubbleRadius}
+              onChange={(value) => updateStyle("messageBubbleRadius", value)}
+              min={0}
+              max={40}
               unit="px"
             />
-            {selectedElement === "header" && (
-              <NumericInput
-                label="Header Height"
-                value={style.headerHeight}
-                onChange={(value) => updateStyle("headerHeight", value)}
-                min={50}
-                max={120}
-                step={2}
-                unit="px"
-              />
-            )}
-            {selectedElement === "input" && (
-              <NumericInput
-                label="Input Height"
-                value={style.inputHeight}
-                onChange={(value) => updateStyle("inputHeight", value)}
-                min={36}
-                max={72}
-                step={2}
-                unit="px"
-              />
-            )}
+            <div className="flex items-center justify-between">
+              <Label className="text-xs font-medium text-muted-foreground">Show Timestamp</Label>
+              <Switch checked={style.showMessageTimestamp} onCheckedChange={(checked) => updateStyle("showMessageTimestamp", checked)} />
+            </div>
+            <ColorInput
+              label="Bot Bubble Color"
+              value={style.botMessageBackgroundColor}
+              onChange={(value) => updateStyle("botMessageBackgroundColor", value)}
+            />
+            <ColorInput
+              label="Bot Text Color"
+              value={style.botMessageTextColor}
+              onChange={(value) => updateStyle("botMessageTextColor", value)}
+            />
+            <ColorInput
+              label="User Bubble Color"
+              value={style.userMessageBackgroundColor}
+              onChange={(value) => updateStyle("userMessageBackgroundColor", value)}
+            />
+            <ColorInput
+              label="User Text Color"
+              value={style.userMessageTextColor}
+              onChange={(value) => updateStyle("userMessageTextColor", value)}
+            />
+          </PropertySection>
+
+          <PropertySection title="Input" icon={Settings} sectionKey="input">
+            <ColorInput
+              label="Background Color"
+              value={style.inputBackgroundColor}
+              onChange={(value) => updateStyle("inputBackgroundColor", value)}
+            />
+            <NumericInput
+              label="Border Radius"
+              value={style.inputBorderRadius}
+              onChange={(value) => updateStyle("inputBorderRadius", value)}
+              min={0}
+              max={40}
+              unit="px"
+            />
+            <TextInput
+              label="Placeholder Text"
+              value={style.placeholderText}
+              onChange={(value) => updateStyle("placeholderText", value)}
+              placeholder="Nhập tin nhắn của bạn..."
+            />
+          </PropertySection>
+
+          <PropertySection title="Welcome" icon={Settings} sectionKey="welcome">
+            <TextInput
+              label="Welcome Message"
+              value={style.welcomeMessage}
+              onChange={(value) => updateStyle("welcomeMessage", value)}
+              placeholder="Xin chào! Tôi có thể giúp gì cho bạn hôm nay?"
+            />
+          </PropertySection>
+
+          <PropertySection title="Branding" icon={Settings} sectionKey="branding">
+            <div className="flex items-center justify-between">
+              <Label className="text-xs font-medium text-muted-foreground">Show Avatar</Label>
+              <Switch checked={style.showAvatar} onCheckedChange={(checked) => updateStyle("showAvatar", checked)} />
+            </div>
+            <div className="flex items-center justify-between">
+              <Label className="text-xs font-medium text-muted-foreground">Show Logo</Label>
+              <Switch checked={style.showLogo} onCheckedChange={(checked) => updateStyle("showLogo", checked)} />
+            </div>
+          </PropertySection>
+
+          <PropertySection title="Typography" icon={Type} sectionKey="typography" badge="Text">
+            <NumericInput
+              label="Base Font Size"
+              value={style.baseFontSize}
+              onChange={(value) => updateStyle("baseFontSize", value)}
+              min={10}
+              max={24}
+              unit="px"
+            />
+          </PropertySection>
+
+          <PropertySection title="Animation" icon={Settings} sectionKey="animation">
+            <div className="flex items-center justify-between">
+              <Label className="text-xs font-medium text-muted-foreground">Enable Animations</Label>
+              <Switch checked={style.animationEnabled} onCheckedChange={(checked) => updateStyle("animationEnabled", checked)} />
+            </div>
           </PropertySection>
         </div>
       </div>
