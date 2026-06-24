@@ -78,7 +78,8 @@ export const ChatPreview = React.memo(function ChatPreview({
             borderRadius: `${style.borderRadius}px`,
             boxShadow: style.chatWindowShadow ? "0 8px 24px rgba(0,0,0,0.15)" : "none",
             transition: style.animationEnabled ? "all 200ms cubic-bezier(0.4, 0, 0.2, 1)" : "none",
-            maxWidth: `${style.chatWindowWidth}px`,
+            width: `${style.chatWindowWidth}px`,
+            maxWidth: "100%",
             height: `${style.chatWindowHeight}px`,
             fontFamily: style.fontFamily,
           }}
