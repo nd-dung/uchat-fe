@@ -81,7 +81,6 @@ export default function ChatbotStudioPage() {
         <ChatbotFormDialog
           open={dialogOpen}
           onOpenChange={setDialogOpen}
-          editingChatbot={null}
           isSubmitting={createMutation.isPending}
           onSubmit={handleCreate}
         />
