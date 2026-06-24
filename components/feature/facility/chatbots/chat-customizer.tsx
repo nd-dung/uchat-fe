@@ -1,7 +1,7 @@
 "use client"
 
-import type React from "react"
-import { useState, useRef, useEffect } from "react"
+import * as React from "react"
+import { useState, useCallback, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -39,6 +39,7 @@ import {
   Minus,
   Plus,
   Loader2Icon,
+  type LucideIcon,
 } from "lucide-react"
 
 interface ChatStyle {
@@ -255,6 +256,217 @@ const sampleMessages = [
   },
 ]
 
+interface PropertySectionProps {
+  title: string
+  icon: LucideIcon
+  sectionKey: string
+  children: React.ReactNode
+  badge?: string
+  isCollapsed: boolean
+  onToggle: (key: string) => void
+}
+
+const PropertySection = React.memo(function PropertySection({
+  title,
+  icon: Icon,
+  sectionKey,
+  children,
+  badge,
+  isCollapsed,
+  onToggle,
+}: PropertySectionProps) {
+  const handleToggle = useCallback(() => onToggle(sectionKey), [onToggle, sectionKey])
+
+  return (
+    <div className="border border-border rounded-lg bg-card/50 backdrop-blur-sm">
+      <button
+        onClick={handleToggle}
+        className="w-full flex items-center justify-between p-3 hover:bg-accent/10 transition-colors rounded-t-lg"
+      >
+        <div className="flex items-center gap-2">
+          <Icon className="w-4 h-4 text-primary" />
+          <span className="font-medium text-sm text-foreground">{title}</span>
+          {badge && (
+            <Badge variant="secondary" className="text-xs">
+              {badge}
+            </Badge>
+          )}
+        </div>
+        {isCollapsed ? (
+          <ChevronRight className="w-4 h-4 text-muted-foreground" />
+        ) : (
+          <ChevronDown className="w-4 h-4 text-muted-foreground" />
+        )}
+      </button>
+      {!isCollapsed && <div className="p-3 pt-0 space-y-4 border-t border-border/50">{children}</div>}
+    </div>
+  )
+})
+
+interface NumericInputProps {
+  label: string
+  value: number
+  onChange: (value: number) => void
+  min?: number
+  max?: number
+  step?: number
+  unit?: string
+}
+
+const NumericInput = React.memo(function NumericInput({
+  label,
+  value,
+  onChange,
+  min = 0,
+  max = 100,
+  step = 1,
+  unit = "",
+}: NumericInputProps) {
+  const [isDragging, setIsDragging] = useState(false)
+  const [startValue, setStartValue] = useState(0)
+  const [startY, setStartY] = useState(0)
+
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    setIsDragging(true)
+    setStartValue(value)
+    setStartY(e.clientY)
+    document.body.style.cursor = "ns-resize"
+  }, [value])
+
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => onChange(Number(e.target.value)),
+    [onChange]
+  )
+
+  const handleSliderChange = useCallback((val: number[]) => onChange(val[0]), [onChange])
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDragging) return
+      const deltaY = startY - e.clientY
+      const newValue = Math.max(min, Math.min(max, startValue + deltaY * step))
+      onChange(newValue)
+    }
+
+    const handleMouseUp = () => {
+      setIsDragging(false)
+      document.body.style.cursor = "default"
+    }
+
+    if (isDragging) {
+      document.addEventListener("mousemove", handleMouseMove)
+      document.addEventListener("mouseup", handleMouseUp)
+    }
+
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove)
+      document.removeEventListener("mouseup", handleMouseUp)
+    }
+  }, [isDragging, startY, startValue, min, max, step, onChange])
+
+  return (
+    <div className="space-y-2">
+      <div className="flex items-center justify-between">
+        <Label className="text-xs font-medium text-muted-foreground">{label}</Label>
+        <div className="flex items-center gap-1">
+          <Input
+            type="number"
+            value={value}
+            onChange={handleInputChange}
+            onMouseDown={handleMouseDown}
+            className="w-16 h-7 text-xs text-right border-0 bg-input rounded px-2 cursor-ns-resize select-none"
+            min={min}
+            max={max}
+            step={step}
+          />
+          <span className="text-xs text-muted-foreground min-w-[20px]">{unit}</span>
+        </div>
+      </div>
+      <Slider
+        value={[value]}
+        onValueChange={handleSliderChange}
+        min={min}
+        max={max}
+        step={step}
+        className="w-full"
+      />
+    </div>
+  )
+})
+
+interface ColorInputProps {
+  label: string
+  value: string
+  onChange: (value: string) => void
+}
+
+const ColorInput = React.memo(function ColorInput({ label, value, onChange }: ColorInputProps) {
+  const handleColorChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value),
+    [onChange]
+  )
+  const handleTextChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value),
+    [onChange]
+  )
+
+  return (
+    <div className="space-y-2">
+      <Label className="text-xs font-medium text-muted-foreground">{label}</Label>
+      <div className="flex items-center gap-2">
+        <div
+          className="w-10 h-8 rounded-md border-2 border-border cursor-pointer relative overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+          style={{ backgroundColor: value }}
+        >
+          <Input
+            type="color"
+            value={value}
+            onChange={handleColorChange}
+            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          />
+        </div>
+        <Input
+          value={value}
+          onChange={handleTextChange}
+          className="flex-1 h-8 text-xs font-mono bg-input border-border"
+          placeholder="#000000"
+        />
+      </div>
+    </div>
+  )
+})
+
+interface TextInputProps {
+  label: string
+  value: string
+  onChange: (value: string) => void
+  placeholder?: string
+}
+
+const TextInput = React.memo(function TextInput({
+  label,
+  value,
+  onChange,
+  placeholder,
+}: TextInputProps) {
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value),
+    [onChange]
+  )
+
+  return (
+    <div className="space-y-2">
+      <Label className="text-xs font-medium text-muted-foreground">{label}</Label>
+      <Input
+        value={value}
+        onChange={handleChange}
+        placeholder={placeholder}
+        className="h-8 text-xs bg-input border-border"
+      />
+    </div>
+  )
+})
+
 interface ChatCustomizerProps {
   chatbotId: number
 }
@@ -266,11 +478,9 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
   const [hasLocalChanges, setHasLocalChanges] = useState(false)
   const [activeDevice, setActiveDevice] = useState<keyof typeof deviceSizes>("desktop")
   const [message, setMessage] = useState("")
-  const [selectedElement, setSelectedElement] = useState<string>("container")
   const [collapsedSections, setCollapsedSections] = useState<{ [key: string]: boolean }>({})
   const [zoomLevel, setZoomLevel] = useState(100)
 
-  const canvasRef = useRef<HTMLDivElement>(null)
   const updateMutation = useUpdateChatbotUiSetting()
 
   useEffect(() => {
@@ -280,10 +490,10 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
     }
   }, [uiSetting])
 
-  const updateStyle = (key: keyof ChatStyle, value: string | number | boolean) => {
+  const updateStyle = useCallback((key: keyof ChatStyle, value: string | number | boolean) => {
     setStyle((prev) => ({ ...prev, [key]: value }))
     setHasLocalChanges(true)
-  }
+  }, [])
 
   const handleSave = async () => {
     try {
@@ -297,21 +507,15 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
     }
   }
 
-  const handleElementClick = (elementType: string, event?: React.MouseEvent) => {
-    if (event) event.stopPropagation()
-    setSelectedElement(elementType)
-  }
-
-  const toggleSection = (sectionKey: string) => {
+  const toggleSection = useCallback((sectionKey: string) => {
     setCollapsedSections((prev) => ({
       ...prev,
       [sectionKey]: !prev[sectionKey],
     }))
-  }
+  }, [])
 
   const resetToDefault = () => {
     setStyle(defaultStyle)
-    setSelectedElement("container")
   }
 
   const exportConfig = () => {
@@ -381,184 +585,6 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
     navigator.clipboard.writeText(css)
   }
 
-  const PropertySection = ({
-    title,
-    icon: Icon,
-    sectionKey,
-    children,
-    badge,
-  }: {
-    title: string
-    icon: any
-    sectionKey: string
-    children: React.ReactNode
-    badge?: string
-  }) => {
-    const isCollapsed = collapsedSections[sectionKey]
-
-    return (
-      <div className="border border-border rounded-lg bg-card/50 backdrop-blur-sm">
-        <button
-          onClick={() => toggleSection(sectionKey)}
-          className="w-full flex items-center justify-between p-3 hover:bg-accent/10 transition-colors rounded-t-lg"
-        >
-          <div className="flex items-center gap-2">
-            <Icon className="w-4 h-4 text-primary" />
-            <span className="font-medium text-sm text-foreground">{title}</span>
-            {badge && (
-              <Badge variant="secondary" className="text-xs">
-                {badge}
-              </Badge>
-            )}
-          </div>
-          {isCollapsed ? (
-            <ChevronRight className="w-4 h-4 text-muted-foreground" />
-          ) : (
-            <ChevronDown className="w-4 h-4 text-muted-foreground" />
-          )}
-        </button>
-        {!isCollapsed && <div className="p-3 pt-0 space-y-4 border-t border-border/50">{children}</div>}
-      </div>
-    )
-  }
-
-  const NumericInput = ({
-    label,
-    value,
-    onChange,
-    min = 0,
-    max = 100,
-    step = 1,
-    unit = "",
-  }: {
-    label: string
-    value: number
-    onChange: (value: number) => void
-    min?: number
-    max?: number
-    step?: number
-    unit?: string
-  }) => {
-    const [isDragging, setIsDragging] = useState(false)
-    const [startValue, setStartValue] = useState(0)
-    const [startY, setStartY] = useState(0)
-
-    const handleMouseDown = (e: React.MouseEvent) => {
-      setIsDragging(true)
-      setStartValue(value)
-      setStartY(e.clientY)
-      document.body.style.cursor = "ns-resize"
-    }
-
-    useEffect(() => {
-      const handleMouseMove = (e: MouseEvent) => {
-        if (!isDragging) return
-        const deltaY = startY - e.clientY
-        const newValue = Math.max(min, Math.min(max, startValue + deltaY * step))
-        onChange(newValue)
-      }
-
-      const handleMouseUp = () => {
-        setIsDragging(false)
-        document.body.style.cursor = "default"
-      }
-
-      if (isDragging) {
-        document.addEventListener("mousemove", handleMouseMove)
-        document.addEventListener("mouseup", handleMouseUp)
-      }
-
-      return () => {
-        document.removeEventListener("mousemove", handleMouseMove)
-        document.removeEventListener("mouseup", handleMouseUp)
-      }
-    }, [isDragging, startY, startValue, min, max, step, onChange])
-
-    return (
-      <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <Label className="text-xs font-medium text-muted-foreground">{label}</Label>
-          <div className="flex items-center gap-1">
-            <Input
-              type="number"
-              value={value}
-              onChange={(e) => onChange(Number(e.target.value))}
-              onMouseDown={handleMouseDown}
-              className="w-16 h-7 text-xs text-right border-0 bg-input rounded px-2 cursor-ns-resize select-none"
-              min={min}
-              max={max}
-              step={step}
-            />
-            <span className="text-xs text-muted-foreground min-w-[20px]">{unit}</span>
-          </div>
-        </div>
-        <Slider
-          value={[value]}
-          onValueChange={(val: number[]) => onChange(val[0])}
-          min={min}
-          max={max}
-          step={step}
-          className="w-full"
-        />
-      </div>
-    )
-  }
-
-  const ColorInput = ({
-    label,
-    value,
-    onChange,
-  }: {
-    label: string
-    value: string
-    onChange: (value: string) => void
-  }) => (
-    <div className="space-y-2">
-      <Label className="text-xs font-medium text-muted-foreground">{label}</Label>
-      <div className="flex items-center gap-2">
-        <div
-          className="w-10 h-8 rounded-md border-2 border-border cursor-pointer relative overflow-hidden shadow-sm hover:shadow-md transition-shadow"
-          style={{ backgroundColor: value }}
-        >
-          <Input
-            type="color"
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-          />
-        </div>
-        <Input
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className="flex-1 h-8 text-xs font-mono bg-input border-border"
-          placeholder="#000000"
-        />
-      </div>
-    </div>
-  )
-
-  const TextInput = ({
-    label,
-    value,
-    onChange,
-    placeholder,
-  }: {
-    label: string
-    value: string
-    onChange: (value: string) => void
-    placeholder?: string
-  }) => (
-    <div className="space-y-2">
-      <Label className="text-xs font-medium text-muted-foreground">{label}</Label>
-      <Input
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        className="h-8 text-xs bg-input border-border"
-      />
-    </div>
-  )
-
   if (isLoadingUiSetting) {
     return (
       <div className="flex flex-1 items-center justify-center text-muted-foreground">
@@ -613,10 +639,7 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
           </div>
         </div>
 
-        <div
-          ref={canvasRef}
-          className="flex-1 p-8 overflow-auto bg-muted/20 custom-scrollbar"
-        >
+        <div className="flex-1 p-8 overflow-auto bg-muted/20 custom-scrollbar">
           <div className="flex justify-center items-center min-h-full">
             <div
               className="transition-all duration-300 figma-hover"
@@ -628,9 +651,7 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
               }}
             >
               <div
-                className={`rounded-lg overflow-hidden cursor-pointer shadow-2xl relative ${
-                  selectedElement === "container" ? "ring-2 ring-primary ring-offset-2 ring-offset-background" : ""
-                }`}
+                className="rounded-lg overflow-hidden shadow-2xl relative"
                 style={{
                   backgroundColor: style.backgroundColor,
                   borderColor: style.chatWindowBorderColor,
@@ -641,13 +662,10 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
                   transition: style.animationEnabled ? "all 200ms cubic-bezier(0.4, 0, 0.2, 1)" : "none",
                   maxWidth: `${style.chatWindowWidth}px`,
                 }}
-                onClick={() => handleElementClick("container")}
               >
                 {/* Header */}
                 <div
-                  className={`p-4 border-b cursor-pointer hover:bg-opacity-90 transition-all relative ${
-                    selectedElement === "header" ? "ring-2 ring-primary ring-inset" : ""
-                  }`}
+                  className="p-4 border-b"
                   style={{
                     borderColor: style.chatWindowBorderColor,
                     backgroundColor: style.headerBackgroundColor,
@@ -657,7 +675,6 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
                     paddingLeft: `${style.messageAreaPadding}px`,
                     paddingRight: `${style.messageAreaPadding}px`,
                   }}
-                  onClick={(e) => handleElementClick("header", e)}
                 >
                   <div className="flex items-center gap-3">
                     <div
@@ -691,15 +708,12 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
 
                 {/* Messages */}
                 <div
-                  className={`p-4 h-80 overflow-y-auto cursor-pointer custom-scrollbar ${
-                    selectedElement === "messages" ? "ring-2 ring-primary ring-inset" : ""
-                  }`}
+                  className="p-4 h-80 overflow-y-auto custom-scrollbar"
                   style={{
                     backgroundColor: style.messageAreaBackgroundColor,
                     paddingLeft: `${style.messageAreaPadding}px`,
                     paddingRight: `${style.messageAreaPadding}px`,
                   }}
-                  onClick={(e) => handleElementClick("messages", e)}
                 >
                   <div style={{ gap: `${style.messageSpacing}px` }} className="flex flex-col">
                     {sampleMessages.map((msg, index) => (
@@ -707,16 +721,14 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
                         <div className="flex items-end gap-3 max-w-[85%]">
                           {msg.type === "bot" && style.showAvatar && (
                             <div
-                              className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 shadow-md"
+                              className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 shadow-md"
                               style={{ backgroundColor: style.primaryColor }}
                             >
                               <Bot className="w-4 h-4" style={{ color: style.userMessageTextColor }} />
                             </div>
                           )}
                           <div
-                            className={`px-4 py-3 rounded-lg cursor-pointer hover:scale-[1.02] transition-all figma-transition relative ${
-                              selectedElement === "bubble" ? "ring-2 ring-primary" : ""
-                            }`}
+                            className="px-4 py-3 rounded-lg transition-all figma-transition"
                             style={{
                               backgroundColor: msg.type === "user" ? style.userMessageBackgroundColor : style.botMessageBackgroundColor,
                               color: msg.type === "user" ? style.userMessageTextColor : style.botMessageTextColor,
@@ -724,7 +736,6 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
                               fontSize: `${style.baseFontSize}px`,
                               transition: style.animationEnabled ? "all 200ms cubic-bezier(0.4, 0, 0.2, 1)" : "none",
                             }}
-                            onClick={(e) => handleElementClick("bubble", e)}
                           >
                             <p>{msg.text}</p>
                             {style.showMessageTimestamp && (
@@ -733,7 +744,7 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
                           </div>
                           {msg.type === "user" && style.showAvatar && (
                             <div
-                              className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 shadow-md"
+                              className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 shadow-md"
                               style={{ backgroundColor: style.primaryColor }}
                             >
                               <User className="w-4 h-4" style={{ color: style.userMessageTextColor }} />
@@ -747,16 +758,13 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
 
                 {/* Input */}
                 <div
-                  className={`p-4 border-t cursor-pointer hover:bg-opacity-90 transition-colors ${
-                    selectedElement === "input" ? "ring-2 ring-primary ring-inset" : ""
-                  }`}
+                  className="p-4 border-t"
                   style={{
                     borderColor: style.chatWindowBorderColor,
                     backgroundColor: style.inputBackgroundColor,
                     paddingLeft: `${style.messageAreaPadding}px`,
                     paddingRight: `${style.messageAreaPadding}px`,
                   }}
-                  onClick={(e) => handleElementClick("input", e)}
                 >
                   <div className="flex gap-3">
                     <Input
@@ -814,18 +822,16 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
               </Button>
             </div>
           </div>
-          {selectedElement && (
-            <div className="mt-3 flex items-center gap-2">
-              <Badge variant="outline" className="text-xs font-medium">
-                {selectedElement.charAt(0).toUpperCase() + selectedElement.slice(1)}
-              </Badge>
-              <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            </div>
-          )}
         </div>
 
         <div className="flex-1 overflow-auto p-4 space-y-4 custom-scrollbar">
-          <PropertySection title="Theme" icon={Palette} sectionKey="theme">
+          <PropertySection
+            title="Theme"
+            icon={Palette}
+            sectionKey="theme"
+            isCollapsed={collapsedSections.theme}
+            onToggle={toggleSection}
+          >
             <ColorInput
               label="Primary Color"
               value={style.primaryColor}
@@ -838,7 +844,14 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
             />
           </PropertySection>
 
-          <PropertySection title="Chat Window" icon={Settings} sectionKey="chatWindow" badge="Window">
+          <PropertySection
+            title="Chat Window"
+            icon={Settings}
+            sectionKey="chatWindow"
+            badge="Window"
+            isCollapsed={collapsedSections.chatWindow}
+            onToggle={toggleSection}
+          >
             <div className="space-y-2">
               <Label className="text-xs font-medium text-muted-foreground">Position</Label>
               <Select value={style.chatWindowPosition} onValueChange={(value) => updateStyle("chatWindowPosition", value as ChatStyle["chatWindowPosition"])}>
@@ -899,7 +912,13 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
             </div>
           </PropertySection>
 
-          <PropertySection title="Header" icon={Settings} sectionKey="header">
+          <PropertySection
+            title="Header"
+            icon={Settings}
+            sectionKey="header"
+            isCollapsed={collapsedSections.header}
+            onToggle={toggleSection}
+          >
             <TextInput
               label="Title"
               value={style.headerTitle}
@@ -937,7 +956,13 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
             </div>
           </PropertySection>
 
-          <PropertySection title="Messages" icon={Settings} sectionKey="messages">
+          <PropertySection
+            title="Messages"
+            icon={Settings}
+            sectionKey="messages"
+            isCollapsed={collapsedSections.messages}
+            onToggle={toggleSection}
+          >
             <ColorInput
               label="Area Background Color"
               value={style.messageAreaBackgroundColor}
@@ -995,7 +1020,13 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
             />
           </PropertySection>
 
-          <PropertySection title="Input" icon={Settings} sectionKey="input">
+          <PropertySection
+            title="Input"
+            icon={Settings}
+            sectionKey="input"
+            isCollapsed={collapsedSections.input}
+            onToggle={toggleSection}
+          >
             <ColorInput
               label="Background Color"
               value={style.inputBackgroundColor}
@@ -1017,7 +1048,13 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
             />
           </PropertySection>
 
-          <PropertySection title="Welcome" icon={Settings} sectionKey="welcome">
+          <PropertySection
+            title="Welcome"
+            icon={Settings}
+            sectionKey="welcome"
+            isCollapsed={collapsedSections.welcome}
+            onToggle={toggleSection}
+          >
             <TextInput
               label="Welcome Message"
               value={style.welcomeMessage}
@@ -1026,7 +1063,13 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
             />
           </PropertySection>
 
-          <PropertySection title="Branding" icon={Settings} sectionKey="branding">
+          <PropertySection
+            title="Branding"
+            icon={Settings}
+            sectionKey="branding"
+            isCollapsed={collapsedSections.branding}
+            onToggle={toggleSection}
+          >
             <div className="flex items-center justify-between">
               <Label className="text-xs font-medium text-muted-foreground">Show Avatar</Label>
               <Switch checked={style.showAvatar} onCheckedChange={(checked) => updateStyle("showAvatar", checked)} />
@@ -1037,7 +1080,14 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
             </div>
           </PropertySection>
 
-          <PropertySection title="Typography" icon={Type} sectionKey="typography" badge="Text">
+          <PropertySection
+            title="Typography"
+            icon={Type}
+            sectionKey="typography"
+            badge="Text"
+            isCollapsed={collapsedSections.typography}
+            onToggle={toggleSection}
+          >
             <NumericInput
               label="Base Font Size"
               value={style.baseFontSize}
@@ -1048,7 +1098,13 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
             />
           </PropertySection>
 
-          <PropertySection title="Animation" icon={Settings} sectionKey="animation">
+          <PropertySection
+            title="Animation"
+            icon={Settings}
+            sectionKey="animation"
+            isCollapsed={collapsedSections.animation}
+            onToggle={toggleSection}
+          >
             <div className="flex items-center justify-between">
               <Label className="text-xs font-medium text-muted-foreground">Enable Animations</Label>
               <Switch checked={style.animationEnabled} onCheckedChange={(checked) => updateStyle("animationEnabled", checked)} />
