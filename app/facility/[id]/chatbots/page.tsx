@@ -67,13 +67,15 @@ export default function ChatbotStudioPage() {
       <div className="flex flex-1 flex-col gap-6 p-4 pt-0">
         <div>
           <h1 className="text-lg font-semibold">Chatbot Studio</h1>
-          <p className="text-sm text-muted-foreground">Tạo và tùy chỉnh giao diện chatbot duy nhất của khoa</p>
+          <p className="text-sm text-muted-foreground">Tạo và tùy chỉnh giao diện chatbot</p>
         </div>
 
         {isLoadingChatbots ? (
           <div className="flex flex-1 items-center justify-center text-muted-foreground">Đang tải...</div>
         ) : chatbot ? (
-          <ChatCustomizer chatbotId={chatbot.id} />
+          <div className="h-[calc(100vh-12rem)] min-h-[500px] overflow-hidden rounded-lg border">
+            <ChatCustomizer chatbotId={chatbot.id} />
+          </div>
         ) : (
           <ChatbotEmptyState onCreate={openCreate} />
         )}

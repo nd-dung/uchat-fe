@@ -30,7 +30,6 @@ import {
   Bot,
   ChevronDown,
   ChevronRight,
-  Layers,
   Palette,
   Type,
   Settings,
@@ -39,7 +38,6 @@ import {
   Download,
   Minus,
   Plus,
-  Square,
   Loader2Icon,
 } from "lucide-react"
 
@@ -571,39 +569,9 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
   }
 
   return (
-    <div className="h-screen flex bg-background text-foreground">
-      <div className="w-64 bg-card border-r border-border flex flex-col">
-        <div className="p-4 border-b border-border">
-          <h3 className="font-semibold text-sm flex items-center gap-2 text-foreground">
-            <Layers className="w-4 h-4 text-primary" />
-            Layers
-          </h3>
-        </div>
-        <div className="flex-1 p-3 space-y-1 custom-scrollbar overflow-y-auto">
-          {[
-            { id: "container", name: "Container", icon: Square, color: "#8b5cf6" },
-            { id: "header", name: "Header", icon: Square, color: "#10b981" },
-            { id: "messages", name: "Messages Area", icon: Square, color: "#f59e0b" },
-            { id: "bubble", name: "Message Bubble", icon: Square, color: "#ef4444" },
-            { id: "input", name: "Input Field", icon: Square, color: "#06b6d4" },
-          ].map((layer) => (
-            <div
-              key={layer.id}
-              onClick={() => handleElementClick(layer.id)}
-              className={`flex items-center gap-3 p-2 rounded-md cursor-pointer hover:bg-accent/20 transition-all figma-transition group ${
-                selectedElement === layer.id ? "bg-primary/20 text-primary" : "text-foreground"
-              }`}
-            >
-              <div className="w-3 h-3 rounded-sm border border-border/50" style={{ backgroundColor: layer.color }} />
-              <span className="text-sm font-medium flex-1">{layer.name}</span>
-              {selectedElement === layer.id && <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="flex-1 flex flex-col">
-        <div className="h-14 bg-card border-b border-border flex items-center justify-between px-4">
+    <div className="h-full flex bg-background text-foreground overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0">
+        <div className="h-14 bg-card border-b border-border flex items-center justify-between px-4 shrink-0">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1 bg-muted/50 rounded-md p-1">
               <Button
