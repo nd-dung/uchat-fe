@@ -40,42 +40,17 @@ export interface ChatStyle {
   animationEnabled: boolean
 }
 
-const DEFAULT_MUTED_GRAY = "#9ca3af"
-const DEFAULT_STATUS_GREEN = "#22c55e"
+// Minimal fallback values only used when the backend returns an unexpected missing value.
+// The backend is the single source of truth and provides defaults for every field.
+const FALLBACK_PRIMARY_COLOR = "#4f46e5"
+const FALLBACK_BACKGROUND_COLOR = "#ffffff"
+const FALLBACK_TEXT_COLOR = "#111827"
+const FALLBACK_MUTED_TEXT = "#6b7280"
+const FALLBACK_BORDER_COLOR = "#e5e7eb"
 
-export const defaultStyle: ChatStyle = {
-  primaryColor: "#4f46e5",
-  backgroundColor: "#ffffff",
-  headerBackgroundColor: "#ffffff",
-  headerTextColor: "#111827",
-  headerTitle: "Chat Support",
-  headerSubtitle: "Đang hoạt động",
-  headerHeight: 72,
-  headerShowStatus: true,
-  botMessageBackgroundColor: "#f3f4f6",
-  botMessageTextColor: "#111827",
-  userMessageBackgroundColor: "#4f46e5",
-  userMessageTextColor: "#ffffff",
-  chatWindowBorderColor: "#e5e7eb",
-  chatWindowBorderWidth: 1,
-  chatWindowWidth: 400,
-  chatWindowHeight: 600,
-  chatWindowShadow: false,
-  chatWindowPosition: "bottom_right",
-  borderRadius: 12,
-  messageBubbleRadius: 12,
-  messageAreaBackgroundColor: "#f9fafb",
-  messageAreaPadding: 16,
-  messageSpacing: 16,
-  showMessageTimestamp: false,
-  baseFontSize: 14,
-  inputBackgroundColor: "#ffffff",
-  inputBorderRadius: 12,
-  placeholderText: "Nhập tin nhắn của bạn...",
-  welcomeMessage: "Xin chào! Tôi có thể giúp gì cho bạn hôm nay?",
-  showAvatar: true,
-  showLogo: false,
-  animationEnabled: true,
+function withFallback(value: string | null | undefined, fallback: string): string {
+  if (typeof value === "string" && value.trim().length > 0) return value
+  return fallback
 }
 
 export function apiToStyle(api: ChatbotUiSettingResponseDto): ChatStyle {
@@ -88,69 +63,72 @@ export function apiToStyle(api: ChatbotUiSettingResponseDto): ChatStyle {
   const welcome = api.welcome
 
   return {
-    primaryColor: api.primary_color ?? defaultStyle.primaryColor,
-    backgroundColor: api.background_color ?? defaultStyle.backgroundColor,
-    headerBackgroundColor: api.header_background_color ?? defaultStyle.headerBackgroundColor,
-    headerTextColor: api.header_text_color ?? defaultStyle.headerTextColor,
-    headerTitle: api.header_title ?? header?.header_title ?? defaultStyle.headerTitle,
-    headerSubtitle: api.header_subtitle ?? header?.header_subtitle ?? defaultStyle.headerSubtitle,
-    headerHeight: header?.header_height ?? defaultStyle.headerHeight,
-    headerShowStatus: header?.header_show_status ?? defaultStyle.headerShowStatus,
-    botMessageBackgroundColor: api.bot_message_background_color ?? defaultStyle.botMessageBackgroundColor,
-    botMessageTextColor: api.bot_message_text_color ?? defaultStyle.botMessageTextColor,
-    userMessageBackgroundColor: api.user_message_background_color ?? defaultStyle.userMessageBackgroundColor,
-    userMessageTextColor: api.user_message_text_color ?? defaultStyle.userMessageTextColor,
-    chatWindowBorderColor: chatWindow?.chat_window_border_color ?? defaultStyle.chatWindowBorderColor,
-    chatWindowBorderWidth: chatWindow?.chat_window_border_width ?? defaultStyle.chatWindowBorderWidth,
-    chatWindowWidth: chatWindow?.chat_window_width ?? api.chat_window_width ?? defaultStyle.chatWindowWidth,
-    chatWindowHeight: chatWindow?.chat_window_height ?? api.chat_window_height ?? defaultStyle.chatWindowHeight,
-    chatWindowShadow: chatWindow?.chat_window_shadow ?? defaultStyle.chatWindowShadow,
-    chatWindowPosition: chatWindow?.chat_window_position ?? api.chat_window_position ?? defaultStyle.chatWindowPosition,
-    borderRadius: chatWindow?.border_radius ?? api.border_radius ?? defaultStyle.borderRadius,
-    messageBubbleRadius: api.message_bubble_radius ?? defaultStyle.messageBubbleRadius,
-    messageAreaBackgroundColor: message?.message_area_background_color ?? api.background_color ?? defaultStyle.messageAreaBackgroundColor,
-    messageAreaPadding: message?.message_area_padding ?? defaultStyle.messageAreaPadding,
-    messageSpacing: message?.message_spacing ?? defaultStyle.messageSpacing,
-    showMessageTimestamp: message?.show_message_timestamp ?? defaultStyle.showMessageTimestamp,
-    baseFontSize: typography?.base_font_size ?? defaultStyle.baseFontSize,
-    inputBackgroundColor: input?.input_background_color ?? api.background_color ?? defaultStyle.inputBackgroundColor,
-    inputBorderRadius: input?.input_border_radius ?? defaultStyle.inputBorderRadius,
-    placeholderText: input?.placeholder_text ?? api.placeholder_text ?? defaultStyle.placeholderText,
-    welcomeMessage: welcome?.welcome_message ?? api.welcome_message ?? defaultStyle.welcomeMessage,
-    showAvatar: api.show_avatar ?? defaultStyle.showAvatar,
-    showLogo: api.show_logo ?? defaultStyle.showLogo,
-    animationEnabled: animation?.animation_enabled ?? defaultStyle.animationEnabled,
+    primaryColor: withFallback(api.primary_color, FALLBACK_PRIMARY_COLOR),
+    backgroundColor: withFallback(api.background_color, FALLBACK_BACKGROUND_COLOR),
+    headerBackgroundColor: withFallback(api.header_background_color, FALLBACK_BACKGROUND_COLOR),
+    headerTextColor: withFallback(api.header_text_color, FALLBACK_TEXT_COLOR),
+    headerTitle: api.header_title ?? header.header_title ?? "Chat Support",
+    headerSubtitle: api.header_subtitle ?? header.header_subtitle ?? "Đang hoạt động",
+    headerHeight: header.header_height,
+    headerShowStatus: header.header_show_status,
+    botMessageBackgroundColor: withFallback(api.bot_message_background_color, "#f3f4f6"),
+    botMessageTextColor: withFallback(api.bot_message_text_color, FALLBACK_TEXT_COLOR),
+    userMessageBackgroundColor: withFallback(api.user_message_background_color, FALLBACK_PRIMARY_COLOR),
+    userMessageTextColor: withFallback(api.user_message_text_color, FALLBACK_BACKGROUND_COLOR),
+    chatWindowBorderColor: withFallback(chatWindow.chat_window_border_color, FALLBACK_BORDER_COLOR),
+    chatWindowBorderWidth: chatWindow.chat_window_border_width,
+    chatWindowWidth: chatWindow.chat_window_width,
+    chatWindowHeight: chatWindow.chat_window_height,
+    chatWindowShadow: chatWindow.chat_window_shadow,
+    chatWindowPosition: chatWindow.chat_window_position,
+    borderRadius: chatWindow.border_radius,
+    messageBubbleRadius: api.message_bubble_radius,
+    messageAreaBackgroundColor: withFallback(message.message_area_background_color, api.background_color),
+    messageAreaPadding: message.message_area_padding,
+    messageSpacing: message.message_spacing,
+    showMessageTimestamp: message.show_message_timestamp,
+    baseFontSize: typography.base_font_size,
+    inputBackgroundColor: withFallback(input.input_background_color, api.background_color),
+    inputBorderRadius: input.input_border_radius,
+    placeholderText: input.placeholder_text ?? api.placeholder_text ?? "Nhập tin nhắn của bạn...",
+    welcomeMessage: welcome.welcome_message ?? api.welcome_message ?? "Xin chào! Tôi có thể giúp gì cho bạn hôm nay?",
+    showAvatar: api.show_avatar,
+    showLogo: api.show_logo,
+    animationEnabled: animation.animation_enabled,
   }
 }
 
-export function styleToApiUpdate(style: ChatStyle): UpdateChatbotUiSettingDto {
+export function styleToApiUpdate(
+  style: ChatStyle,
+  baseApiSetting: ChatbotUiSettingResponseDto
+): UpdateChatbotUiSettingDto {
   return {
     primary_color: style.primaryColor as unknown as UpdateChatbotUiSettingDto["primary_color"],
     background_color: style.backgroundColor as unknown as UpdateChatbotUiSettingDto["background_color"],
+    avatar_url: baseApiSetting.avatar_url as unknown as UpdateChatbotUiSettingDto["avatar_url"],
+    logo_url: baseApiSetting.logo_url as unknown as UpdateChatbotUiSettingDto["logo_url"],
+    launcher_icon_url: baseApiSetting.launcher_icon_url as unknown as UpdateChatbotUiSettingDto["launcher_icon_url"],
     chat_window: {
+      ...baseApiSetting.chat_window,
       chat_window_position: style.chatWindowPosition,
       chat_window_width: style.chatWindowWidth,
       chat_window_height: style.chatWindowHeight,
       chat_window_shadow: style.chatWindowShadow,
       chat_window_border_color: style.chatWindowBorderColor,
       chat_window_border_width: style.chatWindowBorderWidth,
-      chat_window_z_index: 1000,
-      mobile_fullscreen_enabled: false,
       border_radius: style.borderRadius,
     } as unknown as UpdateChatbotUiSettingDto["chat_window"],
     header: {
-      header_layout: "standard",
+      ...baseApiSetting.header,
       header_height: style.headerHeight,
       header_background_color: style.headerBackgroundColor,
       header_text_color: style.headerTextColor,
       header_title: style.headerTitle,
       header_subtitle: style.headerSubtitle,
       header_show_status: style.headerShowStatus,
-      header_status_text: "Đang hoạt động",
-      header_status_color: DEFAULT_STATUS_GREEN,
-      header_show_close_button: true,
     } as unknown as UpdateChatbotUiSettingDto["header"],
     message: {
+      ...baseApiSetting.message,
       message_area_background_color: style.messageAreaBackgroundColor,
       message_area_padding: style.messageAreaPadding,
       message_spacing: style.messageSpacing,
@@ -160,49 +138,34 @@ export function styleToApiUpdate(style: ChatStyle): UpdateChatbotUiSettingDto {
       user_message_background_color: style.userMessageBackgroundColor,
       user_message_text_color: style.userMessageTextColor,
       message_bubble_radius: style.messageBubbleRadius,
-      message_max_width_percent: 85,
     } as unknown as UpdateChatbotUiSettingDto["message"],
     typography: {
-      font_family: "Inter",
+      ...baseApiSetting.typography,
       base_font_size: style.baseFontSize,
       header_title_font_size: style.baseFontSize + 2,
-      header_subtitle_font_size: style.baseFontSize - 2,
+      header_subtitle_font_size: Math.max(10, style.baseFontSize - 2),
       message_font_size: style.baseFontSize,
       input_font_size: style.baseFontSize,
     } as unknown as UpdateChatbotUiSettingDto["typography"],
     input: {
+      ...baseApiSetting.input,
       placeholder_text: style.placeholderText,
       input_background_color: style.inputBackgroundColor,
-      input_text_color: style.headerTextColor,
-      input_placeholder_color: DEFAULT_MUTED_GRAY,
-      input_border_color: style.chatWindowBorderColor,
       input_border_radius: style.inputBorderRadius,
-      send_button_type: "icon",
-      send_button_background_color: style.primaryColor,
-      send_button_icon_color: "#ffffff",
-      send_button_text: "Gửi",
+      input_text_color: style.headerTextColor,
+      input_border_color: style.chatWindowBorderColor,
     } as unknown as UpdateChatbotUiSettingDto["input"],
     welcome: {
-      welcome_screen_enabled: false,
+      ...baseApiSetting.welcome,
+      welcome_message: style.welcomeMessage,
       welcome_title: style.headerTitle,
       welcome_subtitle: style.headerSubtitle,
-      welcome_message: style.welcomeMessage,
       welcome_background_color: style.backgroundColor,
     } as unknown as UpdateChatbotUiSettingDto["welcome"],
     animation: {
+      ...baseApiSetting.animation,
       animation_enabled: style.animationEnabled,
-      launcher_animation: "none",
-      chat_open_animation: "fade",
-      message_animation: "slide",
-      typing_indicator_enabled: true,
-      typing_indicator_style: "dots",
     } as unknown as UpdateChatbotUiSettingDto["animation"],
-    footer: {
-      footer_enabled: false,
-      footer_text: "",
-      footer_text_color: DEFAULT_MUTED_GRAY,
-      footer_link_color: style.primaryColor,
-      show_powered_by: true,
-    } as unknown as UpdateChatbotUiSettingDto["footer"],
+    footer: baseApiSetting.footer as unknown as UpdateChatbotUiSettingDto["footer"],
   }
 }

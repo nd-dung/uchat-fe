@@ -7,7 +7,7 @@ import {
   useGetChatbotUiSetting,
   useUpdateChatbotUiSetting,
 } from "@/lib/api/generated/chatbots/chatbots"
-import type { ApiErrorResponseDto } from "@/lib/api/generated/model"
+import type { ApiErrorResponseDto, ChatbotUiSettingResponseDto } from "@/lib/api/generated/model"
 import { AxiosError } from "axios"
 import { toast } from "sonner"
 import { Minus, Plus, Loader2Icon } from "lucide-react"
@@ -23,6 +23,7 @@ interface ChatCustomizerProps {
 export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
   const { data: uiSettingData, isLoading: isLoadingUiSetting } = useGetChatbotUiSetting(chatbotId, {})
   const uiSetting = uiSettingData?.data
+  const [baseApiSetting, setBaseApiSetting] = useState<ChatbotUiSettingResponseDto | undefined>(undefined)
   const [savedStyle, setSavedStyle] = useState<ChatStyle | undefined>(undefined)
   const [style, setStyle] = useState<ChatStyle | undefined>(undefined)
   const [hasLocalChanges, setHasLocalChanges] = useState(false)
@@ -34,6 +35,7 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
 
   useEffect(() => {
     if (uiSetting) {
+      setBaseApiSetting(uiSetting)
       const loaded = apiToStyle(uiSetting)
       setSavedStyle(loaded)
       setStyle(loaded)
@@ -47,9 +49,12 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
   }, [])
 
   const handleSave = async () => {
-    if (!style) return
+    if (!style || !baseApiSetting) return
     try {
-      await updateMutation.mutateAsync({ id: chatbotId, data: styleToApiUpdate(style) })
+      await updateMutation.mutateAsync({
+        id: chatbotId,
+        data: styleToApiUpdate(style, baseApiSetting),
+      })
       toast.success("Lưu giao diện thành công")
       setHasLocalChanges(false)
     } catch (err) {
