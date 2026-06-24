@@ -4,7 +4,7 @@ import * as React from "react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Send, User, Bot, X } from "lucide-react"
+import { Send, User, Bot, X, MessageCircle } from "lucide-react"
 import { deviceSizes, sampleMessages } from "./chat-constants"
 import type { ChatStyle } from "./chat-style"
 
@@ -24,13 +24,14 @@ export const ChatPreview = React.memo(function ChatPreview({
   const isBottom = style.chatWindowPosition.startsWith("bottom")
   const isRight = style.chatWindowPosition.endsWith("right")
 
+  const launcherMargin = 24
   const launcherPositionStyle: React.CSSProperties = {
     position: "absolute",
-    bottom: isBottom ? `${style.launcherOffsetY}px` : "auto",
-    top: isBottom ? "auto" : `${style.launcherOffsetY}px`,
-    right: isRight ? `${style.launcherOffsetX}px` : "auto",
-    left: isRight ? "auto" : `${style.launcherOffsetX}px`,
-    zIndex: Math.max(1, style.chatWindowZIndex - 1),
+    bottom: isBottom ? `${launcherMargin}px` : "auto",
+    top: isBottom ? "auto" : `${launcherMargin}px`,
+    right: isRight ? `${launcherMargin}px` : "auto",
+    left: isRight ? "auto" : `${launcherMargin}px`,
+    zIndex: Math.max(1, style.chatWindowZIndex + 1),
   }
 
   const launcherShapeClass =
@@ -64,6 +65,7 @@ export const ChatPreview = React.memo(function ChatPreview({
           maxWidth: deviceSizes[activeDevice].maxWidth,
           transform: `scale(${zoomLevel / 100})`,
           transformOrigin: "center",
+          padding: `${Math.max(style.launcherSize, 80) + launcherMargin}px`,
         }}
       >
         <div
@@ -157,7 +159,7 @@ export const ChatPreview = React.memo(function ChatPreview({
                 <h3
                   className="font-semibold mb-1"
                   style={{
-                    color: style.headerTextColor,
+                    color: style.botMessageTextColor,
                     fontSize: `${style.headerTitleFontSize}px`,
                   }}
                 >
@@ -166,9 +168,9 @@ export const ChatPreview = React.memo(function ChatPreview({
                 <p
                   className="mb-3"
                   style={{
-                    color: style.headerTextColor,
+                    color: style.botMessageTextColor,
                     fontSize: `${style.headerSubtitleFontSize}px`,
-                    opacity: 0.7,
+                    opacity: 0.85,
                   }}
                 >
                   {style.welcomeSubtitle}
@@ -319,15 +321,14 @@ export const ChatPreview = React.memo(function ChatPreview({
                 backgroundColor: style.backgroundColor,
               }}
             >
-              <span
-                className="text-xs"
-                style={{ color: style.footerTextColor }}
-              >
-                {style.footerText}
-              </span>
+              {style.footerText ? (
+                <span className="text-xs" style={{ color: style.footerTextColor }}>
+                  {style.footerText}
+                </span>
+              ) : null}
               {style.showPoweredBy && (
                 <span
-                  className="text-xs block mt-0.5"
+                  className={`text-xs block ${style.footerText ? "mt-0.5" : ""}`}
                   style={{ color: style.footerTextColor, opacity: 0.7 }}
                 >
                   Powered by Uchat
@@ -352,7 +353,7 @@ export const ChatPreview = React.memo(function ChatPreview({
           {style.launcherIconUrl ? (
             <img src={style.launcherIconUrl} alt="" className="w-6 h-6 object-contain" />
           ) : (
-            <Send className="w-6 h-6" style={{ color: style.launcherIconColor }} />
+            <MessageCircle className="w-6 h-6" style={{ color: style.launcherIconColor }} />
           )}
           {style.launcherType === "pill" && (
             <span
