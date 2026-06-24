@@ -56,6 +56,12 @@ export const launcherTypes = [
   { value: "pill", label: "Pill" },
 ]
 
+export const fontFamilyOptions = [
+  { value: "var(--font-sans), sans-serif", label: "Geist" },
+  { value: "var(--font-inter), sans-serif", label: "Inter" },
+  { value: "Times New Roman, serif", label: "Times New Roman" },
+]
+
 export const sampleMessages = [
   { type: "bot", text: "Xin chào! Tôi có thể giúp gì cho bạn hôm nay?" },
   { type: "user", text: "Tôi muốn tìm hiểu về sản phẩm của bạn" },

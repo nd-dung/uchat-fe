@@ -10,9 +10,10 @@ import {
 import type { ApiErrorResponseDto, ChatbotUiSettingResponseDto } from "@/lib/api/generated/model"
 import { AxiosError } from "axios"
 import { toast } from "sonner"
-import { Minus, Plus, Loader2Icon } from "lucide-react"
+import { Minus, Plus, Loader2Icon, RotateCcw } from "lucide-react"
 import { ChatPreview } from "./chat-preview"
 import { DesignPanel } from "./design-panel"
+import { DraggableCanvas } from "./draggable-canvas"
 import { deviceSizes } from "./chat-constants"
 import { apiToStyle, styleToApiUpdate, type ChatStyle } from "./chat-style"
 
@@ -30,6 +31,7 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
   const [activeDevice, setActiveDevice] = useState<keyof typeof deviceSizes>("desktop")
   const [collapsedSections, setCollapsedSections] = useState<{ [key: string]: boolean }>({})
   const [zoomLevel, setZoomLevel] = useState(100)
+  const [showWelcomePreview, setShowWelcomePreview] = useState(true)
 
   const updateMutation = useUpdateChatbotUiSetting()
 
@@ -76,6 +78,11 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
       setStyle(savedStyle)
       setHasLocalChanges(true)
     }
+  }
+
+  const importConfig = (config: ChatStyle) => {
+    setStyle(config)
+    setHasLocalChanges(true)
   }
 
   const exportConfig = () => {
@@ -180,9 +187,26 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
                 <Plus className="w-3 h-3" />
               </Button>
             </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setZoomLevel(100)}
+              className="h-7 w-7 p-0"
+              title="Reset zoom"
+            >
+              <RotateCcw className="w-3 h-3" />
+            </Button>
           </div>
 
           <div className="flex items-center gap-2">
+            <Button
+              variant={showWelcomePreview ? "default" : "ghost"}
+              size="sm"
+              onClick={() => setShowWelcomePreview(!showWelcomePreview)}
+              className="h-8"
+            >
+              <span className="text-xs">{showWelcomePreview ? "Hide" : "Show"} Welcome</span>
+            </Button>
             {Object.entries(deviceSizes).map(([key, device]) => {
               const IconComponent = device.icon
               return (
@@ -201,8 +225,15 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
           </div>
         </div>
 
-        <div className="flex-1 p-8 overflow-auto bg-muted/20 custom-scrollbar">
-          <ChatPreview style={style} activeDevice={activeDevice} zoomLevel={zoomLevel} />
+        <div className="flex-1 relative">
+          <DraggableCanvas zoomLevel={zoomLevel} onZoomChange={setZoomLevel}>
+            <ChatPreview
+              style={style}
+              activeDevice={activeDevice}
+              zoomLevel={100}
+              showWelcomePreview={showWelcomePreview}
+            />
+          </DraggableCanvas>
         </div>
       </div>
 
@@ -212,6 +243,7 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
         onSave={handleSave}
         onReset={resetToDefault}
         onExport={exportConfig}
+        onImport={importConfig}
         onCopyCSS={copyCSS}
         hasLocalChanges={hasLocalChanges}
         isSaving={updateMutation.isPending}

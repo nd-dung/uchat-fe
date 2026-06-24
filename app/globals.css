@@ -130,3 +130,7 @@
     @apply font-sans;
     }
 }
+
+.chat-preview-container * {
+  font-family: inherit !important;
+}

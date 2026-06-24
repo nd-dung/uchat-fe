@@ -112,6 +112,17 @@ function withFallbackNumber(value: number | null | undefined, fallback: number):
   return typeof value === "number" ? value : fallback
 }
 
+function normalizeFontFamily(value: string): string {
+  const lower = value.toLowerCase()
+  if (lower.includes("inter") && !lower.includes("font-inter")) {
+    return "var(--font-inter), sans-serif"
+  }
+  if (lower === "geist, sans-serif" || lower === "geist") {
+    return "var(--font-sans), sans-serif"
+  }
+  return value
+}
+
 export function apiToStyle(api: ChatbotUiSettingResponseDto): ChatStyle {
   const chatWindow = api.chat_window
   const header = api.header
@@ -156,7 +167,7 @@ export function apiToStyle(api: ChatbotUiSettingResponseDto): ChatStyle {
     showMessageTimestamp: message.show_message_timestamp ?? false,
     messageMaxWidthPercent: withFallbackNumber(message.message_max_width_percent, 80),
     baseFontSize: withFallbackNumber(typography.base_font_size, 14),
-    fontFamily: withFallback(typography.font_family, "Inter, sans-serif"),
+    fontFamily: normalizeFontFamily(withFallback(typography.font_family, "Geist, sans-serif")),
     headerTitleFontSize: withFallbackNumber(typography.header_title_font_size, 16),
     headerSubtitleFontSize: withFallbackNumber(typography.header_subtitle_font_size, 12),
     messageFontSize: withFallbackNumber(typography.message_font_size, 14),

@@ -12,6 +12,8 @@ import {
   Copy,
   RotateCcw,
   Download,
+  Upload,
+  ClipboardPaste,
   Loader2Icon,
   PanelTop,
   MessageSquare,
@@ -22,6 +24,7 @@ import {
   Footprints,
   Tags,
   Search,
+  X,
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import {
@@ -33,6 +36,7 @@ import {
   messageAnimations,
   typingIndicatorStyles,
   launcherTypes,
+  fontFamilyOptions,
 } from "./chat-constants"
 import {
   PropertySection,
@@ -40,6 +44,7 @@ import {
   ColorInput,
   TextInput,
   SelectInput,
+  UploadInput,
 } from "./chat-customizer-inputs"
 import type { ChatStyle } from "./chat-style"
 
@@ -49,6 +54,7 @@ interface DesignPanelProps {
   onSave: () => void
   onReset: () => void
   onExport: () => void
+  onImport: (config: ChatStyle) => void
   onCopyCSS: () => void
   hasLocalChanges: boolean
   isSaving: boolean
@@ -62,6 +68,7 @@ export const DesignPanel = React.memo(function DesignPanel({
   onSave,
   onReset,
   onExport,
+  onImport,
   onCopyCSS,
   hasLocalChanges,
   isSaving,
@@ -70,11 +77,13 @@ export const DesignPanel = React.memo(function DesignPanel({
 }: DesignPanelProps) {
   const [searchQuery, setSearchQuery] = useState("")
   const query = searchQuery.trim().toLowerCase()
+  const fileInputRef = React.useRef<HTMLInputElement>(null)
 
   const sectionMatches = React.useCallback(
     (keywords: string) => {
       if (!query) return true
-      return keywords.toLowerCase().includes(query)
+      const keywordsLower = keywords.toLowerCase()
+      return keywordsLower.includes(query)
     },
     [query]
   )
@@ -83,6 +92,45 @@ export const DesignPanel = React.memo(function DesignPanel({
     (key: string) => (query ? false : collapsedSections[key]),
     [query, collapsedSections]
   )
+
+  const handleImportClick = () => {
+    fileInputRef.current?.click()
+  }
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    const reader = new FileReader()
+    reader.onload = (event) => {
+      try {
+        const result = event.target?.result
+        if (typeof result !== "string") return
+        const json = JSON.parse(result)
+        const config = json.style || json
+        onImport(config as ChatStyle)
+      } catch {
+        alert("File JSON không hợp lệ")
+      }
+    }
+    reader.readAsText(file)
+    e.target.value = ""
+  }
+
+  const [showPasteModal, setShowPasteModal] = useState(false)
+  const [pasteValue, setPasteValue] = useState("")
+
+  const handlePasteImport = () => {
+    try {
+      const json = JSON.parse(pasteValue)
+      const config = json.style || json
+      onImport(config as ChatStyle)
+      setShowPasteModal(false)
+      setPasteValue("")
+    } catch {
+      alert("JSON không hợp lệ")
+    }
+  }
 
   return (
     <div className="w-80 bg-card border-l border-border flex flex-col">
@@ -99,6 +147,19 @@ export const DesignPanel = React.memo(function DesignPanel({
             <Button variant="ghost" size="sm" onClick={onExport} className="h-8 w-8 p-0">
               <Download className="w-4 h-4" />
             </Button>
+            <Button variant="ghost" size="sm" onClick={handleImportClick} className="h-8 w-8 p-0">
+              <Upload className="w-4 h-4" />
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => setShowPasteModal(true)} className="h-8 w-8 p-0">
+              <ClipboardPaste className="w-4 h-4" />
+            </Button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".json"
+              onChange={handleFileChange}
+              className="hidden"
+            />
             <Button
               size="sm"
               onClick={onSave}
@@ -126,8 +187,9 @@ export const DesignPanel = React.memo(function DesignPanel({
           title="Theme"
           icon={Palette}
           sectionKey="theme"
-          isCollapsed={collapsedSections.theme}
+          isCollapsed={isSectionCollapsed("theme")}
           onToggle={onToggleSection}
+          hidden={!sectionMatches("theme color primary background")}
         >
           <ColorInput
             label="Primary Color"
@@ -146,8 +208,9 @@ export const DesignPanel = React.memo(function DesignPanel({
           icon={Settings}
           sectionKey="chatWindow"
           badge="Window"
-          isCollapsed={collapsedSections.chatWindow}
+          isCollapsed={isSectionCollapsed("chatWindow")}
           onToggle={onToggleSection}
+          hidden={!sectionMatches("chat window position width height border radius shadow mobile fullscreen z-index")}
         >
           <SelectInput
             label="Position"
@@ -216,8 +279,9 @@ export const DesignPanel = React.memo(function DesignPanel({
           title="Header"
           icon={PanelTop}
           sectionKey="header"
-          isCollapsed={collapsedSections.header}
+          isCollapsed={isSectionCollapsed("header")}
           onToggle={onToggleSection}
+          hidden={!sectionMatches("header layout title subtitle status color height")}
         >
           <SelectInput
             label="Layout"
@@ -281,8 +345,9 @@ export const DesignPanel = React.memo(function DesignPanel({
           title="Messages"
           icon={MessageSquare}
           sectionKey="messages"
-          isCollapsed={collapsedSections.messages}
+          isCollapsed={isSectionCollapsed("messages")}
           onToggle={onToggleSection}
+          hidden={!sectionMatches("messages message bubble color text spacing padding width timestamp bot user")}
         >
           <ColorInput
             label="Area Background Color"
@@ -353,8 +418,9 @@ export const DesignPanel = React.memo(function DesignPanel({
           title="Input"
           icon={SquareTerminal}
           sectionKey="input"
-          isCollapsed={collapsedSections.input}
+          isCollapsed={isSectionCollapsed("input")}
           onToggle={onToggleSection}
+          hidden={!sectionMatches("input color text placeholder border radius send button")}
         >
           <ColorInput
             label="Background Color"
@@ -419,14 +485,15 @@ export const DesignPanel = React.memo(function DesignPanel({
           icon={Type}
           sectionKey="typography"
           badge="Text"
-          isCollapsed={collapsedSections.typography}
+          isCollapsed={isSectionCollapsed("typography")}
           onToggle={onToggleSection}
+          hidden={!sectionMatches("typography font family size text header message input")}
         >
-          <TextInput
+          <SelectInput
             label="Font Family"
             value={style.fontFamily}
+            options={fontFamilyOptions}
             onChange={(value) => updateStyle("fontFamily", value)}
-            placeholder="Inter, system-ui, sans-serif"
           />
           <NumericInput
             label="Base Font Size"
@@ -474,8 +541,9 @@ export const DesignPanel = React.memo(function DesignPanel({
           title="Welcome"
           icon={Hand}
           sectionKey="welcome"
-          isCollapsed={collapsedSections.welcome}
+          isCollapsed={isSectionCollapsed("welcome")}
           onToggle={onToggleSection}
+          hidden={!sectionMatches("welcome screen title subtitle message background")}
         >
           <div className="flex items-center justify-between">
             <Label className="text-xs font-medium text-muted-foreground">Enable Welcome Screen</Label>
@@ -510,8 +578,9 @@ export const DesignPanel = React.memo(function DesignPanel({
           title="Animation"
           icon={Sparkles}
           sectionKey="animation"
-          isCollapsed={collapsedSections.animation}
+          isCollapsed={isSectionCollapsed("animation")}
           onToggle={onToggleSection}
+          hidden={!sectionMatches("animation launcher chat open message typing indicator")}
         >
           <div className="flex items-center justify-between">
             <Label className="text-xs font-medium text-muted-foreground">Enable Animations</Label>
@@ -551,8 +620,9 @@ export const DesignPanel = React.memo(function DesignPanel({
           title="Launcher"
           icon={Rocket}
           sectionKey="launcher"
-          isCollapsed={collapsedSections.launcher}
+          isCollapsed={isSectionCollapsed("launcher")}
           onToggle={onToggleSection}
+          hidden={!sectionMatches("launcher type size color icon text offset shadow")}
         >
           <SelectInput
             label="Launcher Type"
@@ -615,8 +685,9 @@ export const DesignPanel = React.memo(function DesignPanel({
           title="Footer"
           icon={Footprints}
           sectionKey="footer"
-          isCollapsed={collapsedSections.footer}
+          isCollapsed={isSectionCollapsed("footer")}
           onToggle={onToggleSection}
+          hidden={!sectionMatches("footer text color link powered by")}
         >
           <div className="flex items-center justify-between">
             <Label className="text-xs font-medium text-muted-foreground">Enable Footer</Label>
@@ -634,7 +705,7 @@ export const DesignPanel = React.memo(function DesignPanel({
             onChange={(value) => updateStyle("footerTextColor", value)}
           />
           <TextInput
-            label="Footer Link URL"
+            label="Footer Link"
             value={style.footerLinkUrl}
             onChange={(value) => updateStyle("footerLinkUrl", value)}
             placeholder="https://example.com"
@@ -649,8 +720,9 @@ export const DesignPanel = React.memo(function DesignPanel({
           title="Branding"
           icon={Tags}
           sectionKey="branding"
-          isCollapsed={collapsedSections.branding}
+          isCollapsed={isSectionCollapsed("branding")}
           onToggle={onToggleSection}
+          hidden={!sectionMatches("branding avatar logo icon")}
         >
           <div className="flex items-center justify-between">
             <Label className="text-xs font-medium text-muted-foreground">Show Avatar</Label>
@@ -660,32 +732,80 @@ export const DesignPanel = React.memo(function DesignPanel({
             <Label className="text-xs font-medium text-muted-foreground">Show Logo</Label>
             <Switch checked={style.showLogo} onCheckedChange={(checked) => updateStyle("showLogo", checked)} />
           </div>
-          <TextInput
-            label="Avatar URL"
+          <UploadInput
+            label="Avatar"
             value={style.avatarUrl}
             onChange={(value) => updateStyle("avatarUrl", value)}
             placeholder="https://..."
+            crop
+            cropShape="round"
           />
-          <TextInput
-            label="Logo URL"
+          <UploadInput
+            label="Logo"
             value={style.logoUrl}
             onChange={(value) => updateStyle("logoUrl", value)}
             placeholder="https://..."
+            crop
           />
-          <TextInput
-            label="Launcher Icon URL"
+          <UploadInput
+            label="Launcher Icon"
             value={style.launcherIconUrl}
             onChange={(value) => updateStyle("launcherIconUrl", value)}
             placeholder="https://..."
+            crop
           />
-          <TextInput
-            label="Welcome Avatar URL"
+          <UploadInput
+            label="Welcome Avatar"
             value={style.welcomeAvatarUrl}
             onChange={(value) => updateStyle("welcomeAvatarUrl", value)}
             placeholder="https://..."
+            crop
+            cropShape="round"
           />
         </PropertySection>
       </div>
+
+      {showPasteModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-white rounded-lg shadow-lg w-[480px] max-h-[80vh] flex flex-col">
+            <div className="flex items-center justify-between p-4 border-b">
+              <h3 className="font-semibold text-sm">Paste JSON</h3>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowPasteModal(false)}
+                className="h-8 w-8 p-0"
+              >
+                <X className="w-4 h-4" />
+              </Button>
+            </div>
+            <div className="flex-1 p-4 overflow-auto">
+              <textarea
+                value={pasteValue}
+                onChange={(e) => setPasteValue(e.target.value)}
+                placeholder='Dán JSON vào đây...\n\nVí dụ:\n{\n  "style": { ... }\n}'
+                className="w-full h-64 p-3 text-xs font-mono border border-border rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-ring"
+              />
+            </div>
+            <div className="flex items-center justify-end gap-2 p-4 border-t">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowPasteModal(false)}
+              >
+                Hủy
+              </Button>
+              <Button
+                size="sm"
+                onClick={handlePasteImport}
+                disabled={!pasteValue.trim()}
+              >
+                Import
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 })

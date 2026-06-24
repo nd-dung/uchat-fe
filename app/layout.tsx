@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono } from "next/font/google"
+import { Geist, Geist_Mono, Inter } from "next/font/google"
 
 import "./globals.css"
 import { QueryProvider } from "@/components/query-provider"
@@ -9,6 +9,8 @@ import { NuqsAdapter } from "nuqs/adapters/next"
 import { Toaster } from "sonner"
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 
 const fontMono = Geist_Mono({
   subsets: ["latin"],
@@ -28,7 +30,8 @@ export default function RootLayout({
         "antialiased",
         fontMono.variable,
         "font-sans",
-        geist.variable
+        geist.variable,
+        inter.variable
       )}
     >
       <body>

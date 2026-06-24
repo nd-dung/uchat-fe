@@ -4,7 +4,7 @@ import * as React from "react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Send, User, Bot, X, MessageCircle } from "lucide-react"
+import { Send, Bot, X, MessageCircle } from "lucide-react"
 import { deviceSizes, sampleMessages } from "./chat-constants"
 import type { ChatStyle } from "./chat-style"
 
@@ -12,14 +12,47 @@ interface ChatPreviewProps {
   style: ChatStyle
   activeDevice: keyof typeof deviceSizes
   zoomLevel: number
+  showWelcomePreview?: boolean
+}
+
+function getLauncherAnimationClass(animation: string): string {
+  switch (animation) {
+    case "pulse":
+      return "animate-pulse"
+    case "bounce":
+      return "animate-bounce"
+    default:
+      return ""
+  }
+}
+
+function getMessageAnimationStyle(animation: string, enabled: boolean, index: number): React.CSSProperties {
+  if (!enabled) return {}
+
+  const delay = `${index * 100}ms`
+
+  switch (animation) {
+    case "fade":
+      return {
+        animation: `fadeIn 0.3s ease-out ${delay} both`,
+      }
+    case "slide":
+      return {
+        animation: `slideIn 0.3s ease-out ${delay} both`,
+      }
+    default:
+      return {}
+  }
 }
 
 export const ChatPreview = React.memo(function ChatPreview({
   style,
   activeDevice,
   zoomLevel,
+  showWelcomePreview = true,
 }: ChatPreviewProps) {
   const [message, setMessage] = useState("")
+  const [isChatOpen, setIsChatOpen] = useState(true)
 
   const isBottom = style.chatWindowPosition.startsWith("bottom")
   const isRight = style.chatWindowPosition.endsWith("right")
@@ -53,37 +86,92 @@ export const ChatPreview = React.memo(function ChatPreview({
   const showSendIcon = style.sendButtonType === "icon" || style.sendButtonType === "icon_text"
   const showSendText = style.sendButtonType === "text" || style.sendButtonType === "icon_text"
 
+  const getChatOpenAnimationStyle = (): React.CSSProperties => {
+    if (!style.animationEnabled || style.chatOpenAnimation === "none") {
+      return {}
+    }
+
+    switch (style.chatOpenAnimation) {
+      case "fade":
+        return {
+          animation: "chatFadeIn 0.3s ease-out",
+        }
+      case "slide_up":
+        return {
+          animation: "chatSlideUp 0.3s ease-out",
+        }
+      case "scale":
+        return {
+          animation: "chatScaleIn 0.3s ease-out",
+        }
+      default:
+        return {}
+    }
+  }
+
+  const toggleChat = () => setIsChatOpen((prev) => !prev)
+
   return (
-    <div
-      className="flex justify-center items-center min-h-full"
-      style={{ backgroundColor: `${style.backgroundColor}1f` }}
-    >
+    <>
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideIn {
+          from { opacity: 0; transform: translateX(-12px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes chatFadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes chatSlideUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes chatScaleIn {
+          from { opacity: 0; transform: scale(0.9); }
+          to { opacity: 1; transform: scale(1); }
+        }
+        .launcher-animation-pulse {
+          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        .launcher-animation-bounce {
+          animation: bounce 1s infinite;
+        }
+      `}</style>
       <div
-        className="transition-all duration-300 figma-hover relative"
-        style={{
-          width: `${style.chatWindowWidth + Math.max(style.launcherSize, 80) + launcherMargin * 2}px`,
-          maxWidth: "100%",
-          transform: `scale(${zoomLevel / 100})`,
-          transformOrigin: "center",
-          padding: `${Math.max(style.launcherSize, 80) + launcherMargin}px`,
-        }}
+        className="flex justify-center items-center min-h-full"
+        style={{ backgroundColor: `${style.backgroundColor}1f` }}
       >
         <div
-          className="rounded-lg overflow-hidden shadow-2xl relative flex flex-col"
+          className="transition-all duration-300 figma-hover relative"
           style={{
-            backgroundColor: style.backgroundColor,
-            borderColor: style.chatWindowBorderColor,
-            borderWidth: `${style.chatWindowBorderWidth}px`,
-            borderStyle: "solid",
-            borderRadius: `${style.borderRadius}px`,
-            boxShadow: style.chatWindowShadow ? "0 8px 24px rgba(0,0,0,0.15)" : "none",
-            transition: style.animationEnabled ? "all 200ms cubic-bezier(0.4, 0, 0.2, 1)" : "none",
-            width: `${style.chatWindowWidth}px`,
+            width: `${style.chatWindowWidth + Math.max(style.launcherSize, 80) + launcherMargin * 2}px`,
             maxWidth: "100%",
-            height: `${style.chatWindowHeight}px`,
-            fontFamily: style.fontFamily,
+            transform: `scale(${zoomLevel / 100})`,
+            transformOrigin: "center",
+            padding: `${Math.max(style.launcherSize, 80) + launcherMargin}px`,
           }}
         >
+          {isChatOpen && (
+            <div
+              className="chat-preview-container rounded-lg overflow-hidden shadow-2xl relative flex flex-col"
+              style={{
+                backgroundColor: style.backgroundColor,
+                borderColor: style.chatWindowBorderColor,
+                borderWidth: `${style.chatWindowBorderWidth}px`,
+                borderStyle: "solid",
+                borderRadius: `${style.borderRadius}px`,
+                boxShadow: style.chatWindowShadow ? "0 8px 24px rgba(0,0,0,0.15)" : "none",
+                width: `${style.chatWindowWidth}px`,
+                maxWidth: "100%",
+                height: `${style.chatWindowHeight}px`,
+                fontFamily: style.fontFamily,
+                ...getChatOpenAnimationStyle(),
+              }}
+            >
           <div
             className={`p-4 border-b flex ${headerLayoutClass}`}
             style={{
@@ -98,10 +186,14 @@ export const ChatPreview = React.memo(function ChatPreview({
           >
             {style.headerLayout !== "simple" && (
               <div
-                className="w-10 h-10 rounded-full flex items-center justify-center shadow-lg shrink-0"
+                className="w-10 h-10 rounded-full flex items-center justify-center shadow-lg shrink-0 overflow-hidden"
                 style={{ backgroundColor: style.primaryColor }}
               >
-                <Bot className="w-5 h-5" style={{ color: style.userMessageTextColor }} />
+                {style.avatarUrl ? (
+                  <img src={style.avatarUrl} alt="" className="w-10 h-10 rounded-full object-cover" />
+                ) : (
+                  <Bot className="w-5 h-5" style={{ color: style.userMessageTextColor }} />
+                )}
               </div>
             )}
             <div className="min-w-0">
@@ -110,6 +202,7 @@ export const ChatPreview = React.memo(function ChatPreview({
                 style={{
                   color: style.headerTextColor,
                   fontSize: `${style.headerTitleFontSize}px`,
+                  fontFamily: style.fontFamily,
                 }}
               >
                 {style.headerTitle}
@@ -119,6 +212,7 @@ export const ChatPreview = React.memo(function ChatPreview({
                 style={{
                   color: style.headerTextColor,
                   fontSize: `${style.headerSubtitleFontSize}px`,
+                  fontFamily: style.fontFamily,
                 }}
               >
                 {style.headerShowStatus && style.headerStatusText}
@@ -142,7 +236,7 @@ export const ChatPreview = React.memo(function ChatPreview({
               paddingRight: `${style.messageAreaPadding}px`,
             }}
           >
-            {style.welcomeScreenEnabled && (
+            {style.welcomeScreenEnabled && showWelcomePreview && (
               <div
                 className="absolute inset-0 z-10 flex flex-col items-center justify-center p-6 text-center"
                 style={{ backgroundColor: style.welcomeBackgroundColor }}
@@ -162,6 +256,7 @@ export const ChatPreview = React.memo(function ChatPreview({
                   style={{
                     color: style.botMessageTextColor,
                     fontSize: `${style.headerTitleFontSize}px`,
+                    fontFamily: style.fontFamily,
                   }}
                 >
                   {style.welcomeTitle}
@@ -173,6 +268,7 @@ export const ChatPreview = React.memo(function ChatPreview({
                       color: style.botMessageTextColor,
                       fontSize: `${style.headerSubtitleFontSize}px`,
                       opacity: 0.85,
+                      fontFamily: style.fontFamily,
                     }}
                   >
                     {style.welcomeSubtitle}
@@ -183,6 +279,7 @@ export const ChatPreview = React.memo(function ChatPreview({
                   style={{
                     color: style.botMessageTextColor,
                     fontSize: `${style.messageFontSize}px`,
+                    fontFamily: style.fontFamily,
                   }}
                 >
                   {style.welcomeMessage}
@@ -192,7 +289,11 @@ export const ChatPreview = React.memo(function ChatPreview({
 
             <div style={{ gap: `${style.messageSpacing}px` }} className="flex flex-col">
               {sampleMessages.map((msg, index) => (
-                <div key={index} className={`flex ${msg.type === "user" ? "justify-end" : "justify-start"}`}>
+                <div
+                  key={index}
+                  className={`flex ${msg.type === "user" ? "justify-end" : "justify-start"}`}
+                  style={getMessageAnimationStyle(style.messageAnimation, style.animationEnabled, index)}
+                >
                   <div className="flex items-end gap-3" style={{ maxWidth: `${style.messageMaxWidthPercent}%` }}>
                     {msg.type === "bot" && style.showAvatar && (
                       <div
@@ -213,7 +314,7 @@ export const ChatPreview = React.memo(function ChatPreview({
                         color: msg.type === "user" ? style.userMessageTextColor : style.botMessageTextColor,
                         borderRadius: `${style.messageBubbleRadius}px`,
                         fontSize: `${style.messageFontSize}px`,
-                        transition: style.animationEnabled ? "all 200ms cubic-bezier(0.4, 0, 0.2, 1)" : "none",
+                        fontFamily: style.fontFamily,
                       }}
                     >
                       <p>{msg.text}</p>
@@ -221,14 +322,6 @@ export const ChatPreview = React.memo(function ChatPreview({
                         <p className="text-[10px] opacity-60 mt-1">{new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</p>
                       )}
                     </div>
-                    {msg.type === "user" && style.showAvatar && (
-                      <div
-                        className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 shadow-md"
-                        style={{ backgroundColor: style.primaryColor }}
-                      >
-                        <User className="w-4 h-4" style={{ color: style.userMessageTextColor }} />
-                      </div>
-                    )}
                   </div>
                 </div>
               ))}
@@ -254,10 +347,11 @@ export const ChatPreview = React.memo(function ChatPreview({
                         backgroundColor: style.botMessageBackgroundColor,
                         borderRadius: `${style.messageBubbleRadius}px`,
                         fontSize: `${style.messageFontSize}px`,
+                        fontFamily: style.fontFamily,
                       }}
                     >
                       {style.typingIndicatorStyle === "text" ? (
-                        <span style={{ color: style.botMessageTextColor }}>Đang nhập...</span>
+                        <span style={{ color: style.botMessageTextColor, fontFamily: style.fontFamily }}>Đang nhập...</span>
                       ) : (
                         <div className="flex items-center gap-1 h-5">
                           {[0, 1, 2].map((i) => (
@@ -300,6 +394,7 @@ export const ChatPreview = React.memo(function ChatPreview({
                   color: style.inputTextColor,
                   fontSize: `${style.inputFontSize}px`,
                   backgroundColor: style.inputBackgroundColor,
+                  fontFamily: style.fontFamily,
                 }}
               />
               <Button
@@ -311,7 +406,7 @@ export const ChatPreview = React.memo(function ChatPreview({
                 }}
               >
                 {showSendIcon && <Send className="w-4 h-4" style={{ color: style.sendButtonIconColor }} />}
-                {showSendText && <span style={{ color: style.sendButtonIconColor }}>{style.sendButtonText}</span>}
+                {showSendText && <span style={{ color: style.sendButtonIconColor, fontFamily: style.fontFamily }}>{style.sendButtonText}</span>}
               </Button>
             </div>
           </div>
@@ -325,20 +420,22 @@ export const ChatPreview = React.memo(function ChatPreview({
               }}
             >
               {style.footerText ? (
-                <span className="text-xs" style={{ color: style.footerTextColor }}>
+                <span className="text-xs" style={{ color: style.footerTextColor, fontFamily: style.fontFamily }}>
                   {style.footerText}
                 </span>
               ) : style.showPoweredBy ? (
-                <span className="text-xs" style={{ color: style.footerTextColor, opacity: 0.7 }}>
+                <span className="text-xs" style={{ color: style.footerTextColor, opacity: 0.7, fontFamily: style.fontFamily }}>
                   Powered by Uchat
                 </span>
               ) : null}
             </div>
           )}
         </div>
+          )}
 
         <button
-          className={`flex items-center justify-center shrink-0 ${launcherShapeClass} shadow-lg hover:shadow-xl transition-shadow`}
+          onClick={toggleChat}
+          className={`flex items-center justify-center shrink-0 ${launcherShapeClass} shadow-lg hover:shadow-xl transition-shadow ${style.animationEnabled ? getLauncherAnimationClass(style.launcherAnimation) : ""}`}
           style={{
             ...launcherPositionStyle,
             width: style.launcherType === "pill" ? "auto" : `${style.launcherSize}px`,
@@ -357,7 +454,7 @@ export const ChatPreview = React.memo(function ChatPreview({
           {style.launcherType === "pill" && (
             <span
               className="ml-2 text-sm font-medium"
-              style={{ color: style.launcherTextColor }}
+              style={{ color: style.launcherTextColor, fontFamily: style.fontFamily }}
             >
               {style.launcherText}
             </span>
@@ -365,5 +462,6 @@ export const ChatPreview = React.memo(function ChatPreview({
         </button>
       </div>
     </div>
+    </>
   )
 })
