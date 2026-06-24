@@ -65,7 +65,7 @@ export const UpsertMessageFeedbackResponse = zod
           reviewed_by: zod.number().nullish(),
           reviewed_at: zod.string().nullish(),
           resolved_at: zod.string().nullish(),
-          metadata: zod.looseObject({}).nullish(),
+          metadata: zod.record(zod.string(), zod.unknown()).nullish(),
           created_at: zod.string(),
           updated_at: zod.string(),
         })
@@ -122,7 +122,7 @@ export const UpsertConversationFeedbackResponse = zod
           reviewed_by: zod.number().nullish(),
           reviewed_at: zod.string().nullish(),
           resolved_at: zod.string().nullish(),
-          metadata: zod.looseObject({}).nullish(),
+          metadata: zod.record(zod.string(), zod.unknown()).nullish(),
           created_at: zod.string(),
           updated_at: zod.string(),
         })

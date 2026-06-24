@@ -1,6 +1,7 @@
 "use client"
 
-export const dynamic = "force-dynamic"import * as React from "react"
+export const dynamic = "force-dynamic"
+import * as React from "react"
 import { useQueryClient } from "@tanstack/react-query"
 import {
   Breadcrumb,

@@ -1,7 +1,7 @@
 import { defineConfig } from "orval"
 
 const input = {
-  target: "http://127.0.0.1:3001/api/docs/json",
+  target: "http://127.0.0.1:8000/api/docs/json",
   override: {
     transformer: "lib/api/orval-transformer.ts",
   },

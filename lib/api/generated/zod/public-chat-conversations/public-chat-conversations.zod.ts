@@ -13,7 +13,7 @@ export const CreateOrReuseConversationBody = zod.object({
   visitor_uid: zod.string(),
   chatbot_id: zod.number(),
   channel: zod.string().default(createOrReuseConversationBodyChannelDefault),
-  metadata: zod.looseObject({}).optional(),
+  metadata: zod.record(zod.string(), zod.unknown()).optional(),
 })
 
 export const CreateOrReuseConversationResponse = zod
@@ -49,7 +49,7 @@ export const CreateOrReuseConversationResponse = zod
             started_at: zod.string(),
             last_message_at: zod.string().nullish(),
             ended_at: zod.string().nullish(),
-            metadata: zod.looseObject({}).nullish(),
+            metadata: zod.record(zod.string(), zod.unknown()).nullish(),
             created_at: zod.string(),
             updated_at: zod.string(),
           }),
@@ -92,7 +92,7 @@ export const CreateVisitorMessageResponse = zod
             answer_status: zod
               .enum(["answered", "fallback", "error"])
               .nullish(),
-            metadata: zod.looseObject({}).nullish(),
+            metadata: zod.record(zod.string(), zod.unknown()).nullish(),
             sent_at: zod.string(),
             created_at: zod.string(),
             updated_at: zod.string(),

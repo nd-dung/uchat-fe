@@ -90,12 +90,12 @@ export function ChatbotFormDialog({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>
-            {editingChatbot ? "S\u1eeda chatbot" : "Th\u00eam chatbot"}
+            {editingChatbot ? "Sửa chatbot" : "Thêm chatbot"}
           </DialogTitle>
           <DialogDescription>
             {editingChatbot
-              ? "C\u1eadp nh\u1eadt th\u00f4ng tin chatbot."
-              : "T\u1ea1o chatbot m\u1edbi."}
+              ? "Cập nhật thông tin chatbot."
+              : "Tạo chatbot mới."}
           </DialogDescription>
         </DialogHeader>
         <form
@@ -105,7 +105,7 @@ export function ChatbotFormDialog({
           className="space-y-4"
         >
           <div className="space-y-1.5">
-            <Label htmlFor="name">T\u00ean</Label>
+            <Label htmlFor="name">Tên</Label>
             <Input id="name" {...register("name")} />
             {errors.name && (
               <p className="text-xs text-destructive">{errors.name.message}</p>
@@ -113,17 +113,17 @@ export function ChatbotFormDialog({
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="display_name">T\u00ean hi\u1ec3n th\u1ecb</Label>
+            <Label htmlFor="display_name">Tên hiển thị</Label>
             <Input id="display_name" {...register("display_name")} />
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="description">M\u00f4 t\u1ea3</Label>
+            <Label htmlFor="description">Mô tả</Label>
             <Input id="description" {...register("description")} />
           </div>
 
           <div className="space-y-1.5">
-            <Label>Tr\u1ea1ng th\u00e1i</Label>
+            <Label>Trạng thái</Label>
             <Select
               value={watch("status")}
               onValueChange={(v) =>
@@ -134,8 +134,8 @@ export function ChatbotFormDialog({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="active">Ho\u1ea1t \u0111\u1ed9ng</SelectItem>
-                <SelectItem value="inactive">Ng\u1eebng</SelectItem>
+                <SelectItem value="active">Hoạt động</SelectItem>
+                <SelectItem value="inactive">Ngừng</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -146,13 +146,13 @@ export function ChatbotFormDialog({
               variant="outline"
               onClick={() => onOpenChange(false)}
             >
-              Hu\u1ef7
+              Huỷ
             </Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting && (
                 <Loader2Icon className="mr-1 h-4 w-4 animate-spin" />
               )}
-              {editingChatbot ? "L\u01b0u" : "T\u1ea1o"}
+              {editingChatbot ? "Lưu" : "Tạo"}
             </Button>
           </DialogFooter>
         </form>

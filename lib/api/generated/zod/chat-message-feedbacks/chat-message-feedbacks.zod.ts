@@ -72,7 +72,7 @@ export const ListMessageFeedbacksResponse = zod
               reviewed_by: zod.number().nullish(),
               reviewed_at: zod.string().nullish(),
               resolved_at: zod.string().nullish(),
-              metadata: zod.looseObject({}).nullish(),
+              metadata: zod.record(zod.string(), zod.unknown()).nullish(),
               created_at: zod.string(),
               updated_at: zod.string(),
               message: zod.object({
@@ -90,7 +90,7 @@ export const ListMessageFeedbacksResponse = zod
                 answer_status: zod
                   .enum(["answered", "fallback", "error"])
                   .nullish(),
-                metadata: zod.looseObject({}).nullish(),
+                metadata: zod.record(zod.string(), zod.unknown()).nullish(),
                 sent_at: zod.string(),
                 created_at: zod.string(),
                 updated_at: zod.string(),
@@ -153,7 +153,7 @@ export const GetMessageFeedbackResponse = zod
           reviewed_by: zod.number().nullish(),
           reviewed_at: zod.string().nullish(),
           resolved_at: zod.string().nullish(),
-          metadata: zod.looseObject({}).nullish(),
+          metadata: zod.record(zod.string(), zod.unknown()).nullish(),
           created_at: zod.string(),
           updated_at: zod.string(),
           message: zod.object({
@@ -166,7 +166,7 @@ export const GetMessageFeedbackResponse = zod
             answer_status: zod
               .enum(["answered", "fallback", "error"])
               .nullish(),
-            metadata: zod.looseObject({}).nullish(),
+            metadata: zod.record(zod.string(), zod.unknown()).nullish(),
             sent_at: zod.string(),
             created_at: zod.string(),
             updated_at: zod.string(),
@@ -195,7 +195,7 @@ export const GetMessageFeedbackResponse = zod
             started_at: zod.string(),
             last_message_at: zod.string().nullish(),
             ended_at: zod.string().nullish(),
-            metadata: zod.looseObject({}).nullish(),
+            metadata: zod.record(zod.string(), zod.unknown()).nullish(),
             created_at: zod.string(),
             updated_at: zod.string(),
           }),
@@ -210,7 +210,7 @@ export const GetMessageFeedbackResponse = zod
               answer_status: zod
                 .enum(["answered", "fallback", "error"])
                 .nullish(),
-              metadata: zod.looseObject({}).nullish(),
+              metadata: zod.record(zod.string(), zod.unknown()).nullish(),
               sent_at: zod.string(),
               created_at: zod.string(),
               updated_at: zod.string(),
@@ -263,7 +263,7 @@ export const UpdateMessageFeedbackStatusResponse = zod
           reviewed_by: zod.number().nullish(),
           reviewed_at: zod.string().nullish(),
           resolved_at: zod.string().nullish(),
-          metadata: zod.looseObject({}).nullish(),
+          metadata: zod.record(zod.string(), zod.unknown()).nullish(),
           created_at: zod.string(),
           updated_at: zod.string(),
         })

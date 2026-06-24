@@ -132,15 +132,15 @@ export function FacilityFormDialog({
                 <p className="text-xs text-destructive">{errors.slug.message}</p>
               )}
             </div>
-          </div>
+          </div>  
 
           <div className="space-y-1.5">
-            <Label htmlFor="description">M\u00f4 t\u1ea3</Label>
+            <Label htmlFor="description">Mô tả</Label>
             <Input id="description" {...register("description")} />
           </div>
 
           <div className="space-y-1.5">
-            <Label>Tr\u1ea1ng th\u00e1i</Label>
+            <Label>Trạng thái</Label>
             <Select
               value={watch("status")}
               onValueChange={(v) =>
@@ -151,8 +151,8 @@ export function FacilityFormDialog({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="active">Ho\u1ea1t \u0111\u1ed9ng</SelectItem>
-                <SelectItem value="inactive">Ng\u1eebng</SelectItem>
+                <SelectItem value="active">Hoạt động</SelectItem>
+                <SelectItem value="inactive">Ngừng</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -163,7 +163,7 @@ export function FacilityFormDialog({
               variant="outline"
               onClick={() => onOpenChange(false)}
             >
-              Hu\u1ef7
+              Huỷ
             </Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting && (

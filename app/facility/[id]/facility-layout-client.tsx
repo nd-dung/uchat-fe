@@ -18,7 +18,11 @@ export function FacilityLayoutClient({
   return (
     <SidebarProvider>
       <FacilitySidebar facilityId={facilityId} />
-      <SidebarInset>{children}</SidebarInset>
+      <SidebarInset>
+        <main className="min-h-svh">
+          {children}
+        </main>
+      </SidebarInset>
     </SidebarProvider>
   )
 }

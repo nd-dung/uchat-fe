@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useState, useMemo } from "react"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
@@ -20,7 +21,9 @@ import {
   Rocket,
   Footprints,
   Tags,
+  Search,
 } from "lucide-react"
+import { Input } from "@/components/ui/input"
 import {
   chatWindowPositions,
   headerLayouts,
@@ -65,9 +68,25 @@ export const DesignPanel = React.memo(function DesignPanel({
   collapsedSections,
   onToggleSection,
 }: DesignPanelProps) {
+  const [searchQuery, setSearchQuery] = useState("")
+  const query = searchQuery.trim().toLowerCase()
+
+  const sectionMatches = React.useCallback(
+    (keywords: string) => {
+      if (!query) return true
+      return keywords.toLowerCase().includes(query)
+    },
+    [query]
+  )
+
+  const isSectionCollapsed = React.useCallback(
+    (key: string) => (query ? false : collapsedSections[key]),
+    [query, collapsedSections]
+  )
+
   return (
     <div className="w-80 bg-card border-l border-border flex flex-col">
-      <div className="p-4 border-b border-border">
+      <div className="p-4 border-b border-border space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="font-semibold text-sm text-foreground">Design</h3>
           <div className="flex items-center gap-1">
@@ -90,6 +109,15 @@ export const DesignPanel = React.memo(function DesignPanel({
               Lưu
             </Button>
           </div>
+        </div>
+        <div className="relative">
+          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Input
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Tìm kiếm cấu hình..."
+            className="h-8 pl-8 text-xs bg-white border-border"
+          />
         </div>
       </div>
 

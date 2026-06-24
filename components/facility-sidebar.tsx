@@ -63,10 +63,15 @@ export function FacilitySidebar({
 
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader className="flex h-14 items-center px-4">
-        <div className="flex items-center gap-2 font-semibold text-sm truncate">
-          <Building2Icon className="h-5 w-5 shrink-0" />
-          <span className="truncate">{facilityName}</span>
+      <SidebarHeader className="flex h-14 items-center px-4 py-2 bg-white border-b">
+        <div className="flex items-center gap-3">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-500 text-white font-semibold text-sm shrink-0">
+            {facilityName.charAt(0).toUpperCase()}
+          </div>
+          <div className="flex flex-col min-w-0 group-data-[collapsible=icon]:hidden">
+            <span className="font-semibold text-sm truncate">{facilityName}</span>
+            <span className="text-xs text-muted-foreground truncate">Management</span>
+          </div>
         </div>
       </SidebarHeader>
       <SidebarContent>

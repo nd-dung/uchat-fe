@@ -23,6 +23,7 @@ export interface PropertySectionProps {
   badge?: string
   isCollapsed: boolean
   onToggle: (key: string) => void
+  hidden?: boolean
 }
 
 export const PropertySection = React.memo(function PropertySection({
@@ -33,8 +34,11 @@ export const PropertySection = React.memo(function PropertySection({
   badge,
   isCollapsed,
   onToggle,
+  hidden,
 }: PropertySectionProps) {
   const handleToggle = useCallback(() => onToggle(sectionKey), [onToggle, sectionKey])
+
+  if (hidden) return null
 
   return (
     <div className="border border-border rounded-lg bg-card/50 backdrop-blur-sm">
@@ -133,7 +137,7 @@ export const NumericInput = React.memo(function NumericInput({
             value={value}
             onChange={handleInputChange}
             onMouseDown={handleMouseDown}
-            className="w-16 h-7 text-xs text-right border-0 bg-input rounded px-2 cursor-ns-resize select-none"
+            className="w-16 h-7 text-xs text-right border-0 bg-white rounded px-2 cursor-ns-resize select-none"
             min={min}
             max={max}
             step={step}
@@ -199,7 +203,7 @@ export const ColorInput = React.memo(function ColorInput({ label, value, onChang
         <Input
           value={value}
           onChange={handleTextChange}
-          className="flex-1 h-8 text-xs font-mono bg-input border-border"
+          className="flex-1 h-8 text-xs font-mono bg-white border-border"
           placeholder="#000000"
         />
       </div>
@@ -232,7 +236,7 @@ export const TextInput = React.memo(function TextInput({
         value={value}
         onChange={handleChange}
         placeholder={placeholder}
-        className="h-8 text-xs bg-input border-border"
+        className="h-8 text-xs bg-white border-border"
       />
     </div>
   )
@@ -257,7 +261,7 @@ export const SelectInput = React.memo(function SelectInput({
     <div className="space-y-2">
       <Label className="text-xs font-medium text-muted-foreground">{label}</Label>
       <Select value={value} onValueChange={handleValueChange}>
-        <SelectTrigger className="h-8 text-xs bg-input border-border">
+        <SelectTrigger className="h-8 text-xs bg-white border-border">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
