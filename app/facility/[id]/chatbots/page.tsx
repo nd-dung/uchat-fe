@@ -1,6 +1,6 @@
 "use client"
 
-export const dynamic = "force-dynamic"import * as React from "react"
+import * as React from "react"
 import { useParams } from "next/navigation"
 import { useQueryClient } from "@tanstack/react-query"
 import {
@@ -8,82 +8,42 @@ import {
 } from "@/components/ui/breadcrumb"
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { ChatbotToolbar } from "@/components/feature/facility/chatbots/chatbot-toolbar"
-import { ChatbotTable } from "@/components/feature/facility/chatbots/chatbot-table"
-import { ChatbotTableSkeleton } from "@/components/feature/facility/chatbots/chatbot-table-skeleton"
+import { ChatbotEmptyState } from "@/components/feature/facility/chatbots/chatbot-empty-state"
 import { ChatbotFormDialog, type ChatbotFormValues } from "@/components/feature/facility/chatbots/chatbot-form-dialog"
-import { ChatbotDeleteDialog } from "@/components/feature/facility/chatbots/chatbot-delete-dialog"
-import { UserPagination } from "@/components/feature/admin/users/user-pagination"
-import {
-  useListChatbots,
-  useCreateChatbot,
-  useUpdateChatbot,
-  useDeleteChatbot,
-} from "@/lib/api/generated/chatbots/chatbots"
-import { useChatbotFilters } from "@/features/facility/chatbots"
-import type { ChatbotResponseDto } from "@/features/facility/chatbots"
+import { ChatCustomizer } from "@/components/feature/facility/chatbots/chat-customizer"
+import { useListChatbots, useCreateChatbot } from "@/lib/api/generated/chatbots/chatbots"
+import type { ListChatbotsParams, CreateChatbotDto, ApiErrorResponseDto } from "@/lib/api/generated/model"
+import { AxiosError } from "axios"
+import { toast } from "sonner"
 
-export default function ChatbotsPage() {
+export default function ChatbotStudioPage() {
   const params = useParams()
   const facilityId = Number(params.id)
   const queryClient = useQueryClient()
 
-  const {
-    search, setSearch,
-    status, setStatus,
-    page, setPage,
-    limit,
-    listParams,
-    isFiltered,
-    clearFilters,
-  } = useChatbotFilters(facilityId)
-
-  const { data: chatbotsData, isLoading: isLoadingChatbots } = useListChatbots(listParams as unknown as Parameters<typeof useListChatbots>[0])
+  const listParams: ListChatbotsParams = { facility_id: facilityId }
+  const { data: chatbotsData, isLoading: isLoadingChatbots } = useListChatbots(listParams)
   const chatbots = chatbotsData?.data?.items ?? []
-  const pagination = chatbotsData?.data?.pagination
+  const chatbot = chatbots[0]
 
   const createMutation = useCreateChatbot()
-  const updateMutation = useUpdateChatbot()
-  const deleteMutation = useDeleteChatbot()
-
   const [dialogOpen, setDialogOpen] = React.useState(false)
-  const [editingChatbot, setEditingChatbot] = React.useState<ChatbotResponseDto | null>(null)
-  const [deleteOpen, setDeleteOpen] = React.useState(false)
-  const [deletingChatbot, setDeletingChatbot] = React.useState<ChatbotResponseDto | null>(null)
 
-  const openCreate = () => { setEditingChatbot(null); setDialogOpen(true) }
-  const openEdit = (c: ChatbotResponseDto) => { setEditingChatbot(c); setDialogOpen(true) }
-  const openDelete = (c: ChatbotResponseDto) => { setDeletingChatbot(c); setDeleteOpen(true) }
+  const openCreate = () => setDialogOpen(true)
 
-  const handleSubmit = async (values: ChatbotFormValues) => {
-    const payload = {
-      name: values.name,
-      display_name: values.display_name || undefined,
-      description: values.description || undefined,
-      status: values.status,
-    }
-
-    if (editingChatbot) {
-      await updateMutation.mutateAsync({
-        id: editingChatbot.id,
-        data: payload as Parameters<typeof updateMutation.mutateAsync>[0]["data"],
-      })
-    } else {
+  const handleCreate = async (values: ChatbotFormValues) => {
+    try {
       await createMutation.mutateAsync({
-        data: { ...payload, facility_id: facilityId } as Parameters<typeof createMutation.mutateAsync>[0]["data"],
+        data: { ...values, facility_id: facilityId, status: "draft" } as CreateChatbotDto,
       })
+      toast.success("Tạo chatbot thành công")
+      queryClient.invalidateQueries({ queryKey: ["/api/chatbots"] })
+      setDialogOpen(false)
+    } catch (err) {
+      const error = err as AxiosError<ApiErrorResponseDto>
+      const message = error.response?.data?.message || "Có lỗi xảy ra, vui lòng thử lại"
+      toast.error(message)
     }
-
-    queryClient.invalidateQueries({ queryKey: ["/api/chatbots"] })
-    setDialogOpen(false)
-  }
-
-  const handleDelete = async () => {
-    if (!deletingChatbot) return
-    await deleteMutation.mutateAsync({ id: deletingChatbot.id })
-    queryClient.invalidateQueries({ queryKey: ["/api/chatbots"] })
-    setDeleteOpen(false)
-    setDeletingChatbot(null)
   }
 
   return (
@@ -98,45 +58,32 @@ export default function ChatbotsPage() {
                 <BreadcrumbLink href={`/facility/${facilityId}/dashboard`}>Khoa</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
-              <BreadcrumbItem><BreadcrumbPage>Danh s\u00e1ch chatbot</BreadcrumbPage></BreadcrumbItem>
+              <BreadcrumbItem><BreadcrumbPage>Chatbot Studio</BreadcrumbPage></BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
         </div>
       </header>
 
       <div className="flex flex-1 flex-col gap-6 p-4 pt-0">
-        <ChatbotToolbar
-          search={search}
-          onSearchChange={setSearch}
-          statusFilter={status}
-          onStatusChange={setStatus}
-          isFiltered={isFiltered}
-          onClearFilters={clearFilters}
-          onAddChatbot={openCreate}
-        />
+        <div>
+          <h1 className="text-lg font-semibold">Chatbot Studio</h1>
+          <p className="text-sm text-muted-foreground">Tạo và tùy chỉnh giao diện chatbot duy nhất của khoa</p>
+        </div>
 
-        {isLoadingChatbots ? <ChatbotTableSkeleton /> : (
-          <ChatbotTable chatbots={chatbots} onEdit={openEdit} onDelete={openDelete} />
-        )}
-
-        {!isLoadingChatbots && pagination && pagination.total_pages > 1 && (
-          <UserPagination page={pagination.page} totalPages={pagination.total_pages} onPageChange={setPage} />
+        {isLoadingChatbots ? (
+          <div className="flex flex-1 items-center justify-center text-muted-foreground">Đang tải...</div>
+        ) : chatbot ? (
+          <ChatCustomizer chatbotId={chatbot.id} />
+        ) : (
+          <ChatbotEmptyState onCreate={openCreate} />
         )}
 
         <ChatbotFormDialog
           open={dialogOpen}
           onOpenChange={setDialogOpen}
-          editingChatbot={editingChatbot}
-          isSubmitting={createMutation.isPending || updateMutation.isPending}
-          onSubmit={handleSubmit}
-        />
-
-        <ChatbotDeleteDialog
-          open={deleteOpen}
-          onOpenChange={setDeleteOpen}
-          chatbot={deletingChatbot}
-          isDeleting={deleteMutation.isPending}
-          onConfirm={handleDelete}
+          editingChatbot={null}
+          isSubmitting={createMutation.isPending}
+          onSubmit={handleCreate}
         />
       </div>
     </div>
