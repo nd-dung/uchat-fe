@@ -21,10 +21,12 @@ export const ChatPreview = React.memo(function ChatPreview({
 }: ChatPreviewProps) {
   const [message, setMessage] = useState("")
 
+  const previewBackdrop = `color-mix(in srgb, ${style.backgroundColor}, transparent 88%)`
+
   return (
     <div
-      className="flex justify-center items-center min-h-full"
-      style={{ backgroundColor: `${style.backgroundColor}1f` }}
+      className="flex justify-center items-center min-h-full p-10"
+      style={{ backgroundColor: previewBackdrop }}
     >
       <div
         className="transition-all duration-300 figma-hover"

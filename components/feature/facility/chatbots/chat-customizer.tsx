@@ -201,7 +201,7 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
           </div>
         </div>
 
-        <div className="flex-1 p-8 overflow-auto bg-muted/20 custom-scrollbar">
+        <div className="flex-1 overflow-auto custom-scrollbar">
           <ChatPreview style={style} activeDevice={activeDevice} zoomLevel={zoomLevel} />
         </div>
       </div>
