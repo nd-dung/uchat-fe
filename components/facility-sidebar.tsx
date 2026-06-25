@@ -16,6 +16,7 @@ import {
   Building2Icon,
   Settings2Icon,
   BotIcon,
+  SlidersHorizontalIcon,
 } from "lucide-react"
 import { useGetFacility } from "@/lib/api/generated/facilities/facilities"
 
@@ -42,6 +43,11 @@ export function FacilitySidebar({
         title: "Người dùng khoa",
         url: `/facility/${facilityId}/users`,
         icon: <UsersIcon />,
+      },
+      {
+        title: "Cấu hình Chatbot",
+        url: `/facility/${facilityId}/chatbot-config`,
+        icon: <SlidersHorizontalIcon />,
       },
       {
         title: "Chatbot Studio",

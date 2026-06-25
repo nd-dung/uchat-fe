@@ -1,0 +1,175 @@
+/* Chat Widget - uc- prefixed pure CSS */
+
+/* Keyframes */
+@keyframes uc-widget-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes uc-widget-slide-in {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes uc-widget-chat-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes uc-widget-chat-slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes uc-widget-chat-scale-in {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes uc-widget-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes uc-widget-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-25%); }
+}
+
+/* Layout */
+.uc-widget-flex { display: flex; }
+.uc-widget-flex-col { display: flex; flex-direction: column; }
+.uc-widget-flex-row { display: flex; flex-direction: row; }
+.uc-widget-items-center { align-items: center; }
+.uc-widget-items-end { align-items: flex-end; }
+.uc-widget-justify-center { justify-content: center; }
+.uc-widget-justify-start { justify-content: flex-start; }
+.uc-widget-justify-between { justify-content: space-between; }
+.uc-widget-justify-end { justify-content: flex-end; }
+.uc-widget-shrink-0 { flex-shrink: 0; }
+.uc-widget-flex-1 { flex: 1 1 0%; }
+.uc-widget-min-w-0 { min-width: 0; }
+.uc-widget-h-full { height: 100%; }
+.uc-widget-relative { position: relative; }
+.uc-widget-absolute { position: absolute; }
+.uc-widget-inset-0 { inset: 0; }
+.uc-widget-z-10 { z-index: 10; }
+
+/* Overflow */
+.uc-widget-overflow-hidden { overflow: hidden; }
+.uc-widget-overflow-y-auto { overflow-y: auto; }
+
+/* Spacing */
+.uc-widget-p-1 { padding: 0.25rem; }
+.uc-widget-p-4 { padding: 1rem; }
+.uc-widget-px-4 { padding-left: 1rem; padding-right: 1rem; }
+.uc-widget-px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+.uc-widget-py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+.uc-widget-py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+.uc-widget-mb-1 { margin-bottom: 0.25rem; }
+.uc-widget-mb-3 { margin-bottom: 0.75rem; }
+.uc-widget-mb-4 { margin-bottom: 1rem; }
+.uc-widget-mt-1 { margin-top: 0.25rem; }
+.uc-widget-ml-2 { margin-left: 0.5rem; }
+.uc-widget-ml-auto { margin-left: auto; }
+
+/* Gap */
+.uc-widget-gap-1 { gap: 0.25rem; }
+.uc-widget-gap-3 { gap: 0.75rem; }
+
+/* Border */
+.uc-widget-border-b { border-bottom: 1px solid; }
+.uc-widget-border-t { border-top: 1px solid; }
+.uc-widget-border { border: 1px solid; }
+
+/* Border Radius */
+.uc-widget-rounded { border-radius: 0.375rem; }
+.uc-widget-rounded-full { border-radius: 9999px; }
+.uc-widget-rounded-lg { border-radius: 0.5rem; }
+.uc-widget-rounded-md { border-radius: 0.375rem; }
+.uc-widget-rounded-2xl { border-radius: 1rem; }
+
+/* Typography */
+.uc-widget-text-center { text-align: center; }
+.uc-widget-text-xs { font-size: 0.75rem; line-height: 1rem; }
+.uc-widget-text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+.uc-widget-text-10px { font-size: 10px; }
+.uc-widget-font-medium { font-weight: 500; }
+.uc-widget-font-semibold { font-weight: 600; }
+.uc-widget-truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Opacity */
+.uc-widget-opacity-60 { opacity: 0.6; }
+.uc-widget-opacity-70 { opacity: 0.7; }
+.uc-widget-opacity-85 { opacity: 0.85; }
+
+/* Shadow */
+.uc-widget-shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); }
+.uc-widget-shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1); }
+
+/* Transition */
+.uc-widget-transition-all { transition: all 0.2s ease; }
+.uc-widget-transition-shadow { transition: box-shadow 0.2s ease; }
+
+/* Hover */
+.uc-widget-hover-bg-white-20:hover { background-color: rgba(255, 255, 255, 0.2); }
+
+/* Animation classes */
+.uc-widget-animate-pulse { animation: uc-widget-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+.uc-widget-animate-bounce { animation: uc-widget-bounce 1s infinite; }
+
+/* Widths */
+.uc-widget-w-1 { width: 0.25rem; }
+.uc-widget-w-1\.5 { width: 0.375rem; }
+.uc-widget-w-4 { width: 1rem; }
+.uc-widget-w-5 { width: 1.25rem; }
+.uc-widget-w-6 { width: 1.5rem; }
+.uc-widget-w-7 { width: 1.75rem; }
+.uc-widget-w-8 { width: 2rem; }
+.uc-widget-w-10 { width: 2.5rem; }
+.uc-widget-w-16 { width: 4rem; }
+
+/* Heights */
+.uc-widget-h-4 { height: 1rem; }
+.uc-widget-h-5 { height: 1.25rem; }
+.uc-widget-h-7 { height: 1.75rem; }
+.uc-widget-h-8 { height: 2rem; }
+.uc-widget-h-10 { height: 2.5rem; }
+.uc-widget-h-16 { height: 4rem; }
+
+/* Max width */
+.uc-widget-max-w-80 { max-width: 80%; }
+.uc-widget-max-w-85 { max-width: 85%; }
+
+/* Object fit */
+.uc-widget-object-cover { object-fit: cover; }
+.uc-widget-object-contain { object-fit: contain; }
+
+/* Outline */
+.uc-widget-outline-none { outline: none; }
+
+/* Launcher shapes */
+.uc-widget-launcher-circle { border-radius: 9999px; }
+.uc-widget-launcher-pill { border-radius: 9999px; padding-left: 1rem; padding-right: 1rem; }
+.uc-widget-launcher-rounded { border-radius: 1rem; }
+
+/* Launcher animations */
+.uc-widget-launcher-animation-pulse { animation: uc-widget-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+.uc-widget-launcher-animation-bounce { animation: uc-widget-bounce 1s infinite; }
+
+/* Message animations */
+.uc-widget-msg-animation-fade { animation: uc-widget-fade-in 0.3s ease-out both; }
+.uc-widget-msg-animation-slide { animation: uc-widget-slide-in 0.3s ease-out both; }
+
+/* Chat container animations */
+.uc-widget-chat-animation-fade { animation: uc-widget-chat-fade-in 0.3s ease-out; }
+.uc-widget-chat-animation-slide-up { animation: uc-widget-chat-slide-up 0.3s ease-out; }
+.uc-widget-chat-animation-scale { animation: uc-widget-chat-scale-in 0.3s ease-out; }
+
+/* Dot animation */
+.uc-widget-dot {
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 9999px;
+  animation: uc-widget-bounce 1s infinite;
+}

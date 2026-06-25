@@ -110,64 +110,66 @@ export default function FacilityDashboardPage() {
       </header>
 
       <div className="flex flex-1 flex-col gap-6 p-4 pt-0">
-        <div>
-          <h1 className="text-lg font-semibold">{facility?.name || "Khoa"}</h1>
-          <p className="text-sm text-muted-foreground">{facility?.description || "Dashboard quản lý khoa"}</p>
-        </div>
+        <div className="mx-auto w-full max-w-7xl space-y-6">
+          <div>
+            <h1 className="text-lg font-semibold">{facility?.name || "Khoa"}</h1>
+            <p className="text-sm text-muted-foreground">{facility?.description || "Dashboard quản lý khoa"}</p>
+          </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {!facilityData
-            ? Array.from({ length: 3 }).map((_, i) => <StatSkeleton key={i} />)
-            : stats.map((s) => (
-                <StatCard key={s.title} {...s} />
-              ))}
-        </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {!facilityData
+              ? Array.from({ length: 3 }).map((_, i) => <StatSkeleton key={i} />)
+              : stats.map((s) => (
+                  <StatCard key={s.title} {...s} />
+                ))}
+          </div>
 
-        <div className="grid gap-4 lg:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-sm">Hoạt động gần đây</CardTitle>
-              <CardDescription>Cập nhật từ người dùng trong khoa</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="text-sm text-muted-foreground py-8 text-center">
-                Chưa có dữ liệu
-              </div>
-            </CardContent>
-          </Card>
+          <div className="grid gap-4 lg:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-sm">Hoạt động gần đây</CardTitle>
+                <CardDescription>Cập nhật từ người dùng trong khoa</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="text-sm text-muted-foreground py-8 text-center">
+                  Chưa có dữ liệu
+                </div>
+              </CardContent>
+            </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-sm">Thông tin khoa</CardTitle>
-              <CardDescription>Chi tiết thông tin cơ bản</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {facility ? (
-                <>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Mã</span>
-                    <span className="text-sm font-medium">{facility.code}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Slug</span>
-                    <span className="text-sm font-medium">{facility.slug}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Trạng thái</span>
-                    <span className="text-sm font-medium">
-                      {facility.status === "active" ? "Hoạt động" : "Ngừng"}
-                    </span>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-4 w-full" />
-                </>
-              )}
-            </CardContent>
-          </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-sm">Thông tin khoa</CardTitle>
+                <CardDescription>Chi tiết thông tin cơ bản</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {facility ? (
+                  <>
+                    <div className="flex justify-between">
+                      <span className="text-sm text-muted-foreground">Mã</span>
+                      <span className="text-sm font-medium">{facility.code}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-sm text-muted-foreground">Slug</span>
+                      <span className="text-sm font-medium">{facility.slug}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-sm text-muted-foreground">Trạng thái</span>
+                      <span className="text-sm font-medium">
+                        {facility.status === "active" ? "Hoạt động" : "Ngừng"}
+                      </span>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-full" />
+                  </>
+                )}
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
     </div>

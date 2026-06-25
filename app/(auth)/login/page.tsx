@@ -11,6 +11,9 @@ import { Input } from "@/components/ui/input"
 import { useAuth } from "@/hooks/use-auth"
 import type { ApiErrorResponseDto } from "@/lib/api/generated/model"
 import type { AxiosError } from "axios"
+import { useRouter } from "next/navigation"
+import { useGetCurrentUser } from "@/lib/api/generated/auth/auth"
+import { CurrentUserResponseDtoRole } from "@/lib/api/generated/model/currentUserResponseDtoRole"
 
 const loginSchema = z.object({
   email: z.email("Email không hợp lệ"),
@@ -22,6 +25,33 @@ type LoginFormValues = z.infer<typeof loginSchema>
 export default function LoginPage() {
   const { signIn, isSigningIn, signInError } = useAuth()
   const [showPassword, setShowPassword] = React.useState(false)
+  const router = useRouter()
+
+  const { data: userData, isLoading: isLoadingUser } = useGetCurrentUser()
+
+  React.useEffect(() => {
+    if (isLoadingUser) return
+
+    const token = localStorage.getItem("access_token")
+    const user = userData?.data
+
+    if (token && user) {
+      const role = user.role
+      const facilityId = user.facility_id
+
+      if (role === CurrentUserResponseDtoRole.super_admin) {
+        router.replace("/admin")
+      } else if (
+        (role === CurrentUserResponseDtoRole.facility_admin ||
+          role === CurrentUserResponseDtoRole.facility_staff) &&
+        facilityId
+      ) {
+        router.replace(`/facility/${facilityId}/dashboard`)
+      } else {
+        router.replace("/")
+      }
+    }
+  }, [userData, isLoadingUser, router])
 
   const {
     register,
@@ -44,6 +74,14 @@ export default function LoginPage() {
     } catch {
       // Error is already captured in signInError
     }
+  }
+
+  if (isLoadingUser) {
+    return (
+      <div className="flex min-h-svh items-center justify-center">
+        <Loader2 className="h-6 w-6 animate-spin" />
+      </div>
+    )
   }
 
   return (
