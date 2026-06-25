@@ -7,6 +7,60 @@
  */
 import * as zod from "zod"
 
+export const CreateHandoffRequestParams = zod.object({
+  conversation_id: zod.number(),
+})
+
+export const createHandoffRequestBodyPriorityDefault = `normal`
+
+export const CreateHandoffRequestBody = zod.object({
+  visitor_uid: zod.string(),
+  reason: zod.string().optional(),
+  priority: zod
+    .enum(["low", "normal", "high"])
+    .default(createHandoffRequestBodyPriorityDefault),
+})
+
+export const CreateHandoffRequestResponse = zod
+  .object({
+    success: zod.boolean(),
+    status_code: zod.number(),
+    message: zod.string(),
+    meta_data: zod.object({
+      timestamp: zod.string(),
+      path: zod.string(),
+      method: zod.string(),
+    }),
+  })
+  .and(
+    zod.object({
+      data: zod
+        .object({
+          id: zod.number(),
+          conversation_id: zod.number(),
+          visitor_id: zod.number(),
+          chatbot_id: zod.number(),
+          facility_id: zod.number(),
+          assigned_staff_id: zod.number().nullish(),
+          reason: zod.looseObject({}).nullish(),
+          status: zod.enum([
+            "pending",
+            "assigned",
+            "in_progress",
+            "resolved",
+            "cancelled",
+          ]),
+          priority: zod.enum(["low", "normal", "high"]),
+          requested_at: zod.string(),
+          assigned_at: zod.string().nullish(),
+          resolved_at: zod.string().nullish(),
+          created_at: zod.string(),
+          updated_at: zod.string(),
+        })
+        .optional(),
+    })
+  )
+
 export const createOrReuseConversationBodyChannelDefault = `web_widget`
 
 export const CreateOrReuseConversationBody = zod.object({
@@ -97,60 +151,6 @@ export const CreateVisitorMessageResponse = zod
             created_at: zod.string(),
             updated_at: zod.string(),
           }),
-        })
-        .optional(),
-    })
-  )
-
-export const CreateHandoffRequestParams = zod.object({
-  conversation_id: zod.number(),
-})
-
-export const createHandoffRequestBodyPriorityDefault = `normal`
-
-export const CreateHandoffRequestBody = zod.object({
-  visitor_uid: zod.string(),
-  reason: zod.string().optional(),
-  priority: zod
-    .enum(["low", "normal", "high"])
-    .default(createHandoffRequestBodyPriorityDefault),
-})
-
-export const CreateHandoffRequestResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          id: zod.number(),
-          conversation_id: zod.number(),
-          visitor_id: zod.number(),
-          chatbot_id: zod.number(),
-          facility_id: zod.number(),
-          assigned_staff_id: zod.number().nullish(),
-          reason: zod.looseObject({}).nullish(),
-          status: zod.enum([
-            "pending",
-            "assigned",
-            "in_progress",
-            "resolved",
-            "cancelled",
-          ]),
-          priority: zod.enum(["low", "normal", "high"]),
-          requested_at: zod.string(),
-          assigned_at: zod.string().nullish(),
-          resolved_at: zod.string().nullish(),
-          created_at: zod.string(),
-          updated_at: zod.string(),
         })
         .optional(),
     })

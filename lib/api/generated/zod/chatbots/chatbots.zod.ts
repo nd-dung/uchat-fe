@@ -768,3 +768,101 @@ export const UpdateChatbotUiSettingResponse = zod
         .optional(),
     })
   )
+
+export const GetChatbotEmbedSettingParams = zod.object({
+  id: zod.number(),
+})
+
+export const GetChatbotEmbedSettingResponse = zod
+  .object({
+    success: zod.boolean(),
+    status_code: zod.number(),
+    message: zod.string(),
+    meta_data: zod.object({
+      timestamp: zod.string(),
+      path: zod.string(),
+      method: zod.string(),
+    }),
+  })
+  .and(
+    zod.object({
+      data: zod
+        .object({
+          id: zod.number(),
+          chatbot_id: zod.number(),
+          enabled: zod.boolean(),
+          public_key: zod.string(),
+          allowed_origins: zod.array(zod.string()),
+          created_at: zod.string(),
+          updated_at: zod.string(),
+        })
+        .optional(),
+    })
+  )
+
+export const UpdateChatbotEmbedSettingParams = zod.object({
+  id: zod.number(),
+})
+
+export const UpdateChatbotEmbedSettingBody = zod.object({
+  enabled: zod.boolean().optional(),
+  allowed_origins: zod.array(zod.string()).optional(),
+})
+
+export const UpdateChatbotEmbedSettingResponse = zod
+  .object({
+    success: zod.boolean(),
+    status_code: zod.number(),
+    message: zod.string(),
+    meta_data: zod.object({
+      timestamp: zod.string(),
+      path: zod.string(),
+      method: zod.string(),
+    }),
+  })
+  .and(
+    zod.object({
+      data: zod
+        .object({
+          id: zod.number(),
+          chatbot_id: zod.number(),
+          enabled: zod.boolean(),
+          public_key: zod.string(),
+          allowed_origins: zod.array(zod.string()),
+          created_at: zod.string(),
+          updated_at: zod.string(),
+        })
+        .optional(),
+    })
+  )
+
+export const RotateChatbotEmbedPublicKeyParams = zod.object({
+  id: zod.number(),
+})
+
+export const RotateChatbotEmbedPublicKeyResponse = zod
+  .object({
+    success: zod.boolean(),
+    status_code: zod.number(),
+    message: zod.string(),
+    meta_data: zod.object({
+      timestamp: zod.string(),
+      path: zod.string(),
+      method: zod.string(),
+    }),
+  })
+  .and(
+    zod.object({
+      data: zod
+        .object({
+          id: zod.number(),
+          chatbot_id: zod.number(),
+          enabled: zod.boolean(),
+          public_key: zod.string(),
+          allowed_origins: zod.array(zod.string()),
+          created_at: zod.string(),
+          updated_at: zod.string(),
+        })
+        .optional(),
+    })
+  )

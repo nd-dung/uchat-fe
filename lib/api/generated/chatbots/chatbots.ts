@@ -26,11 +26,15 @@ import type {
   CreateChatbotDto,
   CreateChatbotResponse,
   DeleteChatbotResponse,
+  GetChatbotEmbedSettingResponse,
   GetChatbotResponse,
   GetChatbotUiSettingResponse,
   ListChatbotsParams,
   ListChatbotsResponse,
+  RotateChatbotEmbedPublicKeyResponse,
   UpdateChatbotDto,
+  UpdateChatbotEmbedSettingDto,
+  UpdateChatbotEmbedSettingResponse,
   UpdateChatbotResponse,
   UpdateChatbotUiSettingDto,
   UpdateChatbotUiSettingResponse,
@@ -802,6 +806,340 @@ export const useUpdateChatbotUiSetting = <
 > => {
   return useMutation(
     getUpdateChatbotUiSettingMutationOptions(options),
+    queryClient
+  )
+}
+export const getChatbotEmbedSetting = (
+  id: number,
+  options?: SecondParameter<typeof apiClient>,
+  signal?: AbortSignal
+) => {
+  return apiClient<GetChatbotEmbedSettingResponse>(
+    { url: `/api/chatbots/${id}/embed-setting`, method: "GET", signal },
+    options
+  )
+}
+
+export const getGetChatbotEmbedSettingQueryKey = (id: number) => {
+  return [`/api/chatbots/${id}/embed-setting`] as const
+}
+
+export const getGetChatbotEmbedSettingQueryOptions = <
+  TData = Awaited<ReturnType<typeof getChatbotEmbedSetting>>,
+  TError = ErrorType<ApiErrorResponseDto>,
+>(
+  id: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getChatbotEmbedSetting>>,
+        TError,
+        TData
+      >
+    >
+    request?: SecondParameter<typeof apiClient>
+  }
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetChatbotEmbedSettingQueryKey(id)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getChatbotEmbedSetting>>
+  > = ({ signal }) => getChatbotEmbedSetting(id, requestOptions, signal)
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: id !== null && id !== undefined,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getChatbotEmbedSetting>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetChatbotEmbedSettingQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getChatbotEmbedSetting>>
+>
+export type GetChatbotEmbedSettingQueryError = ErrorType<ApiErrorResponseDto>
+
+export function useGetChatbotEmbedSetting<
+  TData = Awaited<ReturnType<typeof getChatbotEmbedSetting>>,
+  TError = ErrorType<ApiErrorResponseDto>,
+>(
+  id: number,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getChatbotEmbedSetting>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getChatbotEmbedSetting>>,
+          TError,
+          Awaited<ReturnType<typeof getChatbotEmbedSetting>>
+        >,
+        "initialData"
+      >
+    request?: SecondParameter<typeof apiClient>
+  },
+  queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetChatbotEmbedSetting<
+  TData = Awaited<ReturnType<typeof getChatbotEmbedSetting>>,
+  TError = ErrorType<ApiErrorResponseDto>,
+>(
+  id: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getChatbotEmbedSetting>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getChatbotEmbedSetting>>,
+          TError,
+          Awaited<ReturnType<typeof getChatbotEmbedSetting>>
+        >,
+        "initialData"
+      >
+    request?: SecondParameter<typeof apiClient>
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetChatbotEmbedSetting<
+  TData = Awaited<ReturnType<typeof getChatbotEmbedSetting>>,
+  TError = ErrorType<ApiErrorResponseDto>,
+>(
+  id: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getChatbotEmbedSetting>>,
+        TError,
+        TData
+      >
+    >
+    request?: SecondParameter<typeof apiClient>
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+
+export function useGetChatbotEmbedSetting<
+  TData = Awaited<ReturnType<typeof getChatbotEmbedSetting>>,
+  TError = ErrorType<ApiErrorResponseDto>,
+>(
+  id: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getChatbotEmbedSetting>>,
+        TError,
+        TData
+      >
+    >
+    request?: SecondParameter<typeof apiClient>
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions = getGetChatbotEmbedSettingQueryOptions(id, options)
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return { ...query, queryKey: queryOptions.queryKey }
+}
+
+export const updateChatbotEmbedSetting = (
+  id: number,
+  updateChatbotEmbedSettingDto: BodyType<UpdateChatbotEmbedSettingDto>,
+  options?: SecondParameter<typeof apiClient>,
+  signal?: AbortSignal
+) => {
+  return apiClient<UpdateChatbotEmbedSettingResponse>(
+    {
+      url: `/api/chatbots/${id}/embed-setting`,
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      data: updateChatbotEmbedSettingDto,
+      signal,
+    },
+    options
+  )
+}
+
+export const getUpdateChatbotEmbedSettingMutationOptions = <
+  TError = ErrorType<ApiErrorResponseDto>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateChatbotEmbedSetting>>,
+    TError,
+    { id: number; data: BodyType<UpdateChatbotEmbedSettingDto> },
+    TContext
+  >
+  request?: SecondParameter<typeof apiClient>
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateChatbotEmbedSetting>>,
+  TError,
+  { id: number; data: BodyType<UpdateChatbotEmbedSettingDto> },
+  TContext
+> => {
+  const mutationKey = ["updateChatbotEmbedSetting"]
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof updateChatbotEmbedSetting>>,
+    { id: number; data: BodyType<UpdateChatbotEmbedSettingDto> }
+  > = (props) => {
+    const { id, data } = props ?? {}
+
+    return updateChatbotEmbedSetting(id, data, requestOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type UpdateChatbotEmbedSettingMutationResult = NonNullable<
+  Awaited<ReturnType<typeof updateChatbotEmbedSetting>>
+>
+export type UpdateChatbotEmbedSettingMutationBody =
+  BodyType<UpdateChatbotEmbedSettingDto>
+export type UpdateChatbotEmbedSettingMutationError =
+  ErrorType<ApiErrorResponseDto>
+
+export const useUpdateChatbotEmbedSetting = <
+  TError = ErrorType<ApiErrorResponseDto>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof updateChatbotEmbedSetting>>,
+      TError,
+      { id: number; data: BodyType<UpdateChatbotEmbedSettingDto> },
+      TContext
+    >
+    request?: SecondParameter<typeof apiClient>
+  },
+  queryClient?: QueryClient
+): UseMutationResult<
+  Awaited<ReturnType<typeof updateChatbotEmbedSetting>>,
+  TError,
+  { id: number; data: BodyType<UpdateChatbotEmbedSettingDto> },
+  TContext
+> => {
+  return useMutation(
+    getUpdateChatbotEmbedSettingMutationOptions(options),
+    queryClient
+  )
+}
+export const rotateChatbotEmbedPublicKey = (
+  id: number,
+  options?: SecondParameter<typeof apiClient>,
+  signal?: AbortSignal
+) => {
+  return apiClient<RotateChatbotEmbedPublicKeyResponse>(
+    {
+      url: `/api/chatbots/${id}/embed-setting/rotate-public-key`,
+      method: "POST",
+      signal,
+    },
+    options
+  )
+}
+
+export const getRotateChatbotEmbedPublicKeyMutationOptions = <
+  TError = ErrorType<ApiErrorResponseDto>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof rotateChatbotEmbedPublicKey>>,
+    TError,
+    { id: number },
+    TContext
+  >
+  request?: SecondParameter<typeof apiClient>
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof rotateChatbotEmbedPublicKey>>,
+  TError,
+  { id: number },
+  TContext
+> => {
+  const mutationKey = ["rotateChatbotEmbedPublicKey"]
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof rotateChatbotEmbedPublicKey>>,
+    { id: number }
+  > = (props) => {
+    const { id } = props ?? {}
+
+    return rotateChatbotEmbedPublicKey(id, requestOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type RotateChatbotEmbedPublicKeyMutationResult = NonNullable<
+  Awaited<ReturnType<typeof rotateChatbotEmbedPublicKey>>
+>
+
+export type RotateChatbotEmbedPublicKeyMutationError =
+  ErrorType<ApiErrorResponseDto>
+
+export const useRotateChatbotEmbedPublicKey = <
+  TError = ErrorType<ApiErrorResponseDto>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof rotateChatbotEmbedPublicKey>>,
+      TError,
+      { id: number },
+      TContext
+    >
+    request?: SecondParameter<typeof apiClient>
+  },
+  queryClient?: QueryClient
+): UseMutationResult<
+  Awaited<ReturnType<typeof rotateChatbotEmbedPublicKey>>,
+  TError,
+  { id: number },
+  TContext
+> => {
+  return useMutation(
+    getRotateChatbotEmbedPublicKeyMutationOptions(options),
     queryClient
   )
 }

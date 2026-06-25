@@ -28,6 +28,93 @@ import type { ErrorType, BodyType } from "../../axios"
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1]
 
+export const createHandoffRequest = (
+  conversationId: number,
+  createHandoffRequestDto: BodyType<CreateHandoffRequestDto>,
+  options?: SecondParameter<typeof apiClient>,
+  signal?: AbortSignal
+) => {
+  return apiClient<CreateHandoffRequestResponse>(
+    {
+      url: `/api/public/chat/conversations/${conversationId}/handoff-request`,
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      data: createHandoffRequestDto,
+      signal,
+    },
+    options
+  )
+}
+
+export const getCreateHandoffRequestMutationOptions = <
+  TError = ErrorType<ApiErrorResponseDto>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createHandoffRequest>>,
+    TError,
+    { conversationId: number; data: BodyType<CreateHandoffRequestDto> },
+    TContext
+  >
+  request?: SecondParameter<typeof apiClient>
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof createHandoffRequest>>,
+  TError,
+  { conversationId: number; data: BodyType<CreateHandoffRequestDto> },
+  TContext
+> => {
+  const mutationKey = ["createHandoffRequest"]
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof createHandoffRequest>>,
+    { conversationId: number; data: BodyType<CreateHandoffRequestDto> }
+  > = (props) => {
+    const { conversationId, data } = props ?? {}
+
+    return createHandoffRequest(conversationId, data, requestOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type CreateHandoffRequestMutationResult = NonNullable<
+  Awaited<ReturnType<typeof createHandoffRequest>>
+>
+export type CreateHandoffRequestMutationBody = BodyType<CreateHandoffRequestDto>
+export type CreateHandoffRequestMutationError = ErrorType<ApiErrorResponseDto>
+
+export const useCreateHandoffRequest = <
+  TError = ErrorType<ApiErrorResponseDto>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof createHandoffRequest>>,
+      TError,
+      { conversationId: number; data: BodyType<CreateHandoffRequestDto> },
+      TContext
+    >
+    request?: SecondParameter<typeof apiClient>
+  },
+  queryClient?: QueryClient
+): UseMutationResult<
+  Awaited<ReturnType<typeof createHandoffRequest>>,
+  TError,
+  { conversationId: number; data: BodyType<CreateHandoffRequestDto> },
+  TContext
+> => {
+  return useMutation(
+    getCreateHandoffRequestMutationOptions(options),
+    queryClient
+  )
+}
 export const createOrReuseConversation = (
   createOrReuseConversationDto: BodyType<CreateOrReuseConversationDto>,
   options?: SecondParameter<typeof apiClient>,
@@ -200,93 +287,6 @@ export const useCreateVisitorMessage = <
 > => {
   return useMutation(
     getCreateVisitorMessageMutationOptions(options),
-    queryClient
-  )
-}
-export const createHandoffRequest = (
-  conversationId: number,
-  createHandoffRequestDto: BodyType<CreateHandoffRequestDto>,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
-) => {
-  return apiClient<CreateHandoffRequestResponse>(
-    {
-      url: `/api/public/chat/conversations/${conversationId}/handoff-request`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: createHandoffRequestDto,
-      signal,
-    },
-    options
-  )
-}
-
-export const getCreateHandoffRequestMutationOptions = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof createHandoffRequest>>,
-    TError,
-    { conversationId: number; data: BodyType<CreateHandoffRequestDto> },
-    TContext
-  >
-  request?: SecondParameter<typeof apiClient>
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof createHandoffRequest>>,
-  TError,
-  { conversationId: number; data: BodyType<CreateHandoffRequestDto> },
-  TContext
-> => {
-  const mutationKey = ["createHandoffRequest"]
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof createHandoffRequest>>,
-    { conversationId: number; data: BodyType<CreateHandoffRequestDto> }
-  > = (props) => {
-    const { conversationId, data } = props ?? {}
-
-    return createHandoffRequest(conversationId, data, requestOptions)
-  }
-
-  return { mutationFn, ...mutationOptions }
-}
-
-export type CreateHandoffRequestMutationResult = NonNullable<
-  Awaited<ReturnType<typeof createHandoffRequest>>
->
-export type CreateHandoffRequestMutationBody = BodyType<CreateHandoffRequestDto>
-export type CreateHandoffRequestMutationError = ErrorType<ApiErrorResponseDto>
-
-export const useCreateHandoffRequest = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof createHandoffRequest>>,
-      TError,
-      { conversationId: number; data: BodyType<CreateHandoffRequestDto> },
-      TContext
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof createHandoffRequest>>,
-  TError,
-  { conversationId: number; data: BodyType<CreateHandoffRequestDto> },
-  TContext
-> => {
-  return useMutation(
-    getCreateHandoffRequestMutationOptions(options),
     queryClient
   )
 }

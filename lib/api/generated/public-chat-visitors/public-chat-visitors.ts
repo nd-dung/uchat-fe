@@ -35,6 +35,189 @@ import type { ErrorType, BodyType } from "../../axios"
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1]
 
+export const findActiveConversation = (
+  visitorUid: string,
+  params: FindActiveConversationParams,
+  options?: SecondParameter<typeof apiClient>,
+  signal?: AbortSignal
+) => {
+  return apiClient<FindActiveConversationResponse>(
+    {
+      url: `/api/public/chat/visitors/${visitorUid}/active-conversation`,
+      method: "GET",
+      params,
+      signal,
+    },
+    options
+  )
+}
+
+export const getFindActiveConversationQueryKey = (
+  visitorUid: string,
+  params?: FindActiveConversationParams
+) => {
+  return [
+    `/api/public/chat/visitors/${visitorUid}/active-conversation`,
+    ...(params ? [params] : []),
+  ] as const
+}
+
+export const getFindActiveConversationQueryOptions = <
+  TData = Awaited<ReturnType<typeof findActiveConversation>>,
+  TError = ErrorType<ApiErrorResponseDto>,
+>(
+  visitorUid: string,
+  params: FindActiveConversationParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof findActiveConversation>>,
+        TError,
+        TData
+      >
+    >
+    request?: SecondParameter<typeof apiClient>
+  }
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getFindActiveConversationQueryKey(visitorUid, params)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof findActiveConversation>>
+  > = ({ signal }) =>
+    findActiveConversation(visitorUid, params, requestOptions, signal)
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: visitorUid !== null && visitorUid !== undefined,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof findActiveConversation>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type FindActiveConversationQueryResult = NonNullable<
+  Awaited<ReturnType<typeof findActiveConversation>>
+>
+export type FindActiveConversationQueryError = ErrorType<ApiErrorResponseDto>
+
+export function useFindActiveConversation<
+  TData = Awaited<ReturnType<typeof findActiveConversation>>,
+  TError = ErrorType<ApiErrorResponseDto>,
+>(
+  visitorUid: string,
+  params: FindActiveConversationParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof findActiveConversation>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof findActiveConversation>>,
+          TError,
+          Awaited<ReturnType<typeof findActiveConversation>>
+        >,
+        "initialData"
+      >
+    request?: SecondParameter<typeof apiClient>
+  },
+  queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useFindActiveConversation<
+  TData = Awaited<ReturnType<typeof findActiveConversation>>,
+  TError = ErrorType<ApiErrorResponseDto>,
+>(
+  visitorUid: string,
+  params: FindActiveConversationParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof findActiveConversation>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof findActiveConversation>>,
+          TError,
+          Awaited<ReturnType<typeof findActiveConversation>>
+        >,
+        "initialData"
+      >
+    request?: SecondParameter<typeof apiClient>
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useFindActiveConversation<
+  TData = Awaited<ReturnType<typeof findActiveConversation>>,
+  TError = ErrorType<ApiErrorResponseDto>,
+>(
+  visitorUid: string,
+  params: FindActiveConversationParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof findActiveConversation>>,
+        TError,
+        TData
+      >
+    >
+    request?: SecondParameter<typeof apiClient>
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+
+export function useFindActiveConversation<
+  TData = Awaited<ReturnType<typeof findActiveConversation>>,
+  TError = ErrorType<ApiErrorResponseDto>,
+>(
+  visitorUid: string,
+  params: FindActiveConversationParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof findActiveConversation>>,
+        TError,
+        TData
+      >
+    >
+    request?: SecondParameter<typeof apiClient>
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions = getFindActiveConversationQueryOptions(
+    visitorUid,
+    params,
+    options
+  )
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return { ...query, queryKey: queryOptions.queryKey }
+}
+
 export const createVisitor = (
   createChatVisitorDto: BodyType<CreateChatVisitorDto>,
   options?: SecondParameter<typeof apiClient>,
@@ -248,189 +431,6 @@ export function useFindVisitor<
   queryKey: DataTag<QueryKey, TData, TError>
 } {
   const queryOptions = getFindVisitorQueryOptions(visitorUid, options)
-
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
-
-  return { ...query, queryKey: queryOptions.queryKey }
-}
-
-export const findActiveConversation = (
-  visitorUid: string,
-  params: FindActiveConversationParams,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
-) => {
-  return apiClient<FindActiveConversationResponse>(
-    {
-      url: `/api/public/chat/visitors/${visitorUid}/active-conversation`,
-      method: "GET",
-      params,
-      signal,
-    },
-    options
-  )
-}
-
-export const getFindActiveConversationQueryKey = (
-  visitorUid: string,
-  params?: FindActiveConversationParams
-) => {
-  return [
-    `/api/public/chat/visitors/${visitorUid}/active-conversation`,
-    ...(params ? [params] : []),
-  ] as const
-}
-
-export const getFindActiveConversationQueryOptions = <
-  TData = Awaited<ReturnType<typeof findActiveConversation>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  visitorUid: string,
-  params: FindActiveConversationParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof findActiveConversation>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  }
-) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {}
-
-  const queryKey =
-    queryOptions?.queryKey ??
-    getFindActiveConversationQueryKey(visitorUid, params)
-
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof findActiveConversation>>
-  > = ({ signal }) =>
-    findActiveConversation(visitorUid, params, requestOptions, signal)
-
-  return {
-    queryKey,
-    queryFn,
-    enabled: visitorUid !== null && visitorUid !== undefined,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof findActiveConversation>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type FindActiveConversationQueryResult = NonNullable<
-  Awaited<ReturnType<typeof findActiveConversation>>
->
-export type FindActiveConversationQueryError = ErrorType<ApiErrorResponseDto>
-
-export function useFindActiveConversation<
-  TData = Awaited<ReturnType<typeof findActiveConversation>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  visitorUid: string,
-  params: FindActiveConversationParams,
-  options: {
-    query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof findActiveConversation>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof findActiveConversation>>,
-          TError,
-          Awaited<ReturnType<typeof findActiveConversation>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useFindActiveConversation<
-  TData = Awaited<ReturnType<typeof findActiveConversation>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  visitorUid: string,
-  params: FindActiveConversationParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof findActiveConversation>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof findActiveConversation>>,
-          TError,
-          Awaited<ReturnType<typeof findActiveConversation>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useFindActiveConversation<
-  TData = Awaited<ReturnType<typeof findActiveConversation>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  visitorUid: string,
-  params: FindActiveConversationParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof findActiveConversation>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-
-export function useFindActiveConversation<
-  TData = Awaited<ReturnType<typeof findActiveConversation>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  visitorUid: string,
-  params: FindActiveConversationParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof findActiveConversation>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-} {
-  const queryOptions = getFindActiveConversationQueryOptions(
-    visitorUid,
-    params,
-    options
-  )
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,
