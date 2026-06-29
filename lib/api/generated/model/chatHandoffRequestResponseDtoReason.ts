@@ -9,6 +9,4 @@
 /**
  * @nullable
  */
-export type ChatHandoffRequestResponseDtoReason = {
-  [key: string]: unknown
-} | null
+export type ChatHandoffRequestResponseDtoReason = { [key: string]: unknown } | null;

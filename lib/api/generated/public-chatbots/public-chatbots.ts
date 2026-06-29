@@ -5,7 +5,9 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import { useQuery } from "@tanstack/react-query"
+import {
+  useQuery
+} from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -15,183 +17,105 @@ import type {
   QueryKey,
   UndefinedInitialDataOptions,
   UseQueryOptions,
-  UseQueryResult,
-} from "@tanstack/react-query"
+  UseQueryResult
+} from '@tanstack/react-query';
 
 import type {
   ApiErrorResponseDto,
-  GetPublicFacilityChatbotResponse,
-} from "../model"
+  GetPublicFacilityChatbotResponse
+} from '../model';
 
-import { apiClient } from "../../axios"
-import type { ErrorType } from "../../axios"
+import { apiClient } from '../../axios';
+import type { ErrorType } from '../../axios';
 
-type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1]
+
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
+
 
 export const getPublicFacilityChatbot = (
-  facilityId: number,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+    facilityId: number,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<GetPublicFacilityChatbotResponse>(
-    {
-      url: `/api/public/facilities/${facilityId}/chatbot`,
-      method: "GET",
-      signal,
+
+
+      return apiClient<GetPublicFacilityChatbotResponse>(
+      {url: `/api/public/facilities/${facilityId}/chatbot`, method: 'GET', signal
     },
-    options
-  )
-}
+      options);
+    }
 
-export const getGetPublicFacilityChatbotQueryKey = (facilityId: number) => {
-  return [`/api/public/facilities/${facilityId}/chatbot`] as const
-}
 
-export const getGetPublicFacilityChatbotQueryOptions = <
-  TData = Awaited<ReturnType<typeof getPublicFacilityChatbot>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  facilityId: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getPublicFacilityChatbot>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  }
+
+
+export const getGetPublicFacilityChatbotQueryKey = (facilityId: number,) => {
+    return [
+    `/api/public/facilities/${facilityId}/chatbot`
+    ] as const;
+    }
+
+
+export const getGetPublicFacilityChatbotQueryOptions = <TData = Awaited<ReturnType<typeof getPublicFacilityChatbot>>, TError = ErrorType<ApiErrorResponseDto>>(facilityId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPublicFacilityChatbot>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
 ) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {}
 
-  const queryKey =
-    queryOptions?.queryKey ?? getGetPublicFacilityChatbotQueryKey(facilityId)
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getPublicFacilityChatbot>>
-  > = ({ signal }) =>
-    getPublicFacilityChatbot(facilityId, requestOptions, signal)
+  const queryKey =  queryOptions?.queryKey ?? getGetPublicFacilityChatbotQueryKey(facilityId);
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: facilityId !== null && facilityId !== undefined,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof getPublicFacilityChatbot>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPublicFacilityChatbot>>> = ({ signal }) => getPublicFacilityChatbot(facilityId, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: facilityId !== null && facilityId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPublicFacilityChatbot>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type GetPublicFacilityChatbotQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getPublicFacilityChatbot>>
->
+export type GetPublicFacilityChatbotQueryResult = NonNullable<Awaited<ReturnType<typeof getPublicFacilityChatbot>>>
 export type GetPublicFacilityChatbotQueryError = ErrorType<ApiErrorResponseDto>
 
-export function useGetPublicFacilityChatbot<
-  TData = Awaited<ReturnType<typeof getPublicFacilityChatbot>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  facilityId: number,
-  options: {
-    query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getPublicFacilityChatbot>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+
+export function useGetPublicFacilityChatbot<TData = Awaited<ReturnType<typeof getPublicFacilityChatbot>>, TError = ErrorType<ApiErrorResponseDto>>(
+ facilityId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPublicFacilityChatbot>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getPublicFacilityChatbot>>,
           TError,
           Awaited<ReturnType<typeof getPublicFacilityChatbot>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useGetPublicFacilityChatbot<
-  TData = Awaited<ReturnType<typeof getPublicFacilityChatbot>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  facilityId: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getPublicFacilityChatbot>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetPublicFacilityChatbot<TData = Awaited<ReturnType<typeof getPublicFacilityChatbot>>, TError = ErrorType<ApiErrorResponseDto>>(
+ facilityId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPublicFacilityChatbot>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getPublicFacilityChatbot>>,
           TError,
           Awaited<ReturnType<typeof getPublicFacilityChatbot>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useGetPublicFacilityChatbot<
-  TData = Awaited<ReturnType<typeof getPublicFacilityChatbot>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  facilityId: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getPublicFacilityChatbot>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetPublicFacilityChatbot<TData = Awaited<ReturnType<typeof getPublicFacilityChatbot>>, TError = ErrorType<ApiErrorResponseDto>>(
+ facilityId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPublicFacilityChatbot>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetPublicFacilityChatbot<TData = Awaited<ReturnType<typeof getPublicFacilityChatbot>>, TError = ErrorType<ApiErrorResponseDto>>(
+ facilityId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPublicFacilityChatbot>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetPublicFacilityChatbotQueryOptions(facilityId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
 }
 
-export function useGetPublicFacilityChatbot<
-  TData = Awaited<ReturnType<typeof getPublicFacilityChatbot>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  facilityId: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getPublicFacilityChatbot>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-} {
-  const queryOptions = getGetPublicFacilityChatbotQueryOptions(
-    facilityId,
-    options
-  )
 
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
-}
+
+
+

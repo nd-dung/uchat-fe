@@ -7,9 +7,9 @@
  */
 
 export interface FacilityStatisticsOverviewResponseDto {
-  total: number
-  active: number
-  inactive: number
-  with_users: number
-  without_users: number
+  total: number;
+  active: number;
+  inactive: number;
+  with_users: number;
+  without_users: number;
 }

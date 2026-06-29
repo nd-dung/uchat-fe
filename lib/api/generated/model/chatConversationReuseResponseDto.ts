@@ -5,9 +5,9 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ChatConversationResponseDto } from "./chatConversationResponseDto"
+import type { ChatConversationResponseDto } from './chatConversationResponseDto';
 
 export interface ChatConversationReuseResponseDto {
-  reused: boolean
-  conversation: ChatConversationResponseDto
+  reused: boolean;
+  conversation: ChatConversationResponseDto;
 }

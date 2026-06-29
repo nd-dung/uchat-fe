@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ListChatbotsSortOrder =
-  (typeof ListChatbotsSortOrder)[keyof typeof ListChatbotsSortOrder]
+export type ListChatbotsSortOrder = typeof ListChatbotsSortOrder[keyof typeof ListChatbotsSortOrder];
+
 
 export const ListChatbotsSortOrder = {
-  asc: "asc",
-  desc: "desc",
-} as const
+  asc: 'asc',
+  desc: 'desc',
+} as const;

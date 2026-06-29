@@ -6,11 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ListFacilitiesSortBy =
-  (typeof ListFacilitiesSortBy)[keyof typeof ListFacilitiesSortBy]
+export type ListFacilitiesSortBy = typeof ListFacilitiesSortBy[keyof typeof ListFacilitiesSortBy];
+
 
 export const ListFacilitiesSortBy = {
-  name: "name",
-  created_at: "created_at",
-  user_count: "user_count",
-} as const
+  name: 'name',
+  created_at: 'created_at',
+  user_count: 'user_count',
+} as const;

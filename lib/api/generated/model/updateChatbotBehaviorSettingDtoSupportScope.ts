@@ -9,6 +9,4 @@
 /**
  * @nullable
  */
-export type UpdateChatbotBehaviorSettingDtoSupportScope = {
-  [key: string]: unknown
-} | null
+export type UpdateChatbotBehaviorSettingDtoSupportScope = { [key: string]: unknown } | null;

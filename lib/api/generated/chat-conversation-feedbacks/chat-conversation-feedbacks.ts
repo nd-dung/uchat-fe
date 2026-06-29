@@ -5,7 +5,10 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import { useMutation, useQuery } from "@tanstack/react-query"
+import {
+  useMutation,
+  useQuery
+} from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -18,8 +21,8 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult,
-} from "@tanstack/react-query"
+  UseQueryResult
+} from '@tanstack/react-query';
 
 import type {
   ApiErrorResponseDto,
@@ -27,420 +30,245 @@ import type {
   ListConversationFeedbacksParams,
   ListConversationFeedbacksResponse,
   UpdateConversationFeedbackStatusResponse,
-  UpdateFeedbackStatusDto,
-} from "../model"
+  UpdateFeedbackStatusDto
+} from '../model';
 
-import { apiClient } from "../../axios"
-import type { ErrorType, BodyType } from "../../axios"
+import { apiClient } from '../../axios';
+import type { ErrorType , BodyType } from '../../axios';
 
-type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1]
+
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
+
 
 export const listConversationFeedbacks = (
-  params?: ListConversationFeedbacksParams,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+    params?: ListConversationFeedbacksParams,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<ListConversationFeedbacksResponse>(
-    { url: `/api/chat-conversation-feedbacks`, method: "GET", params, signal },
-    options
-  )
+
+
+      return apiClient<ListConversationFeedbacksResponse>(
+      {url: `/api/chat-conversation-feedbacks`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+
+
+
+
+export const getListConversationFeedbacksQueryKey = (params?: ListConversationFeedbacksParams,) => {
+    return [
+    `/api/chat-conversation-feedbacks`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getListConversationFeedbacksQueryOptions = <TData = Awaited<ReturnType<typeof listConversationFeedbacks>>, TError = ErrorType<ApiErrorResponseDto>>(params?: ListConversationFeedbacksParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listConversationFeedbacks>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListConversationFeedbacksQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listConversationFeedbacks>>> = ({ signal }) => listConversationFeedbacks(params, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listConversationFeedbacks>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export const getListConversationFeedbacksQueryKey = (
-  params?: ListConversationFeedbacksParams
-) => {
-  return [
-    `/api/chat-conversation-feedbacks`,
-    ...(params ? [params] : []),
-  ] as const
-}
-
-export const getListConversationFeedbacksQueryOptions = <
-  TData = Awaited<ReturnType<typeof listConversationFeedbacks>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  params?: ListConversationFeedbacksParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof listConversationFeedbacks>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  }
-) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {}
-
-  const queryKey =
-    queryOptions?.queryKey ?? getListConversationFeedbacksQueryKey(params)
-
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof listConversationFeedbacks>>
-  > = ({ signal }) => listConversationFeedbacks(params, requestOptions, signal)
-
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof listConversationFeedbacks>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type ListConversationFeedbacksQueryResult = NonNullable<
-  Awaited<ReturnType<typeof listConversationFeedbacks>>
->
+export type ListConversationFeedbacksQueryResult = NonNullable<Awaited<ReturnType<typeof listConversationFeedbacks>>>
 export type ListConversationFeedbacksQueryError = ErrorType<ApiErrorResponseDto>
 
-export function useListConversationFeedbacks<
-  TData = Awaited<ReturnType<typeof listConversationFeedbacks>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  params: undefined | ListConversationFeedbacksParams,
-  options: {
-    query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof listConversationFeedbacks>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+
+export function useListConversationFeedbacks<TData = Awaited<ReturnType<typeof listConversationFeedbacks>>, TError = ErrorType<ApiErrorResponseDto>>(
+ params: undefined |  ListConversationFeedbacksParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listConversationFeedbacks>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof listConversationFeedbacks>>,
           TError,
           Awaited<ReturnType<typeof listConversationFeedbacks>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useListConversationFeedbacks<
-  TData = Awaited<ReturnType<typeof listConversationFeedbacks>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  params?: ListConversationFeedbacksParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof listConversationFeedbacks>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListConversationFeedbacks<TData = Awaited<ReturnType<typeof listConversationFeedbacks>>, TError = ErrorType<ApiErrorResponseDto>>(
+ params?: ListConversationFeedbacksParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listConversationFeedbacks>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof listConversationFeedbacks>>,
           TError,
           Awaited<ReturnType<typeof listConversationFeedbacks>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useListConversationFeedbacks<
-  TData = Awaited<ReturnType<typeof listConversationFeedbacks>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  params?: ListConversationFeedbacksParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof listConversationFeedbacks>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListConversationFeedbacks<TData = Awaited<ReturnType<typeof listConversationFeedbacks>>, TError = ErrorType<ApiErrorResponseDto>>(
+ params?: ListConversationFeedbacksParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listConversationFeedbacks>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useListConversationFeedbacks<TData = Awaited<ReturnType<typeof listConversationFeedbacks>>, TError = ErrorType<ApiErrorResponseDto>>(
+ params?: ListConversationFeedbacksParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listConversationFeedbacks>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListConversationFeedbacksQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
 }
 
-export function useListConversationFeedbacks<
-  TData = Awaited<ReturnType<typeof listConversationFeedbacks>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  params?: ListConversationFeedbacksParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof listConversationFeedbacks>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-} {
-  const queryOptions = getListConversationFeedbacksQueryOptions(params, options)
 
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
-}
+
+
 
 export const getConversationFeedback = (
-  id: number,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+    id: number,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<GetConversationFeedbackResponse>(
-    { url: `/api/chat-conversation-feedbacks/${id}`, method: "GET", signal },
-    options
-  )
-}
 
-export const getGetConversationFeedbackQueryKey = (id: number) => {
-  return [`/api/chat-conversation-feedbacks/${id}`] as const
-}
 
-export const getGetConversationFeedbackQueryOptions = <
-  TData = Awaited<ReturnType<typeof getConversationFeedback>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getConversationFeedback>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  }
+      return apiClient<GetConversationFeedbackResponse>(
+      {url: `/api/chat-conversation-feedbacks/${id}`, method: 'GET', signal
+    },
+      options);
+    }
+
+
+
+
+export const getGetConversationFeedbackQueryKey = (id: number,) => {
+    return [
+    `/api/chat-conversation-feedbacks/${id}`
+    ] as const;
+    }
+
+
+export const getGetConversationFeedbackQueryOptions = <TData = Awaited<ReturnType<typeof getConversationFeedback>>, TError = ErrorType<ApiErrorResponseDto>>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getConversationFeedback>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
 ) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {}
 
-  const queryKey =
-    queryOptions?.queryKey ?? getGetConversationFeedbackQueryKey(id)
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getConversationFeedback>>
-  > = ({ signal }) => getConversationFeedback(id, requestOptions, signal)
+  const queryKey =  queryOptions?.queryKey ?? getGetConversationFeedbackQueryKey(id);
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: id !== null && id !== undefined,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof getConversationFeedback>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getConversationFeedback>>> = ({ signal }) => getConversationFeedback(id, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getConversationFeedback>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type GetConversationFeedbackQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getConversationFeedback>>
->
+export type GetConversationFeedbackQueryResult = NonNullable<Awaited<ReturnType<typeof getConversationFeedback>>>
 export type GetConversationFeedbackQueryError = ErrorType<ApiErrorResponseDto>
 
-export function useGetConversationFeedback<
-  TData = Awaited<ReturnType<typeof getConversationFeedback>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options: {
-    query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getConversationFeedback>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+
+export function useGetConversationFeedback<TData = Awaited<ReturnType<typeof getConversationFeedback>>, TError = ErrorType<ApiErrorResponseDto>>(
+ id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getConversationFeedback>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getConversationFeedback>>,
           TError,
           Awaited<ReturnType<typeof getConversationFeedback>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useGetConversationFeedback<
-  TData = Awaited<ReturnType<typeof getConversationFeedback>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getConversationFeedback>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetConversationFeedback<TData = Awaited<ReturnType<typeof getConversationFeedback>>, TError = ErrorType<ApiErrorResponseDto>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getConversationFeedback>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getConversationFeedback>>,
           TError,
           Awaited<ReturnType<typeof getConversationFeedback>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useGetConversationFeedback<
-  TData = Awaited<ReturnType<typeof getConversationFeedback>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getConversationFeedback>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetConversationFeedback<TData = Awaited<ReturnType<typeof getConversationFeedback>>, TError = ErrorType<ApiErrorResponseDto>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getConversationFeedback>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetConversationFeedback<TData = Awaited<ReturnType<typeof getConversationFeedback>>, TError = ErrorType<ApiErrorResponseDto>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getConversationFeedback>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetConversationFeedbackQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
 }
 
-export function useGetConversationFeedback<
-  TData = Awaited<ReturnType<typeof getConversationFeedback>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getConversationFeedback>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-} {
-  const queryOptions = getGetConversationFeedbackQueryOptions(id, options)
 
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
-}
+
+
 
 export const updateConversationFeedbackStatus = (
-  id: number,
-  updateFeedbackStatusDto: BodyType<UpdateFeedbackStatusDto>,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+    id: number,
+    updateFeedbackStatusDto: BodyType<UpdateFeedbackStatusDto>,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<UpdateConversationFeedbackStatusResponse>(
-    {
-      url: `/api/chat-conversation-feedbacks/${id}/status`,
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      data: updateFeedbackStatusDto,
-      signal,
+
+
+      return apiClient<UpdateConversationFeedbackStatusResponse>(
+      {url: `/api/chat-conversation-feedbacks/${id}/status`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: updateFeedbackStatusDto, signal
     },
-    options
-  )
-}
+      options);
+    }
 
-export const getUpdateConversationFeedbackStatusMutationOptions = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof updateConversationFeedbackStatus>>,
-    TError,
-    { id: number; data: BodyType<UpdateFeedbackStatusDto> },
-    TContext
-  >
-  request?: SecondParameter<typeof apiClient>
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof updateConversationFeedbackStatus>>,
-  TError,
-  { id: number; data: BodyType<UpdateFeedbackStatusDto> },
-  TContext
-> => {
-  const mutationKey = ["updateConversationFeedbackStatus"]
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof updateConversationFeedbackStatus>>,
-    { id: number; data: BodyType<UpdateFeedbackStatusDto> }
-  > = (props) => {
-    const { id, data } = props ?? {}
 
-    return updateConversationFeedbackStatus(id, data, requestOptions)
-  }
+export const getUpdateConversationFeedbackStatusMutationOptions = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateConversationFeedbackStatus>>, TError,{id: number;data: BodyType<UpdateFeedbackStatusDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateConversationFeedbackStatus>>, TError,{id: number;data: BodyType<UpdateFeedbackStatusDto>}, TContext> => {
 
-  return { mutationFn, ...mutationOptions }
-}
+const mutationKey = ['updateConversationFeedbackStatus'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type UpdateConversationFeedbackStatusMutationResult = NonNullable<
-  Awaited<ReturnType<typeof updateConversationFeedbackStatus>>
->
-export type UpdateConversationFeedbackStatusMutationBody =
-  BodyType<UpdateFeedbackStatusDto>
-export type UpdateConversationFeedbackStatusMutationError =
-  ErrorType<ApiErrorResponseDto>
 
-export const useUpdateConversationFeedbackStatus = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof updateConversationFeedbackStatus>>,
-      TError,
-      { id: number; data: BodyType<UpdateFeedbackStatusDto> },
-      TContext
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof updateConversationFeedbackStatus>>,
-  TError,
-  { id: number; data: BodyType<UpdateFeedbackStatusDto> },
-  TContext
-> => {
-  return useMutation(
-    getUpdateConversationFeedbackStatusMutationOptions(options),
-    queryClient
-  )
-}
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateConversationFeedbackStatus>>, {id: number;data: BodyType<UpdateFeedbackStatusDto>}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateConversationFeedbackStatus(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateConversationFeedbackStatusMutationResult = NonNullable<Awaited<ReturnType<typeof updateConversationFeedbackStatus>>>
+    export type UpdateConversationFeedbackStatusMutationBody = BodyType<UpdateFeedbackStatusDto>
+    export type UpdateConversationFeedbackStatusMutationError = ErrorType<ApiErrorResponseDto>
+
+    export const useUpdateConversationFeedbackStatus = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateConversationFeedbackStatus>>, TError,{id: number;data: BodyType<UpdateFeedbackStatusDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof updateConversationFeedbackStatus>>,
+        TError,
+        {id: number;data: BodyType<UpdateFeedbackStatusDto>},
+        TContext
+      > => {
+      return useMutation(getUpdateConversationFeedbackStatusMutationOptions(options), queryClient);
+    }

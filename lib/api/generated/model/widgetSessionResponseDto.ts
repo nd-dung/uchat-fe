@@ -5,11 +5,11 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ChatVisitorResponseDto } from "./chatVisitorResponseDto"
+import type { ChatVisitorResponseDto } from './chatVisitorResponseDto';
 
 export interface WidgetSessionResponseDto {
-  access_token: string
-  token_type: string
-  expires_in: number
-  visitor: ChatVisitorResponseDto
+  access_token: string;
+  token_type: string;
+  expires_in: number;
+  visitor: ChatVisitorResponseDto;
 }

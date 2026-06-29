@@ -5,14 +5,14 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { CreateChatbotDtoDescription } from "./createChatbotDtoDescription"
-import type { CreateChatbotDtoDisplayName } from "./createChatbotDtoDisplayName"
-import type { CreateChatbotDtoStatus } from "./createChatbotDtoStatus"
+import type { CreateChatbotDtoDescription } from './createChatbotDtoDescription';
+import type { CreateChatbotDtoDisplayName } from './createChatbotDtoDisplayName';
+import type { CreateChatbotDtoStatus } from './createChatbotDtoStatus';
 
 export interface CreateChatbotDto {
-  facility_id: number
-  name: string
-  display_name?: CreateChatbotDtoDisplayName
-  description?: CreateChatbotDtoDescription
-  status?: CreateChatbotDtoStatus
+  facility_id: number;
+  name: string;
+  display_name?: CreateChatbotDtoDisplayName;
+  description?: CreateChatbotDtoDescription;
+  status?: CreateChatbotDtoStatus;
 }

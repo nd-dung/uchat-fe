@@ -7,5 +7,5 @@
  */
 
 export interface CreateStaffMessageDto {
-  content: string
+  content: string;
 }

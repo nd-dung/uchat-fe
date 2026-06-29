@@ -5,14 +5,14 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { RuntimeChatbotSummaryResponseDtoDisplayName } from "./runtimeChatbotSummaryResponseDtoDisplayName"
-import type { RuntimeChatbotSummaryResponseDtoStatus } from "./runtimeChatbotSummaryResponseDtoStatus"
+import type { RuntimeChatbotSummaryResponseDtoDisplayName } from './runtimeChatbotSummaryResponseDtoDisplayName';
+import type { RuntimeChatbotSummaryResponseDtoStatus } from './runtimeChatbotSummaryResponseDtoStatus';
 
 export interface RuntimeChatbotSummaryResponseDto {
-  id: number
-  facility_id: number
-  name: string
+  id: number;
+  facility_id: number;
+  name: string;
   /** @nullable */
-  display_name?: RuntimeChatbotSummaryResponseDtoDisplayName
-  status: RuntimeChatbotSummaryResponseDtoStatus
+  display_name?: RuntimeChatbotSummaryResponseDtoDisplayName;
+  status: RuntimeChatbotSummaryResponseDtoStatus;
 }

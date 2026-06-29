@@ -6,12 +6,12 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ListConversationFeedbacksStatus =
-  (typeof ListConversationFeedbacksStatus)[keyof typeof ListConversationFeedbacksStatus]
+export type ListConversationFeedbacksStatus = typeof ListConversationFeedbacksStatus[keyof typeof ListConversationFeedbacksStatus];
+
 
 export const ListConversationFeedbacksStatus = {
-  new: "new",
-  reviewing: "reviewing",
-  resolved: "resolved",
-  ignored: "ignored",
-} as const
+  new: 'new',
+  reviewing: 'reviewing',
+  resolved: 'resolved',
+  ignored: 'ignored',
+} as const;

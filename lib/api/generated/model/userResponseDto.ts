@@ -5,21 +5,21 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { UserResponseDtoRole } from "./userResponseDtoRole"
-import type { UserResponseDtoStatus } from "./userResponseDtoStatus"
+import type { UserResponseDtoRole } from './userResponseDtoRole';
+import type { UserResponseDtoStatus } from './userResponseDtoStatus';
 
 export interface UserResponseDto {
-  id: number
-  name: string
-  email: string
+  id: number;
+  name: string;
+  email: string;
   /** @nullable */
-  avatar?: string | null
-  role: UserResponseDtoRole
-  status: UserResponseDtoStatus
+  avatar?: string | null;
+  role: UserResponseDtoRole;
+  status: UserResponseDtoStatus;
   /** @nullable */
-  facility_id?: number | null
+  facility_id?: number | null;
   /** @nullable */
-  last_login_at?: string | null
-  created_at: string
-  updated_at: string
+  last_login_at?: string | null;
+  created_at: string;
+  updated_at: string;
 }

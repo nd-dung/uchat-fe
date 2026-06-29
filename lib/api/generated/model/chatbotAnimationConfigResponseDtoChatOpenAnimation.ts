@@ -6,12 +6,12 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ChatbotAnimationConfigResponseDtoChatOpenAnimation =
-  (typeof ChatbotAnimationConfigResponseDtoChatOpenAnimation)[keyof typeof ChatbotAnimationConfigResponseDtoChatOpenAnimation]
+export type ChatbotAnimationConfigResponseDtoChatOpenAnimation = typeof ChatbotAnimationConfigResponseDtoChatOpenAnimation[keyof typeof ChatbotAnimationConfigResponseDtoChatOpenAnimation];
+
 
 export const ChatbotAnimationConfigResponseDtoChatOpenAnimation = {
-  none: "none",
-  fade: "fade",
-  slide_up: "slide_up",
-  scale: "scale",
-} as const
+  none: 'none',
+  fade: 'fade',
+  slide_up: 'slide_up',
+  scale: 'scale',
+} as const;

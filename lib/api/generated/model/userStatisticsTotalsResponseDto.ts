@@ -7,9 +7,9 @@
  */
 
 export interface UserStatisticsTotalsResponseDto {
-  total: number
-  active: number
-  inactive: number
-  new_users: number
-  never_logged_in: number
+  total: number;
+  active: number;
+  inactive: number;
+  new_users: number;
+  never_logged_in: number;
 }

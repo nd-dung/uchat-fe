@@ -6,11 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
-export type UserResponseDtoRole =
-  (typeof UserResponseDtoRole)[keyof typeof UserResponseDtoRole]
+export type UserResponseDtoRole = typeof UserResponseDtoRole[keyof typeof UserResponseDtoRole];
+
 
 export const UserResponseDtoRole = {
-  super_admin: "super_admin",
-  facility_admin: "facility_admin",
-  facility_staff: "facility_staff",
-} as const
+  super_admin: 'super_admin',
+  facility_admin: 'facility_admin',
+  facility_staff: 'facility_staff',
+} as const;

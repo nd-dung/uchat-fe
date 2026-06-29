@@ -7,7 +7,7 @@
  */
 
 export interface UserStatisticsByRoleResponseDto {
-  super_admin: number
-  facility_admin: number
-  facility_staff: number
+  super_admin: number;
+  facility_admin: number;
+  facility_staff: number;
 }

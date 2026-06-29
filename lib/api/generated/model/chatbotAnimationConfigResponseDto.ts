@@ -5,16 +5,16 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ChatbotAnimationConfigResponseDtoChatOpenAnimation } from "./chatbotAnimationConfigResponseDtoChatOpenAnimation"
-import type { ChatbotAnimationConfigResponseDtoLauncherAnimation } from "./chatbotAnimationConfigResponseDtoLauncherAnimation"
-import type { ChatbotAnimationConfigResponseDtoMessageAnimation } from "./chatbotAnimationConfigResponseDtoMessageAnimation"
-import type { ChatbotAnimationConfigResponseDtoTypingIndicatorStyle } from "./chatbotAnimationConfigResponseDtoTypingIndicatorStyle"
+import type { ChatbotAnimationConfigResponseDtoChatOpenAnimation } from './chatbotAnimationConfigResponseDtoChatOpenAnimation';
+import type { ChatbotAnimationConfigResponseDtoLauncherAnimation } from './chatbotAnimationConfigResponseDtoLauncherAnimation';
+import type { ChatbotAnimationConfigResponseDtoMessageAnimation } from './chatbotAnimationConfigResponseDtoMessageAnimation';
+import type { ChatbotAnimationConfigResponseDtoTypingIndicatorStyle } from './chatbotAnimationConfigResponseDtoTypingIndicatorStyle';
 
 export interface ChatbotAnimationConfigResponseDto {
-  animation_enabled: boolean
-  launcher_animation: ChatbotAnimationConfigResponseDtoLauncherAnimation
-  chat_open_animation: ChatbotAnimationConfigResponseDtoChatOpenAnimation
-  message_animation: ChatbotAnimationConfigResponseDtoMessageAnimation
-  typing_indicator_enabled: boolean
-  typing_indicator_style: ChatbotAnimationConfigResponseDtoTypingIndicatorStyle
+  animation_enabled: boolean;
+  launcher_animation: ChatbotAnimationConfigResponseDtoLauncherAnimation;
+  chat_open_animation: ChatbotAnimationConfigResponseDtoChatOpenAnimation;
+  message_animation: ChatbotAnimationConfigResponseDtoMessageAnimation;
+  typing_indicator_enabled: boolean;
+  typing_indicator_style: ChatbotAnimationConfigResponseDtoTypingIndicatorStyle;
 }

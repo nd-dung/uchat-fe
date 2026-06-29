@@ -9,6 +9,4 @@
 /**
  * @nullable
  */
-export type MessageFeedbackListItemResponseDtoMetadata = {
-  [key: string]: unknown
-} | null
+export type MessageFeedbackListItemResponseDtoMetadata = { [key: string]: unknown } | null;

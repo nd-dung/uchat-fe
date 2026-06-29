@@ -5,9 +5,9 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ApiSuccessResponseDto } from "./apiSuccessResponseDto"
-import type { UserResponseDto } from "./userResponseDto"
+import type { ApiSuccessResponseDto } from './apiSuccessResponseDto';
+import type { UserResponseDto } from './userResponseDto';
 
 export type UpdateUserResponse = ApiSuccessResponseDto & {
-  data?: UserResponseDto
-}
+  data?: UserResponseDto;
+};

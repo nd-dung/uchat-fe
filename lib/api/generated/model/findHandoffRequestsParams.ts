@@ -5,13 +5,13 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { FindHandoffRequestsPriority } from "./findHandoffRequestsPriority"
-import type { FindHandoffRequestsStatus } from "./findHandoffRequestsStatus"
+import type { FindHandoffRequestsPriority } from './findHandoffRequestsPriority';
+import type { FindHandoffRequestsStatus } from './findHandoffRequestsStatus';
 
 export type FindHandoffRequestsParams = {
-  page?: number
-  limit?: number
-  status?: FindHandoffRequestsStatus
-  priority?: FindHandoffRequestsPriority
-  assigned_staff_id?: number
-}
+page?: number;
+limit?: number;
+status?: FindHandoffRequestsStatus;
+priority?: FindHandoffRequestsPriority;
+assigned_staff_id?: number;
+};

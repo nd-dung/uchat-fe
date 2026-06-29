@@ -9,6 +9,4 @@
 /**
  * Legacy flat field.
  */
-export type UpdateChatbotUiSettingDtoBackgroundColor = {
-  [key: string]: unknown
-}
+export type UpdateChatbotUiSettingDtoBackgroundColor = { [key: string]: unknown };

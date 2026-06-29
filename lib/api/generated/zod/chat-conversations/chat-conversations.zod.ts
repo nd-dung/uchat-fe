@@ -5,335 +5,346 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import * as zod from "zod"
+import * as zod from 'zod';
+
 
 export const FindMessagesParams = zod.object({
-  id: zod.number(),
+  "id": zod.number()
 })
 
-export const FindMessagesResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .array(
-          zod.object({
-            id: zod.number(),
-            conversation_id: zod.number(),
-            sender_type: zod.enum(["visitor", "bot", "staff", "system"]),
-            sender_id: zod.number().nullish(),
-            message_type: zod.enum(["text", "system_event", "image", "file"]),
-            content: zod.looseObject({}).nullish(),
-            answer_status: zod
-              .enum(["answered", "fallback", "error"])
-              .nullish(),
-            metadata: zod.record(zod.string(), zod.unknown()).nullish(),
-            sent_at: zod.string(),
-            created_at: zod.string(),
-            updated_at: zod.string(),
-          })
-        )
-        .optional(),
-    })
-  )
+export const FindMessagesResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.array(zod.object({
+  "id": zod.number(),
+  "conversation_id": zod.number(),
+  "sender_type": zod.enum(['visitor', 'bot', 'staff', 'system']),
+  "sender_id": zod.number().nullish(),
+  "message_type": zod.enum(['text', 'system_event', 'image', 'file']),
+  "content": zod.looseObject({
 
-export const findConversationsQueryPageDefault = 1
-export const findConversationsQueryLimitDefault = 20
+}).nullish(),
+  "answer_status": zod.enum(['answered', 'fallback', 'error']).nullish(),
+  "metadata": zod.record(zod.string(), zod.unknown()).nullish(),
+  "sent_at": zod.string(),
+  "created_at": zod.string(),
+  "updated_at": zod.string()
+})).optional()
+}))
+
+export const findConversationsQueryPageDefault = 1;
+export const findConversationsQueryLimitDefault = 20;
 
 export const FindConversationsQueryParams = zod.object({
-  page: zod.number().default(findConversationsQueryPageDefault),
-  limit: zod.number().default(findConversationsQueryLimitDefault),
-  status: zod
-    .enum([
-      "bot_active",
-      "handoff_requested",
-      "staff_assigned",
-      "staff_active",
-      "closed",
-    ])
-    .optional(),
-  chatbot_id: zod.number().optional(),
-  assigned_staff_id: zod.number().optional(),
+  "page": zod.number().default(findConversationsQueryPageDefault),
+  "limit": zod.number().default(findConversationsQueryLimitDefault),
+  "status": zod.enum(['bot_active', 'handoff_requested', 'staff_assigned', 'staff_active', 'closed']).optional(),
+  "chatbot_id": zod.number().optional(),
+  "assigned_staff_id": zod.number().optional()
 })
 
-export const FindConversationsResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          items: zod.array(
-            zod.object({
-              id: zod.number(),
-              visitor_id: zod.number(),
-              chatbot_id: zod.number(),
-              facility_id: zod.number(),
-              assigned_staff_id: zod.number().nullish(),
-              status: zod.enum([
-                "bot_active",
-                "handoff_requested",
-                "staff_assigned",
-                "staff_active",
-                "closed",
-              ]),
-              channel: zod.string(),
-              started_at: zod.string(),
-              last_message_at: zod.string().nullish(),
-              ended_at: zod.string().nullish(),
-              metadata: zod.record(zod.string(), zod.unknown()).nullish(),
-              created_at: zod.string(),
-              updated_at: zod.string(),
-              visitor: zod.object({
-                id: zod.number(),
-                visitor_uid: zod.string(),
-                name: zod.looseObject({}).nullish(),
-                email: zod.looseObject({}).nullish(),
-                phone: zod.looseObject({}).nullish(),
-              }),
-            })
-          ),
-          pagination: zod.object({
-            page: zod.number(),
-            limit: zod.number(),
-            total: zod.number(),
-            total_pages: zod.number(),
-          }),
-        })
-        .optional(),
-    })
-  )
+export const FindConversationsResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "items": zod.array(zod.object({
+  "id": zod.number(),
+  "visitor_id": zod.number(),
+  "chatbot_id": zod.number(),
+  "facility_id": zod.number(),
+  "assigned_staff_id": zod.number().nullish(),
+  "status": zod.enum(['bot_active', 'handoff_requested', 'staff_assigned', 'staff_active', 'closed']),
+  "channel": zod.string(),
+  "started_at": zod.string(),
+  "last_message_at": zod.string().nullish(),
+  "ended_at": zod.string().nullish(),
+  "metadata": zod.record(zod.string(), zod.unknown()).nullish(),
+  "created_at": zod.string(),
+  "updated_at": zod.string(),
+  "visitor": zod.object({
+  "id": zod.number(),
+  "visitor_uid": zod.string(),
+  "name": zod.looseObject({
+
+}).nullish(),
+  "email": zod.looseObject({
+
+}).nullish(),
+  "phone": zod.looseObject({
+
+}).nullish()
+}),
+  "last_message": zod.object({
+  "content": zod.looseObject({
+
+}).nullish(),
+  "sender_type": zod.looseObject({
+
+}).nullish(),
+  "sent_at": zod.looseObject({
+
+}).nullish()
+}).nullish(),
+  "assigned_staff": zod.object({
+  "id": zod.number(),
+  "name": zod.string(),
+  "avatar": zod.looseObject({
+
+}).nullish()
+}).nullish()
+})),
+  "pagination": zod.object({
+  "page": zod.number(),
+  "limit": zod.number(),
+  "total": zod.number(),
+  "total_pages": zod.number()
+})
+}).optional()
+}))
 
 export const FindConversationParams = zod.object({
-  id: zod.number(),
+  "id": zod.number()
 })
 
-export const FindConversationResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          id: zod.number(),
-          visitor_id: zod.number(),
-          chatbot_id: zod.number(),
-          facility_id: zod.number(),
-          assigned_staff_id: zod.number().nullish(),
-          status: zod.enum([
-            "bot_active",
-            "handoff_requested",
-            "staff_assigned",
-            "staff_active",
-            "closed",
-          ]),
-          channel: zod.string(),
-          started_at: zod.string(),
-          last_message_at: zod.string().nullish(),
-          ended_at: zod.string().nullish(),
-          metadata: zod.record(zod.string(), zod.unknown()).nullish(),
-          created_at: zod.string(),
-          updated_at: zod.string(),
-          visitor: zod.object({
-            id: zod.number(),
-            visitor_uid: zod.string(),
-            name: zod.looseObject({}).nullish(),
-            email: zod.looseObject({}).nullish(),
-            phone: zod.looseObject({}).nullish(),
-          }),
-        })
-        .optional(),
-    })
-  )
+export const FindConversationResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "id": zod.number(),
+  "visitor_id": zod.number(),
+  "chatbot_id": zod.number(),
+  "facility_id": zod.number(),
+  "assigned_staff_id": zod.number().nullish(),
+  "status": zod.enum(['bot_active', 'handoff_requested', 'staff_assigned', 'staff_active', 'closed']),
+  "channel": zod.string(),
+  "started_at": zod.string(),
+  "last_message_at": zod.string().nullish(),
+  "ended_at": zod.string().nullish(),
+  "metadata": zod.record(zod.string(), zod.unknown()).nullish(),
+  "created_at": zod.string(),
+  "updated_at": zod.string(),
+  "visitor": zod.object({
+  "id": zod.number(),
+  "visitor_uid": zod.string(),
+  "name": zod.looseObject({
+
+}).nullish(),
+  "email": zod.looseObject({
+
+}).nullish(),
+  "phone": zod.looseObject({
+
+}).nullish()
+}),
+  "last_message": zod.object({
+  "content": zod.looseObject({
+
+}).nullish(),
+  "sender_type": zod.looseObject({
+
+}).nullish(),
+  "sent_at": zod.looseObject({
+
+}).nullish()
+}).nullish(),
+  "assigned_staff": zod.object({
+  "id": zod.number(),
+  "name": zod.string(),
+  "avatar": zod.looseObject({
+
+}).nullish()
+}).nullish()
+}).optional()
+}))
 
 export const UpdateStatusParams = zod.object({
-  id: zod.number(),
+  "id": zod.number()
 })
 
 export const UpdateStatusBody = zod.object({
-  status: zod.enum([
-    "bot_active",
-    "handoff_requested",
-    "staff_assigned",
-    "staff_active",
-    "closed",
-  ]),
+  "status": zod.enum(['bot_active', 'handoff_requested', 'staff_assigned', 'staff_active', 'closed'])
 })
 
-export const UpdateStatusResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          id: zod.number(),
-          visitor_id: zod.number(),
-          chatbot_id: zod.number(),
-          facility_id: zod.number(),
-          assigned_staff_id: zod.number().nullish(),
-          status: zod.enum([
-            "bot_active",
-            "handoff_requested",
-            "staff_assigned",
-            "staff_active",
-            "closed",
-          ]),
-          channel: zod.string(),
-          started_at: zod.string(),
-          last_message_at: zod.string().nullish(),
-          ended_at: zod.string().nullish(),
-          metadata: zod.record(zod.string(), zod.unknown()).nullish(),
-          created_at: zod.string(),
-          updated_at: zod.string(),
-        })
-        .optional(),
-    })
-  )
+export const UpdateStatusResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "id": zod.number(),
+  "visitor_id": zod.number(),
+  "chatbot_id": zod.number(),
+  "facility_id": zod.number(),
+  "assigned_staff_id": zod.number().nullish(),
+  "status": zod.enum(['bot_active', 'handoff_requested', 'staff_assigned', 'staff_active', 'closed']),
+  "channel": zod.string(),
+  "started_at": zod.string(),
+  "last_message_at": zod.string().nullish(),
+  "ended_at": zod.string().nullish(),
+  "metadata": zod.record(zod.string(), zod.unknown()).nullish(),
+  "created_at": zod.string(),
+  "updated_at": zod.string()
+}).optional()
+}))
 
 export const CreateStaffMessageParams = zod.object({
-  id: zod.number(),
+  "id": zod.number()
 })
 
 export const CreateStaffMessageBody = zod.object({
-  content: zod.string(),
+  "content": zod.string()
 })
 
-export const CreateStaffMessageResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          message: zod.object({
-            id: zod.number(),
-            conversation_id: zod.number(),
-            sender_type: zod.enum(["visitor", "bot", "staff", "system"]),
-            sender_id: zod.number().nullish(),
-            message_type: zod.enum(["text", "system_event", "image", "file"]),
-            content: zod.looseObject({}).nullish(),
-            answer_status: zod
-              .enum(["answered", "fallback", "error"])
-              .nullish(),
-            metadata: zod.record(zod.string(), zod.unknown()).nullish(),
-            sent_at: zod.string(),
-            created_at: zod.string(),
-            updated_at: zod.string(),
-          }),
-        })
-        .optional(),
-    })
-  )
+export const CreateStaffMessageResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "message": zod.object({
+  "id": zod.number(),
+  "conversation_id": zod.number(),
+  "sender_type": zod.enum(['visitor', 'bot', 'staff', 'system']),
+  "sender_id": zod.number().nullish(),
+  "message_type": zod.enum(['text', 'system_event', 'image', 'file']),
+  "content": zod.looseObject({
+
+}).nullish(),
+  "answer_status": zod.enum(['answered', 'fallback', 'error']).nullish(),
+  "metadata": zod.record(zod.string(), zod.unknown()).nullish(),
+  "sent_at": zod.string(),
+  "created_at": zod.string(),
+  "updated_at": zod.string()
+})
+}).optional()
+}))
+
+export const UpdateVisitorParams = zod.object({
+  "id": zod.number()
+})
+
+export const UpdateVisitorBody = zod.object({
+  "name": zod.string().optional(),
+  "email": zod.string().optional(),
+  "phone": zod.string().optional()
+})
+
+export const UpdateVisitorResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "id": zod.number(),
+  "visitor_uid": zod.string(),
+  "name": zod.looseObject({
+
+}).nullish(),
+  "email": zod.looseObject({
+
+}).nullish(),
+  "phone": zod.looseObject({
+
+}).nullish(),
+  "last_chatbot_id": zod.number().nullish(),
+  "last_facility_id": zod.number().nullish(),
+  "last_seen_at": zod.string().nullish(),
+  "metadata": zod.record(zod.string(), zod.unknown()).nullish(),
+  "created_at": zod.string(),
+  "updated_at": zod.string()
+}).optional()
+}))
 
 export const FindFeedbackCollectionByConversationParams = zod.object({
-  conversation_id: zod.number(),
+  "conversation_id": zod.number()
 })
 
-export const FindFeedbackCollectionByConversationResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          message_feedbacks: zod.array(
-            zod.object({
-              id: zod.number(),
-              message_id: zod.number(),
-              conversation_id: zod.number(),
-              visitor_id: zod.number(),
-              chatbot_id: zod.number(),
-              facility_id: zod.number(),
-              feedback_type: zod.enum([
-                "helpful",
-                "not_helpful",
-                "incorrect",
-                "not_enough_information",
-                "need_human_support",
-              ]),
-              rating: zod.number().nullish(),
-              comment: zod.looseObject({}).nullish(),
-              status: zod.enum(["new", "reviewing", "resolved", "ignored"]),
-              reviewed_by: zod.number().nullish(),
-              reviewed_at: zod.string().nullish(),
-              resolved_at: zod.string().nullish(),
-              metadata: zod.record(zod.string(), zod.unknown()).nullish(),
-              created_at: zod.string(),
-              updated_at: zod.string(),
-            })
-          ),
-          conversation_feedback: zod
-            .object({
-              id: zod.number(),
-              conversation_id: zod.number(),
-              visitor_id: zod.number(),
-              chatbot_id: zod.number(),
-              facility_id: zod.number(),
-              rating: zod.number().nullish(),
-              satisfaction_level: zod
-                .enum(["satisfied", "neutral", "unsatisfied"])
-                .nullish(),
-              comment: zod.looseObject({}).nullish(),
-              status: zod.enum(["new", "reviewing", "resolved", "ignored"]),
-              reviewed_by: zod.number().nullish(),
-              reviewed_at: zod.string().nullish(),
-              resolved_at: zod.string().nullish(),
-              metadata: zod.record(zod.string(), zod.unknown()).nullish(),
-              created_at: zod.string(),
-              updated_at: zod.string(),
-            })
-            .nullish(),
-        })
-        .optional(),
-    })
-  )
+export const FindFeedbackCollectionByConversationResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "message_feedbacks": zod.array(zod.object({
+  "id": zod.number(),
+  "message_id": zod.number(),
+  "conversation_id": zod.number(),
+  "visitor_id": zod.number(),
+  "chatbot_id": zod.number(),
+  "facility_id": zod.number(),
+  "feedback_type": zod.enum(['helpful', 'not_helpful', 'incorrect', 'not_enough_information', 'need_human_support']),
+  "rating": zod.number().nullish(),
+  "comment": zod.looseObject({
+
+}).nullish(),
+  "status": zod.enum(['new', 'reviewing', 'resolved', 'ignored']),
+  "reviewed_by": zod.number().nullish(),
+  "reviewed_at": zod.string().nullish(),
+  "resolved_at": zod.string().nullish(),
+  "metadata": zod.record(zod.string(), zod.unknown()).nullish(),
+  "created_at": zod.string(),
+  "updated_at": zod.string()
+})),
+  "conversation_feedback": zod.object({
+  "id": zod.number(),
+  "conversation_id": zod.number(),
+  "visitor_id": zod.number(),
+  "chatbot_id": zod.number(),
+  "facility_id": zod.number(),
+  "rating": zod.number().nullish(),
+  "satisfaction_level": zod.enum(['satisfied', 'neutral', 'unsatisfied']).nullish(),
+  "comment": zod.looseObject({
+
+}).nullish(),
+  "status": zod.enum(['new', 'reviewing', 'resolved', 'ignored']),
+  "reviewed_by": zod.number().nullish(),
+  "reviewed_at": zod.string().nullish(),
+  "resolved_at": zod.string().nullish(),
+  "metadata": zod.record(zod.string(), zod.unknown()).nullish(),
+  "created_at": zod.string(),
+  "updated_at": zod.string()
+}).nullish()
+}).optional()
+}))
+

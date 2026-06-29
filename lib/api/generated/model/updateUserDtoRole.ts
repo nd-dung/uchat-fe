@@ -6,11 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
-export type UpdateUserDtoRole =
-  (typeof UpdateUserDtoRole)[keyof typeof UpdateUserDtoRole]
+export type UpdateUserDtoRole = typeof UpdateUserDtoRole[keyof typeof UpdateUserDtoRole];
+
 
 export const UpdateUserDtoRole = {
-  super_admin: "super_admin",
-  facility_admin: "facility_admin",
-  facility_staff: "facility_staff",
-} as const
+  super_admin: 'super_admin',
+  facility_admin: 'facility_admin',
+  facility_staff: 'facility_staff',
+} as const;

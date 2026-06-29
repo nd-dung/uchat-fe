@@ -6,11 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ChatbotDetailResponseDtoStatus =
-  (typeof ChatbotDetailResponseDtoStatus)[keyof typeof ChatbotDetailResponseDtoStatus]
+export type ChatbotDetailResponseDtoStatus = typeof ChatbotDetailResponseDtoStatus[keyof typeof ChatbotDetailResponseDtoStatus];
+
 
 export const ChatbotDetailResponseDtoStatus = {
-  active: "active",
-  inactive: "inactive",
-  draft: "draft",
-} as const
+  active: 'active',
+  inactive: 'inactive',
+  draft: 'draft',
+} as const;

@@ -6,13 +6,13 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ListChatbotsSortBy =
-  (typeof ListChatbotsSortBy)[keyof typeof ListChatbotsSortBy]
+export type ListChatbotsSortBy = typeof ListChatbotsSortBy[keyof typeof ListChatbotsSortBy];
+
 
 export const ListChatbotsSortBy = {
-  created_at: "created_at",
-  updated_at: "updated_at",
-  name: "name",
-  display_name: "display_name",
-  status: "status",
-} as const
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  name: 'name',
+  display_name: 'display_name',
+  status: 'status',
+} as const;

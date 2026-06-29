@@ -9,6 +9,4 @@
 /**
  * @nullable
  */
-export type UpdateChatbotBehaviorSettingDtoOutOfScopeMessage = {
-  [key: string]: unknown
-} | null
+export type UpdateChatbotBehaviorSettingDtoOutOfScopeMessage = { [key: string]: unknown } | null;

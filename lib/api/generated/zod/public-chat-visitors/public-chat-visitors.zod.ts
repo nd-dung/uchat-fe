@@ -5,124 +5,114 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import * as zod from "zod"
+import * as zod from 'zod';
+
 
 export const FindActiveConversationParams = zod.object({
-  visitor_uid: zod.string(),
+  "visitor_uid": zod.string()
 })
 
 export const FindActiveConversationQueryParams = zod.object({
-  chatbot_id: zod.number(),
+  "chatbot_id": zod.number()
 })
 
-export const FindActiveConversationResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          id: zod.number(),
-          visitor_id: zod.number(),
-          chatbot_id: zod.number(),
-          facility_id: zod.number(),
-          assigned_staff_id: zod.number().nullish(),
-          status: zod.enum([
-            "bot_active",
-            "handoff_requested",
-            "staff_assigned",
-            "staff_active",
-            "closed",
-          ]),
-          channel: zod.string(),
-          started_at: zod.string(),
-          last_message_at: zod.string().nullish(),
-          ended_at: zod.string().nullish(),
-          metadata: zod.record(zod.string(), zod.unknown()).nullish(),
-          created_at: zod.string(),
-          updated_at: zod.string(),
-        })
-        .optional(),
-    })
-  )
+export const FindActiveConversationResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "id": zod.number(),
+  "visitor_id": zod.number(),
+  "chatbot_id": zod.number(),
+  "facility_id": zod.number(),
+  "assigned_staff_id": zod.number().nullish(),
+  "status": zod.enum(['bot_active', 'handoff_requested', 'staff_assigned', 'staff_active', 'closed']),
+  "channel": zod.string(),
+  "started_at": zod.string(),
+  "last_message_at": zod.string().nullish(),
+  "ended_at": zod.string().nullish(),
+  "metadata": zod.record(zod.string(), zod.unknown()).nullish(),
+  "created_at": zod.string(),
+  "updated_at": zod.string()
+}).optional()
+}))
 
 export const CreateVisitorBody = zod.object({
-  name: zod.string().optional(),
-  email: zod.string().optional(),
-  phone: zod.string().optional(),
-  metadata: zod.record(zod.string(), zod.unknown()).optional(),
+  "name": zod.string().optional(),
+  "email": zod.string().optional(),
+  "phone": zod.string().optional(),
+  "metadata": zod.record(zod.string(), zod.unknown()).optional()
 })
 
-export const CreateVisitorResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          id: zod.number(),
-          visitor_uid: zod.string(),
-          name: zod.looseObject({}).nullish(),
-          email: zod.looseObject({}).nullish(),
-          phone: zod.looseObject({}).nullish(),
-          last_chatbot_id: zod.number().nullish(),
-          last_facility_id: zod.number().nullish(),
-          last_seen_at: zod.string().nullish(),
-          metadata: zod.record(zod.string(), zod.unknown()).nullish(),
-          created_at: zod.string(),
-          updated_at: zod.string(),
-        })
-        .optional(),
-    })
-  )
+export const CreateVisitorResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "id": zod.number(),
+  "visitor_uid": zod.string(),
+  "name": zod.looseObject({
+
+}).nullish(),
+  "email": zod.looseObject({
+
+}).nullish(),
+  "phone": zod.looseObject({
+
+}).nullish(),
+  "last_chatbot_id": zod.number().nullish(),
+  "last_facility_id": zod.number().nullish(),
+  "last_seen_at": zod.string().nullish(),
+  "metadata": zod.record(zod.string(), zod.unknown()).nullish(),
+  "created_at": zod.string(),
+  "updated_at": zod.string()
+}).optional()
+}))
 
 export const FindVisitorParams = zod.object({
-  visitor_uid: zod.string(),
+  "visitor_uid": zod.string()
 })
 
-export const FindVisitorResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          id: zod.number(),
-          visitor_uid: zod.string(),
-          name: zod.looseObject({}).nullish(),
-          email: zod.looseObject({}).nullish(),
-          phone: zod.looseObject({}).nullish(),
-          last_chatbot_id: zod.number().nullish(),
-          last_facility_id: zod.number().nullish(),
-          last_seen_at: zod.string().nullish(),
-          metadata: zod.record(zod.string(), zod.unknown()).nullish(),
-          created_at: zod.string(),
-          updated_at: zod.string(),
-        })
-        .optional(),
-    })
-  )
+export const FindVisitorResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "id": zod.number(),
+  "visitor_uid": zod.string(),
+  "name": zod.looseObject({
+
+}).nullish(),
+  "email": zod.looseObject({
+
+}).nullish(),
+  "phone": zod.looseObject({
+
+}).nullish(),
+  "last_chatbot_id": zod.number().nullish(),
+  "last_facility_id": zod.number().nullish(),
+  "last_seen_at": zod.string().nullish(),
+  "metadata": zod.record(zod.string(), zod.unknown()).nullish(),
+  "created_at": zod.string(),
+  "updated_at": zod.string()
+}).optional()
+}))
+

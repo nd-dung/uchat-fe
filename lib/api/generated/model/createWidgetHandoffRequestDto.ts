@@ -5,9 +5,9 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { CreateWidgetHandoffRequestDtoPriority } from "./createWidgetHandoffRequestDtoPriority"
+import type { CreateWidgetHandoffRequestDtoPriority } from './createWidgetHandoffRequestDtoPriority';
 
 export interface CreateWidgetHandoffRequestDto {
-  reason?: string
-  priority?: CreateWidgetHandoffRequestDtoPriority
+  reason?: string;
+  priority?: CreateWidgetHandoffRequestDtoPriority;
 }

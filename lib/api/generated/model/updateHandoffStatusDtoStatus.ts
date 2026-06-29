@@ -6,13 +6,13 @@
  * OpenAPI spec version: 1.0
  */
 
-export type UpdateHandoffStatusDtoStatus =
-  (typeof UpdateHandoffStatusDtoStatus)[keyof typeof UpdateHandoffStatusDtoStatus]
+export type UpdateHandoffStatusDtoStatus = typeof UpdateHandoffStatusDtoStatus[keyof typeof UpdateHandoffStatusDtoStatus];
+
 
 export const UpdateHandoffStatusDtoStatus = {
-  pending: "pending",
-  assigned: "assigned",
-  in_progress: "in_progress",
-  resolved: "resolved",
-  cancelled: "cancelled",
-} as const
+  pending: 'pending',
+  assigned: 'assigned',
+  in_progress: 'in_progress',
+  resolved: 'resolved',
+  cancelled: 'cancelled',
+} as const;

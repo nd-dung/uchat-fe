@@ -6,13 +6,13 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ChatHandoffRequestResponseDtoStatus =
-  (typeof ChatHandoffRequestResponseDtoStatus)[keyof typeof ChatHandoffRequestResponseDtoStatus]
+export type ChatHandoffRequestResponseDtoStatus = typeof ChatHandoffRequestResponseDtoStatus[keyof typeof ChatHandoffRequestResponseDtoStatus];
+
 
 export const ChatHandoffRequestResponseDtoStatus = {
-  pending: "pending",
-  assigned: "assigned",
-  in_progress: "in_progress",
-  resolved: "resolved",
-  cancelled: "cancelled",
-} as const
+  pending: 'pending',
+  assigned: 'assigned',
+  in_progress: 'in_progress',
+  resolved: 'resolved',
+  cancelled: 'cancelled',
+} as const;

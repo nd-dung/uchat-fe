@@ -9,6 +9,4 @@
 /**
  * @nullable
  */
-export type UpdateChatbotBehaviorSettingDtoHandoffTriggerMessage = {
-  [key: string]: unknown
-} | null
+export type UpdateChatbotBehaviorSettingDtoHandoffTriggerMessage = { [key: string]: unknown } | null;

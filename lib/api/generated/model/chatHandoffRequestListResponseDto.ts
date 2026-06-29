@@ -5,10 +5,10 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ChatHandoffRequestResponseDto } from "./chatHandoffRequestResponseDto"
-import type { PaginationDto } from "./paginationDto"
+import type { ChatHandoffRequestResponseDto } from './chatHandoffRequestResponseDto';
+import type { PaginationDto } from './paginationDto';
 
 export interface ChatHandoffRequestListResponseDto {
-  items: ChatHandoffRequestResponseDto[]
-  pagination: PaginationDto
+  items: ChatHandoffRequestResponseDto[];
+  pagination: PaginationDto;
 }

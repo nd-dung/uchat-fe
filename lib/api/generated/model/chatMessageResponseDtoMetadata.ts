@@ -9,4 +9,4 @@
 /**
  * @nullable
  */
-export type ChatMessageResponseDtoMetadata = { [key: string]: unknown } | null
+export type ChatMessageResponseDtoMetadata = { [key: string]: unknown } | null;

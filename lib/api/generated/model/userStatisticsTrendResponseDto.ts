@@ -5,12 +5,12 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { UserStatisticsPeriodResponseDto } from "./userStatisticsPeriodResponseDto"
-import type { UserStatisticsTrendResponseDtoGranularity } from "./userStatisticsTrendResponseDtoGranularity"
-import type { UserTrendItemResponseDto } from "./userTrendItemResponseDto"
+import type { UserStatisticsPeriodResponseDto } from './userStatisticsPeriodResponseDto';
+import type { UserStatisticsTrendResponseDtoGranularity } from './userStatisticsTrendResponseDtoGranularity';
+import type { UserTrendItemResponseDto } from './userTrendItemResponseDto';
 
 export interface UserStatisticsTrendResponseDto {
-  period: UserStatisticsPeriodResponseDto
-  granularity: UserStatisticsTrendResponseDtoGranularity
-  items: UserTrendItemResponseDto[]
+  period: UserStatisticsPeriodResponseDto;
+  granularity: UserStatisticsTrendResponseDtoGranularity;
+  items: UserTrendItemResponseDto[];
 }

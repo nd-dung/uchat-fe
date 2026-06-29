@@ -7,5 +7,5 @@
  */
 
 export type FindActiveConversationParams = {
-  chatbot_id: number
-}
+chatbot_id: number;
+};

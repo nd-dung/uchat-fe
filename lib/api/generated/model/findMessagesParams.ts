@@ -7,5 +7,5 @@
  */
 
 export type FindMessagesParams = {
-  visitor_uid: string
-}
+visitor_uid: string;
+};

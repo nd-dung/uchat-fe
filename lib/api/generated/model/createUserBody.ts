@@ -5,18 +5,18 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { CreateUserBodyRole } from "./createUserBodyRole"
-import type { CreateUserBodyStatus } from "./createUserBodyStatus"
+import type { CreateUserBodyRole } from './createUserBodyRole';
+import type { CreateUserBodyStatus } from './createUserBodyStatus';
 
 export type CreateUserBody = {
-  name: string
-  email: string
+  name: string;
+  email: string;
   /** URL avatar nếu không upload file. */
-  avatar?: string
+  avatar?: string;
   /** File avatar JPG, PNG hoặc WEBP, tối đa 2MB. */
-  avatar_file?: Blob
-  password: string
-  role: CreateUserBodyRole
-  status?: CreateUserBodyStatus
-  facility_id?: number
-}
+  avatar_file?: Blob;
+  password: string;
+  role: CreateUserBodyRole;
+  status?: CreateUserBodyStatus;
+  facility_id?: number;
+};

@@ -6,13 +6,13 @@
  * OpenAPI spec version: 1.0
  */
 
-export type UpdateConversationStatusDtoStatus =
-  (typeof UpdateConversationStatusDtoStatus)[keyof typeof UpdateConversationStatusDtoStatus]
+export type UpdateConversationStatusDtoStatus = typeof UpdateConversationStatusDtoStatus[keyof typeof UpdateConversationStatusDtoStatus];
+
 
 export const UpdateConversationStatusDtoStatus = {
-  bot_active: "bot_active",
-  handoff_requested: "handoff_requested",
-  staff_assigned: "staff_assigned",
-  staff_active: "staff_active",
-  closed: "closed",
-} as const
+  bot_active: 'bot_active',
+  handoff_requested: 'handoff_requested',
+  staff_assigned: 'staff_assigned',
+  staff_active: 'staff_active',
+  closed: 'closed',
+} as const;

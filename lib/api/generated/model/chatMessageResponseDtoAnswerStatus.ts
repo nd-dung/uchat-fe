@@ -9,12 +9,11 @@
 /**
  * @nullable
  */
-export type ChatMessageResponseDtoAnswerStatus =
-  | (typeof ChatMessageResponseDtoAnswerStatus)[keyof typeof ChatMessageResponseDtoAnswerStatus]
-  | null
+export type ChatMessageResponseDtoAnswerStatus = typeof ChatMessageResponseDtoAnswerStatus[keyof typeof ChatMessageResponseDtoAnswerStatus] | null;
+
 
 export const ChatMessageResponseDtoAnswerStatus = {
-  answered: "answered",
-  fallback: "fallback",
-  error: "error",
-} as const
+  answered: 'answered',
+  fallback: 'fallback',
+  error: 'error',
+} as const;

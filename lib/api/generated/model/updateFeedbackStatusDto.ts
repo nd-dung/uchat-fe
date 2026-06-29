@@ -5,8 +5,8 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { UpdateFeedbackStatusDtoStatus } from "./updateFeedbackStatusDtoStatus"
+import type { UpdateFeedbackStatusDtoStatus } from './updateFeedbackStatusDtoStatus';
 
 export interface UpdateFeedbackStatusDto {
-  status: UpdateFeedbackStatusDtoStatus
+  status: UpdateFeedbackStatusDtoStatus;
 }

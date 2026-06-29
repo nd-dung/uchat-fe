@@ -5,390 +5,308 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import * as zod from "zod"
+import * as zod from 'zod';
 
-export const GetUserProfileResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          id: zod.number(),
-          name: zod.string(),
-          email: zod.string(),
-          avatar: zod.string().nullish(),
-          role: zod.enum(["super_admin", "facility_admin", "facility_staff"]),
-          facility_id: zod.number().nullish(),
-          permissions: zod.array(zod.string()),
-        })
-        .optional(),
-    })
-  )
+
+export const GetUserProfileResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "id": zod.number(),
+  "name": zod.string(),
+  "email": zod.string(),
+  "avatar": zod.string().nullish(),
+  "role": zod.enum(['super_admin', 'facility_admin', 'facility_staff']),
+  "facility_id": zod.number().nullish(),
+  "permissions": zod.array(zod.string())
+}).optional()
+}))
 
 export const ListUsersQueryParams = zod.object({
-  search: zod.string().optional(),
-  email: zod.string().optional(),
-  role: zod
-    .enum(["super_admin", "facility_admin", "facility_staff"])
-    .optional(),
-  status: zod.enum(["active", "inactive"]).optional(),
-  facility_id: zod.number().optional(),
-  page: zod.looseObject({}).optional(),
-  limit: zod.looseObject({}).optional(),
+  "search": zod.string().optional(),
+  "email": zod.string().optional(),
+  "role": zod.enum(['super_admin', 'facility_admin', 'facility_staff']).optional(),
+  "status": zod.enum(['active', 'inactive']).optional(),
+  "facility_id": zod.number().optional(),
+  "page": zod.looseObject({
+
+}).optional(),
+  "limit": zod.looseObject({
+
+}).optional()
 })
 
-export const ListUsersResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          items: zod.array(
-            zod.object({
-              id: zod.number(),
-              name: zod.string(),
-              email: zod.string(),
-              avatar: zod.string().nullish(),
-              role: zod.enum([
-                "super_admin",
-                "facility_admin",
-                "facility_staff",
-              ]),
-              status: zod.enum(["active", "inactive"]),
-              facility_id: zod.number().nullish(),
-              last_login_at: zod.string().nullish(),
-              created_at: zod.string(),
-              updated_at: zod.string(),
-            })
-          ),
-          pagination: zod.object({
-            page: zod.number(),
-            limit: zod.number(),
-            total: zod.number(),
-            total_pages: zod.number(),
-          }),
-        })
-        .optional(),
-    })
-  )
+export const ListUsersResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "items": zod.array(zod.object({
+  "id": zod.number(),
+  "name": zod.string(),
+  "email": zod.string(),
+  "avatar": zod.string().nullish(),
+  "role": zod.enum(['super_admin', 'facility_admin', 'facility_staff']),
+  "status": zod.enum(['active', 'inactive']),
+  "facility_id": zod.number().nullish(),
+  "last_login_at": zod.string().nullish(),
+  "created_at": zod.string(),
+  "updated_at": zod.string()
+})),
+  "pagination": zod.object({
+  "page": zod.number(),
+  "limit": zod.number(),
+  "total": zod.number(),
+  "total_pages": zod.number()
+})
+}).optional()
+}))
 
 export const CreateUserBody = zod.object({
-  name: zod.string(),
-  email: zod.string(),
-  avatar: zod.string().optional().describe("URL avatar nếu không upload file."),
-  avatar_file: zod.instanceof(File).optional(),
-  password: zod.string(),
-  role: zod.enum(["super_admin", "facility_admin", "facility_staff"]),
-  status: zod.enum(["active", "inactive"]).optional(),
-  facility_id: zod.number().optional(),
+  "name": zod.string(),
+  "email": zod.string(),
+  "avatar": zod.string().optional().describe('URL avatar nếu không upload file.'),
+  "avatar_file": zod.instanceof(File).optional(),
+  "password": zod.string(),
+  "role": zod.enum(['super_admin', 'facility_admin', 'facility_staff']),
+  "status": zod.enum(['active', 'inactive']).optional(),
+  "facility_id": zod.number().optional()
 })
 
-export const CreateUserResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          id: zod.number(),
-          name: zod.string(),
-          email: zod.string(),
-          avatar: zod.string().nullish(),
-          role: zod.enum(["super_admin", "facility_admin", "facility_staff"]),
-          status: zod.enum(["active", "inactive"]),
-          facility_id: zod.number().nullish(),
-          last_login_at: zod.string().nullish(),
-          created_at: zod.string(),
-          updated_at: zod.string(),
-        })
-        .optional(),
-    })
-  )
+export const CreateUserResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "id": zod.number(),
+  "name": zod.string(),
+  "email": zod.string(),
+  "avatar": zod.string().nullish(),
+  "role": zod.enum(['super_admin', 'facility_admin', 'facility_staff']),
+  "status": zod.enum(['active', 'inactive']),
+  "facility_id": zod.number().nullish(),
+  "last_login_at": zod.string().nullish(),
+  "created_at": zod.string(),
+  "updated_at": zod.string()
+}).optional()
+}))
 
 export const GetUserStatisticsOverviewQueryParams = zod.object({
-  from_date: zod
-    .string()
-    .optional()
-    .describe("Ngày bắt đầu, định dạng YYYY-MM-DD. Mặc định 30 ngày gần nhất."),
-  to_date: zod
-    .string()
-    .optional()
-    .describe("Ngày kết thúc, định dạng YYYY-MM-DD. Mặc định hôm nay."),
-  facility_id: zod.number().optional(),
+  "from_date": zod.string().optional().describe('Ngày bắt đầu, định dạng YYYY-MM-DD. Mặc định 30 ngày gần nhất.'),
+  "to_date": zod.string().optional().describe('Ngày kết thúc, định dạng YYYY-MM-DD. Mặc định hôm nay.'),
+  "facility_id": zod.number().optional()
 })
 
-export const GetUserStatisticsOverviewResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          period: zod.object({
-            from_date: zod.string(),
-            to_date: zod.string(),
-            timezone: zod.string(),
-          }),
-          totals: zod.object({
-            total: zod.number(),
-            active: zod.number(),
-            inactive: zod.number(),
-            new_users: zod.number(),
-            never_logged_in: zod.number(),
-          }),
-          by_role: zod.object({
-            super_admin: zod.number(),
-            facility_admin: zod.number(),
-            facility_staff: zod.number(),
-          }),
-          login_activity: zod.object({
-            as_of_date: zod.string(),
-            last_7_days: zod.number(),
-            last_30_days: zod.number(),
-            over_30_days: zod.number(),
-            never_logged_in: zod.number(),
-          }),
-        })
-        .optional(),
-    })
-  )
+export const GetUserStatisticsOverviewResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "period": zod.object({
+  "from_date": zod.string(),
+  "to_date": zod.string(),
+  "timezone": zod.string()
+}),
+  "totals": zod.object({
+  "total": zod.number(),
+  "active": zod.number(),
+  "inactive": zod.number(),
+  "new_users": zod.number(),
+  "never_logged_in": zod.number()
+}),
+  "by_role": zod.object({
+  "super_admin": zod.number(),
+  "facility_admin": zod.number(),
+  "facility_staff": zod.number()
+}),
+  "login_activity": zod.object({
+  "as_of_date": zod.string(),
+  "last_7_days": zod.number(),
+  "last_30_days": zod.number(),
+  "over_30_days": zod.number(),
+  "never_logged_in": zod.number()
+})
+}).optional()
+}))
 
-export const getUserStatisticsTrendQueryGranularityDefault = `day`
+export const getUserStatisticsTrendQueryGranularityDefault = `day`;
 
 export const GetUserStatisticsTrendQueryParams = zod.object({
-  from_date: zod
-    .string()
-    .optional()
-    .describe("Ngày bắt đầu, định dạng YYYY-MM-DD. Mặc định 30 ngày gần nhất."),
-  to_date: zod
-    .string()
-    .optional()
-    .describe("Ngày kết thúc, định dạng YYYY-MM-DD. Mặc định hôm nay."),
-  facility_id: zod.number().optional(),
-  granularity: zod
-    .enum(["day", "week", "month"])
-    .default(getUserStatisticsTrendQueryGranularityDefault),
+  "from_date": zod.string().optional().describe('Ngày bắt đầu, định dạng YYYY-MM-DD. Mặc định 30 ngày gần nhất.'),
+  "to_date": zod.string().optional().describe('Ngày kết thúc, định dạng YYYY-MM-DD. Mặc định hôm nay.'),
+  "facility_id": zod.number().optional(),
+  "granularity": zod.enum(['day', 'week', 'month']).default(getUserStatisticsTrendQueryGranularityDefault)
 })
 
-export const GetUserStatisticsTrendResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          period: zod.object({
-            from_date: zod.string(),
-            to_date: zod.string(),
-            timezone: zod.string(),
-          }),
-          granularity: zod.enum(["day", "week", "month"]),
-          items: zod.array(
-            zod.object({
-              period: zod.string(),
-              new_users: zod.number(),
-            })
-          ),
-        })
-        .optional(),
-    })
-  )
+export const GetUserStatisticsTrendResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "period": zod.object({
+  "from_date": zod.string(),
+  "to_date": zod.string(),
+  "timezone": zod.string()
+}),
+  "granularity": zod.enum(['day', 'week', 'month']),
+  "items": zod.array(zod.object({
+  "period": zod.string(),
+  "new_users": zod.number()
+}))
+}).optional()
+}))
 
 export const GetUserStatisticsByFacilityQueryParams = zod.object({
-  from_date: zod
-    .string()
-    .optional()
-    .describe("Ngày bắt đầu, định dạng YYYY-MM-DD. Mặc định 30 ngày gần nhất."),
-  to_date: zod
-    .string()
-    .optional()
-    .describe("Ngày kết thúc, định dạng YYYY-MM-DD. Mặc định hôm nay."),
-  facility_id: zod.number().optional(),
+  "from_date": zod.string().optional().describe('Ngày bắt đầu, định dạng YYYY-MM-DD. Mặc định 30 ngày gần nhất.'),
+  "to_date": zod.string().optional().describe('Ngày kết thúc, định dạng YYYY-MM-DD. Mặc định hôm nay.'),
+  "facility_id": zod.number().optional()
 })
 
-export const GetUserStatisticsByFacilityResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          period: zod.object({
-            from_date: zod.string(),
-            to_date: zod.string(),
-            timezone: zod.string(),
-          }),
-          items: zod.array(
-            zod.object({
-              facility_id: zod.number(),
-              facility_name: zod.string(),
-              facility_code: zod.string(),
-              facility_status: zod.enum(["active", "inactive"]),
-              total: zod.number(),
-              active: zod.number(),
-              inactive: zod.number(),
-              facility_admin: zod.number(),
-              facility_staff: zod.number(),
-              new_users: zod.number(),
-              never_logged_in: zod.number(),
-            })
-          ),
-        })
-        .optional(),
-    })
-  )
+export const GetUserStatisticsByFacilityResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "period": zod.object({
+  "from_date": zod.string(),
+  "to_date": zod.string(),
+  "timezone": zod.string()
+}),
+  "items": zod.array(zod.object({
+  "facility_id": zod.number(),
+  "facility_name": zod.string(),
+  "facility_code": zod.string(),
+  "facility_status": zod.enum(['active', 'inactive']),
+  "total": zod.number(),
+  "active": zod.number(),
+  "inactive": zod.number(),
+  "facility_admin": zod.number(),
+  "facility_staff": zod.number(),
+  "new_users": zod.number(),
+  "never_logged_in": zod.number()
+}))
+}).optional()
+}))
 
 export const GetUserParams = zod.object({
-  id: zod.number(),
+  "id": zod.number()
 })
 
-export const GetUserResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          id: zod.number(),
-          name: zod.string(),
-          email: zod.string(),
-          avatar: zod.string().nullish(),
-          role: zod.enum(["super_admin", "facility_admin", "facility_staff"]),
-          status: zod.enum(["active", "inactive"]),
-          facility_id: zod.number().nullish(),
-          last_login_at: zod.string().nullish(),
-          created_at: zod.string(),
-          updated_at: zod.string(),
-        })
-        .optional(),
-    })
-  )
+export const GetUserResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "id": zod.number(),
+  "name": zod.string(),
+  "email": zod.string(),
+  "avatar": zod.string().nullish(),
+  "role": zod.enum(['super_admin', 'facility_admin', 'facility_staff']),
+  "status": zod.enum(['active', 'inactive']),
+  "facility_id": zod.number().nullish(),
+  "last_login_at": zod.string().nullish(),
+  "created_at": zod.string(),
+  "updated_at": zod.string()
+}).optional()
+}))
 
 export const UpdateUserParams = zod.object({
-  id: zod.number(),
+  "id": zod.number()
 })
 
 export const UpdateUserBody = zod.object({
-  name: zod.string().optional(),
-  email: zod.string().optional(),
-  avatar: zod.string().nullish(),
-  password: zod.string().optional(),
-  role: zod
-    .enum(["super_admin", "facility_admin", "facility_staff"])
-    .optional(),
-  status: zod.enum(["active", "inactive"]).optional(),
-  facility_id: zod.number().nullish(),
+  "name": zod.string().optional(),
+  "email": zod.string().optional(),
+  "avatar": zod.string().nullish(),
+  "password": zod.string().optional(),
+  "role": zod.enum(['super_admin', 'facility_admin', 'facility_staff']).optional(),
+  "status": zod.enum(['active', 'inactive']).optional(),
+  "facility_id": zod.number().nullish()
 })
 
-export const UpdateUserResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          id: zod.number(),
-          name: zod.string(),
-          email: zod.string(),
-          avatar: zod.string().nullish(),
-          role: zod.enum(["super_admin", "facility_admin", "facility_staff"]),
-          status: zod.enum(["active", "inactive"]),
-          facility_id: zod.number().nullish(),
-          last_login_at: zod.string().nullish(),
-          created_at: zod.string(),
-          updated_at: zod.string(),
-        })
-        .optional(),
-    })
-  )
+export const UpdateUserResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "id": zod.number(),
+  "name": zod.string(),
+  "email": zod.string(),
+  "avatar": zod.string().nullish(),
+  "role": zod.enum(['super_admin', 'facility_admin', 'facility_staff']),
+  "status": zod.enum(['active', 'inactive']),
+  "facility_id": zod.number().nullish(),
+  "last_login_at": zod.string().nullish(),
+  "created_at": zod.string(),
+  "updated_at": zod.string()
+}).optional()
+}))
 
 export const DeleteUserParams = zod.object({
-  id: zod.number(),
+  "id": zod.number()
 })
 
-export const DeleteUserResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          message: zod.string(),
-        })
-        .optional(),
-    })
-  )
+export const DeleteUserResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "message": zod.string()
+}).optional()
+}))
+

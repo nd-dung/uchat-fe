@@ -9,4 +9,4 @@
 /**
  * Legacy flat field.
  */
-export type UpdateChatbotUiSettingDtoLogoUrl = { [key: string]: unknown }
+export type UpdateChatbotUiSettingDtoLogoUrl = { [key: string]: unknown };

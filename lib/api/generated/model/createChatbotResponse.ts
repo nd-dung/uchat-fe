@@ -5,9 +5,9 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ApiSuccessResponseDto } from "./apiSuccessResponseDto"
-import type { ChatbotDetailResponseDto } from "./chatbotDetailResponseDto"
+import type { ApiSuccessResponseDto } from './apiSuccessResponseDto';
+import type { ChatbotDetailResponseDto } from './chatbotDetailResponseDto';
 
 export type CreateChatbotResponse = ApiSuccessResponseDto & {
-  data?: ChatbotDetailResponseDto
-}
+  data?: ChatbotDetailResponseDto;
+};

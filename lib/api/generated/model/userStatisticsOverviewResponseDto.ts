@@ -5,14 +5,14 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { UserLoginActivityResponseDto } from "./userLoginActivityResponseDto"
-import type { UserStatisticsByRoleResponseDto } from "./userStatisticsByRoleResponseDto"
-import type { UserStatisticsPeriodResponseDto } from "./userStatisticsPeriodResponseDto"
-import type { UserStatisticsTotalsResponseDto } from "./userStatisticsTotalsResponseDto"
+import type { UserLoginActivityResponseDto } from './userLoginActivityResponseDto';
+import type { UserStatisticsByRoleResponseDto } from './userStatisticsByRoleResponseDto';
+import type { UserStatisticsPeriodResponseDto } from './userStatisticsPeriodResponseDto';
+import type { UserStatisticsTotalsResponseDto } from './userStatisticsTotalsResponseDto';
 
 export interface UserStatisticsOverviewResponseDto {
-  period: UserStatisticsPeriodResponseDto
-  totals: UserStatisticsTotalsResponseDto
-  by_role: UserStatisticsByRoleResponseDto
-  login_activity: UserLoginActivityResponseDto
+  period: UserStatisticsPeriodResponseDto;
+  totals: UserStatisticsTotalsResponseDto;
+  by_role: UserStatisticsByRoleResponseDto;
+  login_activity: UserLoginActivityResponseDto;
 }

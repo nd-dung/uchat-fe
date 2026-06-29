@@ -7,8 +7,8 @@
  */
 
 export interface PaginationDto {
-  page: number
-  limit: number
-  total: number
-  total_pages: number
+  page: number;
+  limit: number;
+  total: number;
+  total_pages: number;
 }

@@ -7,6 +7,6 @@
  */
 
 export interface UserTrendItemResponseDto {
-  period: string
-  new_users: number
+  period: string;
+  new_users: number;
 }

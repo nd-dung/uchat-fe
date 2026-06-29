@@ -5,7 +5,9 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import { useQuery } from "@tanstack/react-query"
+import {
+  useQuery
+} from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -15,176 +17,105 @@ import type {
   QueryKey,
   UndefinedInitialDataOptions,
   UseQueryOptions,
-  UseQueryResult,
-} from "@tanstack/react-query"
+  UseQueryResult
+} from '@tanstack/react-query';
 
-import type { ApiErrorResponseDto, GetRuntimeConfigResponse } from "../model"
+import type {
+  ApiErrorResponseDto,
+  GetRuntimeConfigResponse
+} from '../model';
 
-import { apiClient } from "../../axios"
-import type { ErrorType } from "../../axios"
+import { apiClient } from '../../axios';
+import type { ErrorType } from '../../axios';
 
-type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1]
+
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
+
 
 export const getRuntimeConfig = (
-  chatbotId: number,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+    chatbotId: number,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<GetRuntimeConfigResponse>(
-    {
-      url: `/api/internal/chatbots/${chatbotId}/runtime-config`,
-      method: "GET",
-      signal,
+
+
+      return apiClient<GetRuntimeConfigResponse>(
+      {url: `/api/internal/chatbots/${chatbotId}/runtime-config`, method: 'GET', signal
     },
-    options
-  )
-}
+      options);
+    }
 
-export const getGetRuntimeConfigQueryKey = (chatbotId: number) => {
-  return [`/api/internal/chatbots/${chatbotId}/runtime-config`] as const
-}
 
-export const getGetRuntimeConfigQueryOptions = <
-  TData = Awaited<ReturnType<typeof getRuntimeConfig>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  chatbotId: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getRuntimeConfig>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  }
+
+
+export const getGetRuntimeConfigQueryKey = (chatbotId: number,) => {
+    return [
+    `/api/internal/chatbots/${chatbotId}/runtime-config`
+    ] as const;
+    }
+
+
+export const getGetRuntimeConfigQueryOptions = <TData = Awaited<ReturnType<typeof getRuntimeConfig>>, TError = ErrorType<ApiErrorResponseDto>>(chatbotId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRuntimeConfig>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
 ) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {}
 
-  const queryKey =
-    queryOptions?.queryKey ?? getGetRuntimeConfigQueryKey(chatbotId)
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getRuntimeConfig>>
-  > = ({ signal }) => getRuntimeConfig(chatbotId, requestOptions, signal)
+  const queryKey =  queryOptions?.queryKey ?? getGetRuntimeConfigQueryKey(chatbotId);
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: chatbotId !== null && chatbotId !== undefined,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof getRuntimeConfig>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getRuntimeConfig>>> = ({ signal }) => getRuntimeConfig(chatbotId, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: chatbotId !== null && chatbotId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getRuntimeConfig>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type GetRuntimeConfigQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getRuntimeConfig>>
->
+export type GetRuntimeConfigQueryResult = NonNullable<Awaited<ReturnType<typeof getRuntimeConfig>>>
 export type GetRuntimeConfigQueryError = ErrorType<ApiErrorResponseDto>
 
-export function useGetRuntimeConfig<
-  TData = Awaited<ReturnType<typeof getRuntimeConfig>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  chatbotId: number,
-  options: {
-    query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getRuntimeConfig>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+
+export function useGetRuntimeConfig<TData = Awaited<ReturnType<typeof getRuntimeConfig>>, TError = ErrorType<ApiErrorResponseDto>>(
+ chatbotId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRuntimeConfig>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getRuntimeConfig>>,
           TError,
           Awaited<ReturnType<typeof getRuntimeConfig>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useGetRuntimeConfig<
-  TData = Awaited<ReturnType<typeof getRuntimeConfig>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  chatbotId: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getRuntimeConfig>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetRuntimeConfig<TData = Awaited<ReturnType<typeof getRuntimeConfig>>, TError = ErrorType<ApiErrorResponseDto>>(
+ chatbotId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRuntimeConfig>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getRuntimeConfig>>,
           TError,
           Awaited<ReturnType<typeof getRuntimeConfig>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useGetRuntimeConfig<
-  TData = Awaited<ReturnType<typeof getRuntimeConfig>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  chatbotId: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getRuntimeConfig>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetRuntimeConfig<TData = Awaited<ReturnType<typeof getRuntimeConfig>>, TError = ErrorType<ApiErrorResponseDto>>(
+ chatbotId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRuntimeConfig>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetRuntimeConfig<TData = Awaited<ReturnType<typeof getRuntimeConfig>>, TError = ErrorType<ApiErrorResponseDto>>(
+ chatbotId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRuntimeConfig>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetRuntimeConfigQueryOptions(chatbotId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
 }
 
-export function useGetRuntimeConfig<
-  TData = Awaited<ReturnType<typeof getRuntimeConfig>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  chatbotId: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getRuntimeConfig>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-} {
-  const queryOptions = getGetRuntimeConfigQueryOptions(chatbotId, options)
 
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
-}
+
+
+

@@ -5,11 +5,11 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { CreateOrReuseConversationDtoMetadata } from "./createOrReuseConversationDtoMetadata"
+import type { CreateOrReuseConversationDtoMetadata } from './createOrReuseConversationDtoMetadata';
 
 export interface CreateOrReuseConversationDto {
-  visitor_uid: string
-  chatbot_id: number
-  channel?: string
-  metadata?: CreateOrReuseConversationDtoMetadata
+  visitor_uid: string;
+  chatbot_id: number;
+  channel?: string;
+  metadata?: CreateOrReuseConversationDtoMetadata;
 }

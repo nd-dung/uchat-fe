@@ -7,6 +7,6 @@
  */
 
 export interface UpdateChatbotEmbedSettingDto {
-  enabled?: boolean
-  allowed_origins?: string[]
+  enabled?: boolean;
+  allowed_origins?: string[];
 }

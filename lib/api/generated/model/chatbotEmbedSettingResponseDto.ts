@@ -7,11 +7,11 @@
  */
 
 export interface ChatbotEmbedSettingResponseDto {
-  id: number
-  chatbot_id: number
-  enabled: boolean
-  public_key: string
-  allowed_origins: string[]
-  created_at: string
-  updated_at: string
+  id: number;
+  chatbot_id: number;
+  enabled: boolean;
+  public_key: string;
+  allowed_origins: string[];
+  created_at: string;
+  updated_at: string;
 }

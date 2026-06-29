@@ -6,9 +6,9 @@
  * OpenAPI spec version: 1.0
  */
 
-export type RuntimeChatbotSummaryResponseDtoStatus =
-  (typeof RuntimeChatbotSummaryResponseDtoStatus)[keyof typeof RuntimeChatbotSummaryResponseDtoStatus]
+export type RuntimeChatbotSummaryResponseDtoStatus = typeof RuntimeChatbotSummaryResponseDtoStatus[keyof typeof RuntimeChatbotSummaryResponseDtoStatus];
+
 
 export const RuntimeChatbotSummaryResponseDtoStatus = {
-  active: "active",
-} as const
+  active: 'active',
+} as const;

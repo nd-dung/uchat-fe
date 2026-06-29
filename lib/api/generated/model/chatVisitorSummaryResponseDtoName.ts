@@ -9,6 +9,4 @@
 /**
  * @nullable
  */
-export type ChatVisitorSummaryResponseDtoName = {
-  [key: string]: unknown
-} | null
+export type ChatVisitorSummaryResponseDtoName = { [key: string]: unknown } | null;

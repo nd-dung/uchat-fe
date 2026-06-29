@@ -5,17 +5,17 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { GetUserStatisticsTrendGranularity } from "./getUserStatisticsTrendGranularity"
+import type { GetUserStatisticsTrendGranularity } from './getUserStatisticsTrendGranularity';
 
 export type GetUserStatisticsTrendParams = {
-  /**
-   * Ngày bắt đầu, định dạng YYYY-MM-DD. Mặc định 30 ngày gần nhất.
-   */
-  from_date?: string
-  /**
-   * Ngày kết thúc, định dạng YYYY-MM-DD. Mặc định hôm nay.
-   */
-  to_date?: string
-  facility_id?: number
-  granularity?: GetUserStatisticsTrendGranularity
-}
+/**
+ * Ngày bắt đầu, định dạng YYYY-MM-DD. Mặc định 30 ngày gần nhất.
+ */
+from_date?: string;
+/**
+ * Ngày kết thúc, định dạng YYYY-MM-DD. Mặc định hôm nay.
+ */
+to_date?: string;
+facility_id?: number;
+granularity?: GetUserStatisticsTrendGranularity;
+};

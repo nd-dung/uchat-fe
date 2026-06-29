@@ -5,17 +5,17 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ChatVisitorSummaryResponseDtoEmail } from "./chatVisitorSummaryResponseDtoEmail"
-import type { ChatVisitorSummaryResponseDtoName } from "./chatVisitorSummaryResponseDtoName"
-import type { ChatVisitorSummaryResponseDtoPhone } from "./chatVisitorSummaryResponseDtoPhone"
+import type { ChatVisitorSummaryResponseDtoEmail } from './chatVisitorSummaryResponseDtoEmail';
+import type { ChatVisitorSummaryResponseDtoName } from './chatVisitorSummaryResponseDtoName';
+import type { ChatVisitorSummaryResponseDtoPhone } from './chatVisitorSummaryResponseDtoPhone';
 
 export interface ChatVisitorSummaryResponseDto {
-  id: number
-  visitor_uid: string
+  id: number;
+  visitor_uid: string;
   /** @nullable */
-  name?: ChatVisitorSummaryResponseDtoName
+  name?: ChatVisitorSummaryResponseDtoName;
   /** @nullable */
-  email?: ChatVisitorSummaryResponseDtoEmail
+  email?: ChatVisitorSummaryResponseDtoEmail;
   /** @nullable */
-  phone?: ChatVisitorSummaryResponseDtoPhone
+  phone?: ChatVisitorSummaryResponseDtoPhone;
 }

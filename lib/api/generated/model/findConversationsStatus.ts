@@ -6,13 +6,13 @@
  * OpenAPI spec version: 1.0
  */
 
-export type FindConversationsStatus =
-  (typeof FindConversationsStatus)[keyof typeof FindConversationsStatus]
+export type FindConversationsStatus = typeof FindConversationsStatus[keyof typeof FindConversationsStatus];
+
 
 export const FindConversationsStatus = {
-  bot_active: "bot_active",
-  handoff_requested: "handoff_requested",
-  staff_assigned: "staff_assigned",
-  staff_active: "staff_active",
-  closed: "closed",
-} as const
+  bot_active: 'bot_active',
+  handoff_requested: 'handoff_requested',
+  staff_assigned: 'staff_assigned',
+  staff_active: 'staff_active',
+  closed: 'closed',
+} as const;

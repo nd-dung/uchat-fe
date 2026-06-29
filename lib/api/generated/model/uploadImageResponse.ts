@@ -5,9 +5,9 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ApiSuccessResponseDto } from "./apiSuccessResponseDto"
-import type { UploadResponseDto } from "./uploadResponseDto"
+import type { ApiSuccessResponseDto } from './apiSuccessResponseDto';
+import type { UploadResponseDto } from './uploadResponseDto';
 
 export type UploadImageResponse = ApiSuccessResponseDto & {
-  data?: UploadResponseDto
-}
+  data?: UploadResponseDto;
+};

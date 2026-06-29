@@ -5,11 +5,11 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { CreateChatVisitorDtoMetadata } from "./createChatVisitorDtoMetadata"
+import type { CreateChatVisitorDtoMetadata } from './createChatVisitorDtoMetadata';
 
 export interface CreateChatVisitorDto {
-  name?: string
-  email?: string
-  phone?: string
-  metadata?: CreateChatVisitorDtoMetadata
+  name?: string;
+  email?: string;
+  phone?: string;
+  metadata?: CreateChatVisitorDtoMetadata;
 }

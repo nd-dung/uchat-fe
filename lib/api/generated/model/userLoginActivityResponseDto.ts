@@ -7,9 +7,9 @@
  */
 
 export interface UserLoginActivityResponseDto {
-  as_of_date: string
-  last_7_days: number
-  last_30_days: number
-  over_30_days: number
-  never_logged_in: number
+  as_of_date: string;
+  last_7_days: number;
+  last_30_days: number;
+  over_30_days: number;
+  never_logged_in: number;
 }

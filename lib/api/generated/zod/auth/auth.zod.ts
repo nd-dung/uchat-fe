@@ -5,88 +5,72 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import * as zod from "zod"
+import * as zod from 'zod';
+
 
 export const LoginBody = zod.object({
-  email: zod.string(),
-  password: zod.string(),
+  "email": zod.string(),
+  "password": zod.string()
 })
 
-export const LoginResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          access_token: zod.string(),
-          token_type: zod.string(),
-          user: zod.object({
-            id: zod.number(),
-            name: zod.string(),
-            email: zod.string(),
-            avatar: zod.string().nullish(),
-            role: zod.enum(["super_admin", "facility_admin", "facility_staff"]),
-            facility_id: zod.number().nullish(),
-            permissions: zod.array(zod.string()),
-          }),
-        })
-        .optional(),
-    })
-  )
+export const LoginResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "access_token": zod.string(),
+  "token_type": zod.string(),
+  "user": zod.object({
+  "id": zod.number(),
+  "name": zod.string(),
+  "email": zod.string(),
+  "avatar": zod.string().nullish(),
+  "role": zod.enum(['super_admin', 'facility_admin', 'facility_staff']),
+  "facility_id": zod.number().nullish(),
+  "permissions": zod.array(zod.string())
+})
+}).optional()
+}))
 
-export const GetCurrentUserResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          id: zod.number(),
-          name: zod.string(),
-          email: zod.string(),
-          avatar: zod.string().nullish(),
-          role: zod.enum(["super_admin", "facility_admin", "facility_staff"]),
-          facility_id: zod.number().nullish(),
-          permissions: zod.array(zod.string()),
-        })
-        .optional(),
-    })
-  )
+export const GetCurrentUserResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "id": zod.number(),
+  "name": zod.string(),
+  "email": zod.string(),
+  "avatar": zod.string().nullish(),
+  "role": zod.enum(['super_admin', 'facility_admin', 'facility_staff']),
+  "facility_id": zod.number().nullish(),
+  "permissions": zod.array(zod.string())
+}).optional()
+}))
 
-export const LogoutResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          message: zod.string(),
-        })
-        .optional(),
-    })
-  )
+export const LogoutResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "message": zod.string()
+}).optional()
+}))
+

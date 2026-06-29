@@ -6,11 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
-export type GetUserStatisticsTrendGranularity =
-  (typeof GetUserStatisticsTrendGranularity)[keyof typeof GetUserStatisticsTrendGranularity]
+export type GetUserStatisticsTrendGranularity = typeof GetUserStatisticsTrendGranularity[keyof typeof GetUserStatisticsTrendGranularity];
+
 
 export const GetUserStatisticsTrendGranularity = {
-  day: "day",
-  week: "week",
-  month: "month",
-} as const
+  day: 'day',
+  week: 'week',
+  month: 'month',
+} as const;

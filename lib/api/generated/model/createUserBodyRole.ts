@@ -6,11 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
-export type CreateUserBodyRole =
-  (typeof CreateUserBodyRole)[keyof typeof CreateUserBodyRole]
+export type CreateUserBodyRole = typeof CreateUserBodyRole[keyof typeof CreateUserBodyRole];
+
 
 export const CreateUserBodyRole = {
-  super_admin: "super_admin",
-  facility_admin: "facility_admin",
-  facility_staff: "facility_staff",
-} as const
+  super_admin: 'super_admin',
+  facility_admin: 'facility_admin',
+  facility_staff: 'facility_staff',
+} as const;

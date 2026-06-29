@@ -8,5 +8,5 @@
 
 export type UploadImageBody = {
   /** File ảnh JPG, PNG, WEBP hoặc GIF, tối đa 5MB. */
-  file: Blob
-}
+  file: Blob;
+};

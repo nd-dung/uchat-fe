@@ -5,19 +5,19 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ChatbotListItemResponseDtoStatus } from "./chatbotListItemResponseDtoStatus"
+import type { ChatbotListItemResponseDtoStatus } from './chatbotListItemResponseDtoStatus';
 
 export interface ChatbotListItemResponseDto {
-  id: number
-  facility_id: number
-  name: string
-  display_name?: string
-  description?: string
-  status: ChatbotListItemResponseDtoStatus
-  created_by?: number
-  updated_by?: number
-  created_at: string
-  updated_at: string
+  id: number;
+  facility_id: number;
+  name: string;
+  display_name?: string;
+  description?: string;
+  status: ChatbotListItemResponseDtoStatus;
+  created_by?: number;
+  updated_by?: number;
+  created_at: string;
+  updated_at: string;
   /** @nullable */
-  avatar_url?: string | null
+  avatar_url?: string | null;
 }

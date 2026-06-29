@@ -5,7 +5,10 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import { useMutation, useQuery } from "@tanstack/react-query"
+import {
+  useMutation,
+  useQuery
+} from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -18,270 +21,165 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult,
-} from "@tanstack/react-query"
+  UseQueryResult
+} from '@tanstack/react-query';
 
 import type {
   ApiErrorResponseDto,
   GetBehaviorSettingResponse,
   UpdateBehaviorSettingResponse,
-  UpdateChatbotBehaviorSettingDto,
-} from "../model"
+  UpdateChatbotBehaviorSettingDto
+} from '../model';
 
-import { apiClient } from "../../axios"
-import type { ErrorType, BodyType } from "../../axios"
+import { apiClient } from '../../axios';
+import type { ErrorType , BodyType } from '../../axios';
 
-type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1]
+
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
+
 
 export const getBehaviorSetting = (
-  chatbotId: number,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+    chatbotId: number,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<GetBehaviorSettingResponse>(
-    {
-      url: `/api/chatbots/${chatbotId}/behavior-setting`,
-      method: "GET",
-      signal,
+
+
+      return apiClient<GetBehaviorSettingResponse>(
+      {url: `/api/chatbots/${chatbotId}/behavior-setting`, method: 'GET', signal
     },
-    options
-  )
-}
+      options);
+    }
 
-export const getGetBehaviorSettingQueryKey = (chatbotId: number) => {
-  return [`/api/chatbots/${chatbotId}/behavior-setting`] as const
-}
 
-export const getGetBehaviorSettingQueryOptions = <
-  TData = Awaited<ReturnType<typeof getBehaviorSetting>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  chatbotId: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getBehaviorSetting>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  }
+
+
+export const getGetBehaviorSettingQueryKey = (chatbotId: number,) => {
+    return [
+    `/api/chatbots/${chatbotId}/behavior-setting`
+    ] as const;
+    }
+
+
+export const getGetBehaviorSettingQueryOptions = <TData = Awaited<ReturnType<typeof getBehaviorSetting>>, TError = ErrorType<ApiErrorResponseDto>>(chatbotId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBehaviorSetting>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
 ) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {}
 
-  const queryKey =
-    queryOptions?.queryKey ?? getGetBehaviorSettingQueryKey(chatbotId)
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getBehaviorSetting>>
-  > = ({ signal }) => getBehaviorSetting(chatbotId, requestOptions, signal)
+  const queryKey =  queryOptions?.queryKey ?? getGetBehaviorSettingQueryKey(chatbotId);
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: chatbotId !== null && chatbotId !== undefined,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof getBehaviorSetting>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getBehaviorSetting>>> = ({ signal }) => getBehaviorSetting(chatbotId, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: chatbotId !== null && chatbotId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getBehaviorSetting>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type GetBehaviorSettingQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getBehaviorSetting>>
->
+export type GetBehaviorSettingQueryResult = NonNullable<Awaited<ReturnType<typeof getBehaviorSetting>>>
 export type GetBehaviorSettingQueryError = ErrorType<ApiErrorResponseDto>
 
-export function useGetBehaviorSetting<
-  TData = Awaited<ReturnType<typeof getBehaviorSetting>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  chatbotId: number,
-  options: {
-    query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getBehaviorSetting>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+
+export function useGetBehaviorSetting<TData = Awaited<ReturnType<typeof getBehaviorSetting>>, TError = ErrorType<ApiErrorResponseDto>>(
+ chatbotId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBehaviorSetting>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getBehaviorSetting>>,
           TError,
           Awaited<ReturnType<typeof getBehaviorSetting>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useGetBehaviorSetting<
-  TData = Awaited<ReturnType<typeof getBehaviorSetting>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  chatbotId: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getBehaviorSetting>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetBehaviorSetting<TData = Awaited<ReturnType<typeof getBehaviorSetting>>, TError = ErrorType<ApiErrorResponseDto>>(
+ chatbotId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBehaviorSetting>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getBehaviorSetting>>,
           TError,
           Awaited<ReturnType<typeof getBehaviorSetting>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useGetBehaviorSetting<
-  TData = Awaited<ReturnType<typeof getBehaviorSetting>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  chatbotId: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getBehaviorSetting>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetBehaviorSetting<TData = Awaited<ReturnType<typeof getBehaviorSetting>>, TError = ErrorType<ApiErrorResponseDto>>(
+ chatbotId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBehaviorSetting>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetBehaviorSetting<TData = Awaited<ReturnType<typeof getBehaviorSetting>>, TError = ErrorType<ApiErrorResponseDto>>(
+ chatbotId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBehaviorSetting>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetBehaviorSettingQueryOptions(chatbotId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
 }
 
-export function useGetBehaviorSetting<
-  TData = Awaited<ReturnType<typeof getBehaviorSetting>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  chatbotId: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getBehaviorSetting>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-} {
-  const queryOptions = getGetBehaviorSettingQueryOptions(chatbotId, options)
 
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
-}
+
+
 
 export const updateBehaviorSetting = (
-  chatbotId: number,
-  updateChatbotBehaviorSettingDto: BodyType<UpdateChatbotBehaviorSettingDto>,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+    chatbotId: number,
+    updateChatbotBehaviorSettingDto: BodyType<UpdateChatbotBehaviorSettingDto>,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<UpdateBehaviorSettingResponse>(
-    {
-      url: `/api/chatbots/${chatbotId}/behavior-setting`,
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      data: updateChatbotBehaviorSettingDto,
-      signal,
+
+
+      return apiClient<UpdateBehaviorSettingResponse>(
+      {url: `/api/chatbots/${chatbotId}/behavior-setting`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updateChatbotBehaviorSettingDto, signal
     },
-    options
-  )
-}
+      options);
+    }
 
-export const getUpdateBehaviorSettingMutationOptions = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof updateBehaviorSetting>>,
-    TError,
-    { chatbotId: number; data: BodyType<UpdateChatbotBehaviorSettingDto> },
-    TContext
-  >
-  request?: SecondParameter<typeof apiClient>
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof updateBehaviorSetting>>,
-  TError,
-  { chatbotId: number; data: BodyType<UpdateChatbotBehaviorSettingDto> },
-  TContext
-> => {
-  const mutationKey = ["updateBehaviorSetting"]
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof updateBehaviorSetting>>,
-    { chatbotId: number; data: BodyType<UpdateChatbotBehaviorSettingDto> }
-  > = (props) => {
-    const { chatbotId, data } = props ?? {}
 
-    return updateBehaviorSetting(chatbotId, data, requestOptions)
-  }
+export const getUpdateBehaviorSettingMutationOptions = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateBehaviorSetting>>, TError,{chatbotId: number;data: BodyType<UpdateChatbotBehaviorSettingDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateBehaviorSetting>>, TError,{chatbotId: number;data: BodyType<UpdateChatbotBehaviorSettingDto>}, TContext> => {
 
-  return { mutationFn, ...mutationOptions }
-}
+const mutationKey = ['updateBehaviorSetting'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type UpdateBehaviorSettingMutationResult = NonNullable<
-  Awaited<ReturnType<typeof updateBehaviorSetting>>
->
-export type UpdateBehaviorSettingMutationBody =
-  BodyType<UpdateChatbotBehaviorSettingDto>
-export type UpdateBehaviorSettingMutationError = ErrorType<ApiErrorResponseDto>
 
-export const useUpdateBehaviorSetting = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof updateBehaviorSetting>>,
-      TError,
-      { chatbotId: number; data: BodyType<UpdateChatbotBehaviorSettingDto> },
-      TContext
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof updateBehaviorSetting>>,
-  TError,
-  { chatbotId: number; data: BodyType<UpdateChatbotBehaviorSettingDto> },
-  TContext
-> => {
-  return useMutation(
-    getUpdateBehaviorSettingMutationOptions(options),
-    queryClient
-  )
-}
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateBehaviorSetting>>, {chatbotId: number;data: BodyType<UpdateChatbotBehaviorSettingDto>}> = (props) => {
+          const {chatbotId,data} = props ?? {};
+
+          return  updateBehaviorSetting(chatbotId,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateBehaviorSettingMutationResult = NonNullable<Awaited<ReturnType<typeof updateBehaviorSetting>>>
+    export type UpdateBehaviorSettingMutationBody = BodyType<UpdateChatbotBehaviorSettingDto>
+    export type UpdateBehaviorSettingMutationError = ErrorType<ApiErrorResponseDto>
+
+    export const useUpdateBehaviorSetting = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateBehaviorSetting>>, TError,{chatbotId: number;data: BodyType<UpdateChatbotBehaviorSettingDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof updateBehaviorSetting>>,
+        TError,
+        {chatbotId: number;data: BodyType<UpdateChatbotBehaviorSettingDto>},
+        TContext
+      > => {
+      return useMutation(getUpdateBehaviorSettingMutationOptions(options), queryClient);
+    }

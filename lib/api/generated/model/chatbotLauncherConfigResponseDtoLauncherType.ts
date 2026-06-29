@@ -6,11 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ChatbotLauncherConfigResponseDtoLauncherType =
-  (typeof ChatbotLauncherConfigResponseDtoLauncherType)[keyof typeof ChatbotLauncherConfigResponseDtoLauncherType]
+export type ChatbotLauncherConfigResponseDtoLauncherType = typeof ChatbotLauncherConfigResponseDtoLauncherType[keyof typeof ChatbotLauncherConfigResponseDtoLauncherType];
+
 
 export const ChatbotLauncherConfigResponseDtoLauncherType = {
-  circle: "circle",
-  rounded_square: "rounded_square",
-  pill: "pill",
-} as const
+  circle: 'circle',
+  rounded_square: 'rounded_square',
+  pill: 'pill',
+} as const;

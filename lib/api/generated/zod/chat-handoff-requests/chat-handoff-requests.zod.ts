@@ -5,260 +5,199 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import * as zod from "zod"
+import * as zod from 'zod';
 
-export const findHandoffRequestsQueryPageDefault = 1
-export const findHandoffRequestsQueryLimitDefault = 20
+
+export const findHandoffRequestsQueryPageDefault = 1;
+export const findHandoffRequestsQueryLimitDefault = 20;
 
 export const FindHandoffRequestsQueryParams = zod.object({
-  page: zod.number().default(findHandoffRequestsQueryPageDefault),
-  limit: zod.number().default(findHandoffRequestsQueryLimitDefault),
-  status: zod
-    .enum(["pending", "assigned", "in_progress", "resolved", "cancelled"])
-    .optional(),
-  priority: zod.enum(["low", "normal", "high"]).optional(),
-  assigned_staff_id: zod.number().optional(),
+  "page": zod.number().default(findHandoffRequestsQueryPageDefault),
+  "limit": zod.number().default(findHandoffRequestsQueryLimitDefault),
+  "status": zod.enum(['pending', 'assigned', 'in_progress', 'resolved', 'cancelled']).optional(),
+  "priority": zod.enum(['low', 'normal', 'high']).optional(),
+  "assigned_staff_id": zod.number().optional()
 })
 
-export const FindHandoffRequestsResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          items: zod.array(
-            zod.object({
-              id: zod.number(),
-              conversation_id: zod.number(),
-              visitor_id: zod.number(),
-              chatbot_id: zod.number(),
-              facility_id: zod.number(),
-              assigned_staff_id: zod.number().nullish(),
-              reason: zod.looseObject({}).nullish(),
-              status: zod.enum([
-                "pending",
-                "assigned",
-                "in_progress",
-                "resolved",
-                "cancelled",
-              ]),
-              priority: zod.enum(["low", "normal", "high"]),
-              requested_at: zod.string(),
-              assigned_at: zod.string().nullish(),
-              resolved_at: zod.string().nullish(),
-              created_at: zod.string(),
-              updated_at: zod.string(),
-            })
-          ),
-          pagination: zod.object({
-            page: zod.number(),
-            limit: zod.number(),
-            total: zod.number(),
-            total_pages: zod.number(),
-          }),
-        })
-        .optional(),
-    })
-  )
+export const FindHandoffRequestsResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "items": zod.array(zod.object({
+  "id": zod.number(),
+  "conversation_id": zod.number(),
+  "visitor_id": zod.number(),
+  "chatbot_id": zod.number(),
+  "facility_id": zod.number(),
+  "assigned_staff_id": zod.number().nullish(),
+  "reason": zod.looseObject({
+
+}).nullish(),
+  "status": zod.enum(['pending', 'assigned', 'in_progress', 'resolved', 'cancelled']),
+  "priority": zod.enum(['low', 'normal', 'high']),
+  "requested_at": zod.string(),
+  "assigned_at": zod.string().nullish(),
+  "resolved_at": zod.string().nullish(),
+  "created_at": zod.string(),
+  "updated_at": zod.string()
+})),
+  "pagination": zod.object({
+  "page": zod.number(),
+  "limit": zod.number(),
+  "total": zod.number(),
+  "total_pages": zod.number()
+})
+}).optional()
+}))
 
 export const FindHandoffRequestParams = zod.object({
-  id: zod.number(),
+  "id": zod.number()
 })
 
-export const FindHandoffRequestResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          id: zod.number(),
-          conversation_id: zod.number(),
-          visitor_id: zod.number(),
-          chatbot_id: zod.number(),
-          facility_id: zod.number(),
-          assigned_staff_id: zod.number().nullish(),
-          reason: zod.looseObject({}).nullish(),
-          status: zod.enum([
-            "pending",
-            "assigned",
-            "in_progress",
-            "resolved",
-            "cancelled",
-          ]),
-          priority: zod.enum(["low", "normal", "high"]),
-          requested_at: zod.string(),
-          assigned_at: zod.string().nullish(),
-          resolved_at: zod.string().nullish(),
-          created_at: zod.string(),
-          updated_at: zod.string(),
-        })
-        .optional(),
-    })
-  )
+export const FindHandoffRequestResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "id": zod.number(),
+  "conversation_id": zod.number(),
+  "visitor_id": zod.number(),
+  "chatbot_id": zod.number(),
+  "facility_id": zod.number(),
+  "assigned_staff_id": zod.number().nullish(),
+  "reason": zod.looseObject({
+
+}).nullish(),
+  "status": zod.enum(['pending', 'assigned', 'in_progress', 'resolved', 'cancelled']),
+  "priority": zod.enum(['low', 'normal', 'high']),
+  "requested_at": zod.string(),
+  "assigned_at": zod.string().nullish(),
+  "resolved_at": zod.string().nullish(),
+  "created_at": zod.string(),
+  "updated_at": zod.string()
+}).optional()
+}))
 
 export const AssignHandoffRequestParams = zod.object({
-  id: zod.number(),
+  "id": zod.number()
 })
 
 export const AssignHandoffRequestBody = zod.object({
-  assigned_staff_id: zod
-    .number()
-    .optional()
-    .describe("Bỏ trống để người thao tác tự tiếp nhận request."),
+  "assigned_staff_id": zod.number().optional().describe('Bỏ trống để người thao tác tự tiếp nhận request.')
 })
 
-export const AssignHandoffRequestResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          id: zod.number(),
-          conversation_id: zod.number(),
-          visitor_id: zod.number(),
-          chatbot_id: zod.number(),
-          facility_id: zod.number(),
-          assigned_staff_id: zod.number().nullish(),
-          reason: zod.looseObject({}).nullish(),
-          status: zod.enum([
-            "pending",
-            "assigned",
-            "in_progress",
-            "resolved",
-            "cancelled",
-          ]),
-          priority: zod.enum(["low", "normal", "high"]),
-          requested_at: zod.string(),
-          assigned_at: zod.string().nullish(),
-          resolved_at: zod.string().nullish(),
-          created_at: zod.string(),
-          updated_at: zod.string(),
-        })
-        .optional(),
-    })
-  )
+export const AssignHandoffRequestResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "id": zod.number(),
+  "conversation_id": zod.number(),
+  "visitor_id": zod.number(),
+  "chatbot_id": zod.number(),
+  "facility_id": zod.number(),
+  "assigned_staff_id": zod.number().nullish(),
+  "reason": zod.looseObject({
+
+}).nullish(),
+  "status": zod.enum(['pending', 'assigned', 'in_progress', 'resolved', 'cancelled']),
+  "priority": zod.enum(['low', 'normal', 'high']),
+  "requested_at": zod.string(),
+  "assigned_at": zod.string().nullish(),
+  "resolved_at": zod.string().nullish(),
+  "created_at": zod.string(),
+  "updated_at": zod.string()
+}).optional()
+}))
 
 export const UpdateHandoffStatusParams = zod.object({
-  id: zod.number(),
+  "id": zod.number()
 })
 
 export const UpdateHandoffStatusBody = zod.object({
-  status: zod.enum([
-    "pending",
-    "assigned",
-    "in_progress",
-    "resolved",
-    "cancelled",
-  ]),
+  "status": zod.enum(['pending', 'assigned', 'in_progress', 'resolved', 'cancelled'])
 })
 
-export const UpdateHandoffStatusResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          id: zod.number(),
-          conversation_id: zod.number(),
-          visitor_id: zod.number(),
-          chatbot_id: zod.number(),
-          facility_id: zod.number(),
-          assigned_staff_id: zod.number().nullish(),
-          reason: zod.looseObject({}).nullish(),
-          status: zod.enum([
-            "pending",
-            "assigned",
-            "in_progress",
-            "resolved",
-            "cancelled",
-          ]),
-          priority: zod.enum(["low", "normal", "high"]),
-          requested_at: zod.string(),
-          assigned_at: zod.string().nullish(),
-          resolved_at: zod.string().nullish(),
-          created_at: zod.string(),
-          updated_at: zod.string(),
-        })
-        .optional(),
-    })
-  )
+export const UpdateHandoffStatusResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "id": zod.number(),
+  "conversation_id": zod.number(),
+  "visitor_id": zod.number(),
+  "chatbot_id": zod.number(),
+  "facility_id": zod.number(),
+  "assigned_staff_id": zod.number().nullish(),
+  "reason": zod.looseObject({
+
+}).nullish(),
+  "status": zod.enum(['pending', 'assigned', 'in_progress', 'resolved', 'cancelled']),
+  "priority": zod.enum(['low', 'normal', 'high']),
+  "requested_at": zod.string(),
+  "assigned_at": zod.string().nullish(),
+  "resolved_at": zod.string().nullish(),
+  "created_at": zod.string(),
+  "updated_at": zod.string()
+}).optional()
+}))
 
 export const ResolveHandoffRequestParams = zod.object({
-  id: zod.number(),
+  "id": zod.number()
 })
 
-export const ResolveHandoffRequestResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          id: zod.number(),
-          conversation_id: zod.number(),
-          visitor_id: zod.number(),
-          chatbot_id: zod.number(),
-          facility_id: zod.number(),
-          assigned_staff_id: zod.number().nullish(),
-          reason: zod.looseObject({}).nullish(),
-          status: zod.enum([
-            "pending",
-            "assigned",
-            "in_progress",
-            "resolved",
-            "cancelled",
-          ]),
-          priority: zod.enum(["low", "normal", "high"]),
-          requested_at: zod.string(),
-          assigned_at: zod.string().nullish(),
-          resolved_at: zod.string().nullish(),
-          created_at: zod.string(),
-          updated_at: zod.string(),
-        })
-        .optional(),
-    })
-  )
+export const ResolveHandoffRequestResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "id": zod.number(),
+  "conversation_id": zod.number(),
+  "visitor_id": zod.number(),
+  "chatbot_id": zod.number(),
+  "facility_id": zod.number(),
+  "assigned_staff_id": zod.number().nullish(),
+  "reason": zod.looseObject({
+
+}).nullish(),
+  "status": zod.enum(['pending', 'assigned', 'in_progress', 'resolved', 'cancelled']),
+  "priority": zod.enum(['low', 'normal', 'high']),
+  "requested_at": zod.string(),
+  "assigned_at": zod.string().nullish(),
+  "resolved_at": zod.string().nullish(),
+  "created_at": zod.string(),
+  "updated_at": zod.string()
+}).optional()
+}))
+

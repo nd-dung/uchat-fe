@@ -6,9 +6,9 @@
  * OpenAPI spec version: 1.0
  */
 
-export type PublicWidgetConfigResponseDtoStatus =
-  (typeof PublicWidgetConfigResponseDtoStatus)[keyof typeof PublicWidgetConfigResponseDtoStatus]
+export type PublicWidgetConfigResponseDtoStatus = typeof PublicWidgetConfigResponseDtoStatus[keyof typeof PublicWidgetConfigResponseDtoStatus];
+
 
 export const PublicWidgetConfigResponseDtoStatus = {
-  active: "active",
-} as const
+  active: 'active',
+} as const;

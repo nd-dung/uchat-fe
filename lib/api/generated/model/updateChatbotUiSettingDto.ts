@@ -5,39 +5,39 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { AnimationConfigDto } from "./animationConfigDto"
-import type { ChatWindowConfigDto } from "./chatWindowConfigDto"
-import type { FooterConfigDto } from "./footerConfigDto"
-import type { HeaderConfigDto } from "./headerConfigDto"
-import type { InputConfigDto } from "./inputConfigDto"
-import type { LauncherConfigDto } from "./launcherConfigDto"
-import type { MessageConfigDto } from "./messageConfigDto"
-import type { TypographyConfigDto } from "./typographyConfigDto"
-import type { UpdateChatbotUiSettingDtoAvatarUrl } from "./updateChatbotUiSettingDtoAvatarUrl"
-import type { UpdateChatbotUiSettingDtoBackgroundColor } from "./updateChatbotUiSettingDtoBackgroundColor"
-import type { UpdateChatbotUiSettingDtoLauncherIconUrl } from "./updateChatbotUiSettingDtoLauncherIconUrl"
-import type { UpdateChatbotUiSettingDtoLogoUrl } from "./updateChatbotUiSettingDtoLogoUrl"
-import type { UpdateChatbotUiSettingDtoPrimaryColor } from "./updateChatbotUiSettingDtoPrimaryColor"
-import type { WelcomeConfigDto } from "./welcomeConfigDto"
+import type { AnimationConfigDto } from './animationConfigDto';
+import type { ChatWindowConfigDto } from './chatWindowConfigDto';
+import type { FooterConfigDto } from './footerConfigDto';
+import type { HeaderConfigDto } from './headerConfigDto';
+import type { InputConfigDto } from './inputConfigDto';
+import type { LauncherConfigDto } from './launcherConfigDto';
+import type { MessageConfigDto } from './messageConfigDto';
+import type { TypographyConfigDto } from './typographyConfigDto';
+import type { UpdateChatbotUiSettingDtoAvatarUrl } from './updateChatbotUiSettingDtoAvatarUrl';
+import type { UpdateChatbotUiSettingDtoBackgroundColor } from './updateChatbotUiSettingDtoBackgroundColor';
+import type { UpdateChatbotUiSettingDtoLauncherIconUrl } from './updateChatbotUiSettingDtoLauncherIconUrl';
+import type { UpdateChatbotUiSettingDtoLogoUrl } from './updateChatbotUiSettingDtoLogoUrl';
+import type { UpdateChatbotUiSettingDtoPrimaryColor } from './updateChatbotUiSettingDtoPrimaryColor';
+import type { WelcomeConfigDto } from './welcomeConfigDto';
 
 export interface UpdateChatbotUiSettingDto {
-  launcher?: LauncherConfigDto
-  chat_window?: ChatWindowConfigDto
-  header?: HeaderConfigDto
-  message?: MessageConfigDto
-  typography?: TypographyConfigDto
-  input?: InputConfigDto
-  welcome?: WelcomeConfigDto
-  animation?: AnimationConfigDto
-  footer?: FooterConfigDto
+  launcher?: LauncherConfigDto;
+  chat_window?: ChatWindowConfigDto;
+  header?: HeaderConfigDto;
+  message?: MessageConfigDto;
+  typography?: TypographyConfigDto;
+  input?: InputConfigDto;
+  welcome?: WelcomeConfigDto;
+  animation?: AnimationConfigDto;
+  footer?: FooterConfigDto;
   /** Legacy flat field. */
-  primary_color?: UpdateChatbotUiSettingDtoPrimaryColor
+  primary_color?: UpdateChatbotUiSettingDtoPrimaryColor;
   /** Legacy flat field. */
-  background_color?: UpdateChatbotUiSettingDtoBackgroundColor
+  background_color?: UpdateChatbotUiSettingDtoBackgroundColor;
   /** Legacy flat field. */
-  avatar_url?: UpdateChatbotUiSettingDtoAvatarUrl
+  avatar_url?: UpdateChatbotUiSettingDtoAvatarUrl;
   /** Legacy flat field. */
-  logo_url?: UpdateChatbotUiSettingDtoLogoUrl
+  logo_url?: UpdateChatbotUiSettingDtoLogoUrl;
   /** Legacy flat field. */
-  launcher_icon_url?: UpdateChatbotUiSettingDtoLauncherIconUrl
+  launcher_icon_url?: UpdateChatbotUiSettingDtoLauncherIconUrl;
 }

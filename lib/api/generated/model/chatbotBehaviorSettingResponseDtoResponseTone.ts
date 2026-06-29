@@ -6,12 +6,12 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ChatbotBehaviorSettingResponseDtoResponseTone =
-  (typeof ChatbotBehaviorSettingResponseDtoResponseTone)[keyof typeof ChatbotBehaviorSettingResponseDtoResponseTone]
+export type ChatbotBehaviorSettingResponseDtoResponseTone = typeof ChatbotBehaviorSettingResponseDtoResponseTone[keyof typeof ChatbotBehaviorSettingResponseDtoResponseTone];
+
 
 export const ChatbotBehaviorSettingResponseDtoResponseTone = {
-  friendly: "friendly",
-  professional: "professional",
-  formal: "formal",
-  concise: "concise",
-} as const
+  friendly: 'friendly',
+  professional: 'professional',
+  formal: 'formal',
+  concise: 'concise',
+} as const;

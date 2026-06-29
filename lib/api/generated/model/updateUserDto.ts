@@ -5,17 +5,17 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { UpdateUserDtoRole } from "./updateUserDtoRole"
-import type { UpdateUserDtoStatus } from "./updateUserDtoStatus"
+import type { UpdateUserDtoRole } from './updateUserDtoRole';
+import type { UpdateUserDtoStatus } from './updateUserDtoStatus';
 
 export interface UpdateUserDto {
-  name?: string
-  email?: string
+  name?: string;
+  email?: string;
   /** @nullable */
-  avatar?: string | null
-  password?: string
-  role?: UpdateUserDtoRole
-  status?: UpdateUserDtoStatus
+  avatar?: string | null;
+  password?: string;
+  role?: UpdateUserDtoRole;
+  status?: UpdateUserDtoStatus;
   /** @nullable */
-  facility_id?: number | null
+  facility_id?: number | null;
 }

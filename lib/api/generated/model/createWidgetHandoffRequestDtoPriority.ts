@@ -6,11 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
-export type CreateWidgetHandoffRequestDtoPriority =
-  (typeof CreateWidgetHandoffRequestDtoPriority)[keyof typeof CreateWidgetHandoffRequestDtoPriority]
+export type CreateWidgetHandoffRequestDtoPriority = typeof CreateWidgetHandoffRequestDtoPriority[keyof typeof CreateWidgetHandoffRequestDtoPriority];
+
 
 export const CreateWidgetHandoffRequestDtoPriority = {
-  low: "low",
-  normal: "normal",
-  high: "high",
-} as const
+  low: 'low',
+  normal: 'normal',
+  high: 'high',
+} as const;

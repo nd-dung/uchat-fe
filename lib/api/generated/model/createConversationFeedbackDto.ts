@@ -5,17 +5,17 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { CreateConversationFeedbackDtoMetadata } from "./createConversationFeedbackDtoMetadata"
-import type { CreateConversationFeedbackDtoSatisfactionLevel } from "./createConversationFeedbackDtoSatisfactionLevel"
+import type { CreateConversationFeedbackDtoMetadata } from './createConversationFeedbackDtoMetadata';
+import type { CreateConversationFeedbackDtoSatisfactionLevel } from './createConversationFeedbackDtoSatisfactionLevel';
 
 export interface CreateConversationFeedbackDto {
-  visitor_uid: string
+  visitor_uid: string;
   /**
-   * @minimum 1
-   * @maximum 5
-   */
-  rating?: number
-  satisfaction_level?: CreateConversationFeedbackDtoSatisfactionLevel
-  comment?: string
-  metadata?: CreateConversationFeedbackDtoMetadata
+     * @minimum 1
+     * @maximum 5
+     */
+  rating?: number;
+  satisfaction_level?: CreateConversationFeedbackDtoSatisfactionLevel;
+  comment?: string;
+  metadata?: CreateConversationFeedbackDtoMetadata;
 }

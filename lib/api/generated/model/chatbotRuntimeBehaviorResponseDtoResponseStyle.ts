@@ -6,12 +6,12 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ChatbotRuntimeBehaviorResponseDtoResponseStyle =
-  (typeof ChatbotRuntimeBehaviorResponseDtoResponseStyle)[keyof typeof ChatbotRuntimeBehaviorResponseDtoResponseStyle]
+export type ChatbotRuntimeBehaviorResponseDtoResponseStyle = typeof ChatbotRuntimeBehaviorResponseDtoResponseStyle[keyof typeof ChatbotRuntimeBehaviorResponseDtoResponseStyle];
+
 
 export const ChatbotRuntimeBehaviorResponseDtoResponseStyle = {
-  short_answer: "short_answer",
-  detailed_answer: "detailed_answer",
-  step_by_step: "step_by_step",
-  faq_style: "faq_style",
-} as const
+  short_answer: 'short_answer',
+  detailed_answer: 'detailed_answer',
+  step_by_step: 'step_by_step',
+  faq_style: 'faq_style',
+} as const;

@@ -5,7 +5,10 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import { useMutation, useQuery } from "@tanstack/react-query"
+import {
+  useMutation,
+  useQuery
+} from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -18,8 +21,8 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult,
-} from "@tanstack/react-query"
+  UseQueryResult
+} from '@tanstack/react-query';
 
 import type {
   ApiErrorResponseDto,
@@ -31,676 +34,443 @@ import type {
   ListFacilitiesParams,
   ListFacilitiesResponse,
   UpdateFacilityDto,
-  UpdateFacilityResponse,
-} from "../model"
+  UpdateFacilityResponse
+} from '../model';
 
-import { apiClient } from "../../axios"
-import type { ErrorType, BodyType } from "../../axios"
+import { apiClient } from '../../axios';
+import type { ErrorType , BodyType } from '../../axios';
 
-type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1]
+
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
+
 
 export const listFacilities = (
-  params?: ListFacilitiesParams,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+    params?: ListFacilitiesParams,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<ListFacilitiesResponse>(
-    { url: `/api/facilities`, method: "GET", params, signal },
-    options
-  )
-}
 
-export const getListFacilitiesQueryKey = (params?: ListFacilitiesParams) => {
-  return [`/api/facilities`, ...(params ? [params] : [])] as const
-}
 
-export const getListFacilitiesQueryOptions = <
-  TData = Awaited<ReturnType<typeof listFacilities>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  params?: ListFacilitiesParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof listFacilities>>, TError, TData>
-    >
-    request?: SecondParameter<typeof apiClient>
-  }
+      return apiClient<ListFacilitiesResponse>(
+      {url: `/api/facilities`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+
+
+
+
+export const getListFacilitiesQueryKey = (params?: ListFacilitiesParams,) => {
+    return [
+    `/api/facilities`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getListFacilitiesQueryOptions = <TData = Awaited<ReturnType<typeof listFacilities>>, TError = ErrorType<ApiErrorResponseDto>>(params?: ListFacilitiesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listFacilities>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
 ) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {}
 
-  const queryKey = queryOptions?.queryKey ?? getListFacilitiesQueryKey(params)
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof listFacilities>>> = ({
-    signal,
-  }) => listFacilities(params, requestOptions, signal)
+  const queryKey =  queryOptions?.queryKey ?? getListFacilitiesQueryKey(params);
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof listFacilities>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listFacilities>>> = ({ signal }) => listFacilities(params, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listFacilities>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type ListFacilitiesQueryResult = NonNullable<
-  Awaited<ReturnType<typeof listFacilities>>
->
+export type ListFacilitiesQueryResult = NonNullable<Awaited<ReturnType<typeof listFacilities>>>
 export type ListFacilitiesQueryError = ErrorType<ApiErrorResponseDto>
 
-export function useListFacilities<
-  TData = Awaited<ReturnType<typeof listFacilities>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  params: undefined | ListFacilitiesParams,
-  options: {
-    query: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof listFacilities>>, TError, TData>
-    > &
-      Pick<
+
+export function useListFacilities<TData = Awaited<ReturnType<typeof listFacilities>>, TError = ErrorType<ApiErrorResponseDto>>(
+ params: undefined |  ListFacilitiesParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listFacilities>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof listFacilities>>,
           TError,
           Awaited<ReturnType<typeof listFacilities>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useListFacilities<
-  TData = Awaited<ReturnType<typeof listFacilities>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  params?: ListFacilitiesParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof listFacilities>>, TError, TData>
-    > &
-      Pick<
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListFacilities<TData = Awaited<ReturnType<typeof listFacilities>>, TError = ErrorType<ApiErrorResponseDto>>(
+ params?: ListFacilitiesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listFacilities>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof listFacilities>>,
           TError,
           Awaited<ReturnType<typeof listFacilities>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useListFacilities<
-  TData = Awaited<ReturnType<typeof listFacilities>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  params?: ListFacilitiesParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof listFacilities>>, TError, TData>
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListFacilities<TData = Awaited<ReturnType<typeof listFacilities>>, TError = ErrorType<ApiErrorResponseDto>>(
+ params?: ListFacilitiesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listFacilities>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useListFacilities<TData = Awaited<ReturnType<typeof listFacilities>>, TError = ErrorType<ApiErrorResponseDto>>(
+ params?: ListFacilitiesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listFacilities>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListFacilitiesQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
 }
 
-export function useListFacilities<
-  TData = Awaited<ReturnType<typeof listFacilities>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  params?: ListFacilitiesParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof listFacilities>>, TError, TData>
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-} {
-  const queryOptions = getListFacilitiesQueryOptions(params, options)
 
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
-}
+
+
 
 export const createFacility = (
-  createFacilityDto: BodyType<CreateFacilityDto>,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+    createFacilityDto: BodyType<CreateFacilityDto>,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<CreateFacilityResponse>(
-    {
-      url: `/api/facilities`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: createFacilityDto,
-      signal,
+
+
+      return apiClient<CreateFacilityResponse>(
+      {url: `/api/facilities`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createFacilityDto, signal
     },
-    options
-  )
-}
+      options);
+    }
 
-export const getCreateFacilityMutationOptions = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof createFacility>>,
-    TError,
-    { data: BodyType<CreateFacilityDto> },
-    TContext
-  >
-  request?: SecondParameter<typeof apiClient>
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof createFacility>>,
-  TError,
-  { data: BodyType<CreateFacilityDto> },
-  TContext
-> => {
-  const mutationKey = ["createFacility"]
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof createFacility>>,
-    { data: BodyType<CreateFacilityDto> }
-  > = (props) => {
-    const { data } = props ?? {}
 
-    return createFacility(data, requestOptions)
-  }
+export const getCreateFacilityMutationOptions = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createFacility>>, TError,{data: BodyType<CreateFacilityDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof createFacility>>, TError,{data: BodyType<CreateFacilityDto>}, TContext> => {
 
-  return { mutationFn, ...mutationOptions }
-}
+const mutationKey = ['createFacility'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type CreateFacilityMutationResult = NonNullable<
-  Awaited<ReturnType<typeof createFacility>>
->
-export type CreateFacilityMutationBody = BodyType<CreateFacilityDto>
-export type CreateFacilityMutationError = ErrorType<ApiErrorResponseDto>
 
-export const useCreateFacility = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof createFacility>>,
-      TError,
-      { data: BodyType<CreateFacilityDto> },
-      TContext
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof createFacility>>,
-  TError,
-  { data: BodyType<CreateFacilityDto> },
-  TContext
-> => {
-  return useMutation(getCreateFacilityMutationOptions(options), queryClient)
-}
-export const getFacilityStatisticsOverview = (
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createFacility>>, {data: BodyType<CreateFacilityDto>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  createFacility(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateFacilityMutationResult = NonNullable<Awaited<ReturnType<typeof createFacility>>>
+    export type CreateFacilityMutationBody = BodyType<CreateFacilityDto>
+    export type CreateFacilityMutationError = ErrorType<ApiErrorResponseDto>
+
+    export const useCreateFacility = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createFacility>>, TError,{data: BodyType<CreateFacilityDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof createFacility>>,
+        TError,
+        {data: BodyType<CreateFacilityDto>},
+        TContext
+      > => {
+      return useMutation(getCreateFacilityMutationOptions(options), queryClient);
+    }
+    export const getFacilityStatisticsOverview = (
+
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<GetFacilityStatisticsOverviewResponse>(
-    { url: `/api/facilities/statistics/overview`, method: "GET", signal },
-    options
-  )
-}
+
+
+      return apiClient<GetFacilityStatisticsOverviewResponse>(
+      {url: `/api/facilities/statistics/overview`, method: 'GET', signal
+    },
+      options);
+    }
+
+
+
 
 export const getGetFacilityStatisticsOverviewQueryKey = () => {
-  return [`/api/facilities/statistics/overview`] as const
+    return [
+    `/api/facilities/statistics/overview`
+    ] as const;
+    }
+
+
+export const getGetFacilityStatisticsOverviewQueryOptions = <TData = Awaited<ReturnType<typeof getFacilityStatisticsOverview>>, TError = ErrorType<ApiErrorResponseDto>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFacilityStatisticsOverview>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetFacilityStatisticsOverviewQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getFacilityStatisticsOverview>>> = ({ signal }) => getFacilityStatisticsOverview(requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getFacilityStatisticsOverview>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export const getGetFacilityStatisticsOverviewQueryOptions = <
-  TData = Awaited<ReturnType<typeof getFacilityStatisticsOverview>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof getFacilityStatisticsOverview>>,
-      TError,
-      TData
-    >
-  >
-  request?: SecondParameter<typeof apiClient>
-}) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {}
+export type GetFacilityStatisticsOverviewQueryResult = NonNullable<Awaited<ReturnType<typeof getFacilityStatisticsOverview>>>
+export type GetFacilityStatisticsOverviewQueryError = ErrorType<ApiErrorResponseDto>
 
-  const queryKey =
-    queryOptions?.queryKey ?? getGetFacilityStatisticsOverviewQueryKey()
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getFacilityStatisticsOverview>>
-  > = ({ signal }) => getFacilityStatisticsOverview(requestOptions, signal)
-
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getFacilityStatisticsOverview>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetFacilityStatisticsOverviewQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getFacilityStatisticsOverview>>
->
-export type GetFacilityStatisticsOverviewQueryError =
-  ErrorType<ApiErrorResponseDto>
-
-export function useGetFacilityStatisticsOverview<
-  TData = Awaited<ReturnType<typeof getFacilityStatisticsOverview>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  options: {
-    query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getFacilityStatisticsOverview>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+export function useGetFacilityStatisticsOverview<TData = Awaited<ReturnType<typeof getFacilityStatisticsOverview>>, TError = ErrorType<ApiErrorResponseDto>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFacilityStatisticsOverview>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getFacilityStatisticsOverview>>,
           TError,
           Awaited<ReturnType<typeof getFacilityStatisticsOverview>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useGetFacilityStatisticsOverview<
-  TData = Awaited<ReturnType<typeof getFacilityStatisticsOverview>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getFacilityStatisticsOverview>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetFacilityStatisticsOverview<TData = Awaited<ReturnType<typeof getFacilityStatisticsOverview>>, TError = ErrorType<ApiErrorResponseDto>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFacilityStatisticsOverview>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getFacilityStatisticsOverview>>,
           TError,
           Awaited<ReturnType<typeof getFacilityStatisticsOverview>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useGetFacilityStatisticsOverview<
-  TData = Awaited<ReturnType<typeof getFacilityStatisticsOverview>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getFacilityStatisticsOverview>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetFacilityStatisticsOverview<TData = Awaited<ReturnType<typeof getFacilityStatisticsOverview>>, TError = ErrorType<ApiErrorResponseDto>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFacilityStatisticsOverview>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useGetFacilityStatisticsOverview<
-  TData = Awaited<ReturnType<typeof getFacilityStatisticsOverview>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getFacilityStatisticsOverview>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-} {
+export function useGetFacilityStatisticsOverview<TData = Awaited<ReturnType<typeof getFacilityStatisticsOverview>>, TError = ErrorType<ApiErrorResponseDto>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFacilityStatisticsOverview>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
   const queryOptions = getGetFacilityStatisticsOverviewQueryOptions(options)
 
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return { ...query, queryKey: queryOptions.queryKey };
 }
+
+
+
+
+
 
 export const getFacility = (
-  id: number,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+    id: number,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<GetFacilityResponse>(
-    { url: `/api/facilities/${id}`, method: "GET", signal },
-    options
-  )
-}
 
-export const getGetFacilityQueryKey = (id: number) => {
-  return [`/api/facilities/${id}`] as const
-}
 
-export const getGetFacilityQueryOptions = <
-  TData = Awaited<ReturnType<typeof getFacility>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getFacility>>, TError, TData>
-    >
-    request?: SecondParameter<typeof apiClient>
-  }
+      return apiClient<GetFacilityResponse>(
+      {url: `/api/facilities/${id}`, method: 'GET', signal
+    },
+      options);
+    }
+
+
+
+
+export const getGetFacilityQueryKey = (id: number,) => {
+    return [
+    `/api/facilities/${id}`
+    ] as const;
+    }
+
+
+export const getGetFacilityQueryOptions = <TData = Awaited<ReturnType<typeof getFacility>>, TError = ErrorType<ApiErrorResponseDto>>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFacility>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
 ) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {}
 
-  const queryKey = queryOptions?.queryKey ?? getGetFacilityQueryKey(id)
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof getFacility>>> = ({
-    signal,
-  }) => getFacility(id, requestOptions, signal)
+  const queryKey =  queryOptions?.queryKey ?? getGetFacilityQueryKey(id);
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: id !== null && id !== undefined,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof getFacility>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getFacility>>> = ({ signal }) => getFacility(id, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getFacility>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type GetFacilityQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getFacility>>
->
+export type GetFacilityQueryResult = NonNullable<Awaited<ReturnType<typeof getFacility>>>
 export type GetFacilityQueryError = ErrorType<ApiErrorResponseDto>
 
-export function useGetFacility<
-  TData = Awaited<ReturnType<typeof getFacility>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options: {
-    query: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getFacility>>, TError, TData>
-    > &
-      Pick<
+
+export function useGetFacility<TData = Awaited<ReturnType<typeof getFacility>>, TError = ErrorType<ApiErrorResponseDto>>(
+ id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFacility>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getFacility>>,
           TError,
           Awaited<ReturnType<typeof getFacility>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useGetFacility<
-  TData = Awaited<ReturnType<typeof getFacility>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getFacility>>, TError, TData>
-    > &
-      Pick<
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetFacility<TData = Awaited<ReturnType<typeof getFacility>>, TError = ErrorType<ApiErrorResponseDto>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFacility>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getFacility>>,
           TError,
           Awaited<ReturnType<typeof getFacility>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useGetFacility<
-  TData = Awaited<ReturnType<typeof getFacility>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getFacility>>, TError, TData>
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetFacility<TData = Awaited<ReturnType<typeof getFacility>>, TError = ErrorType<ApiErrorResponseDto>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFacility>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetFacility<TData = Awaited<ReturnType<typeof getFacility>>, TError = ErrorType<ApiErrorResponseDto>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFacility>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetFacilityQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
 }
 
-export function useGetFacility<
-  TData = Awaited<ReturnType<typeof getFacility>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getFacility>>, TError, TData>
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-} {
-  const queryOptions = getGetFacilityQueryOptions(id, options)
 
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
-}
+
+
 
 export const updateFacility = (
-  id: number,
-  updateFacilityDto: BodyType<UpdateFacilityDto>,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+    id: number,
+    updateFacilityDto: BodyType<UpdateFacilityDto>,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<UpdateFacilityResponse>(
-    {
-      url: `/api/facilities/${id}`,
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      data: updateFacilityDto,
-      signal,
+
+
+      return apiClient<UpdateFacilityResponse>(
+      {url: `/api/facilities/${id}`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: updateFacilityDto, signal
     },
-    options
-  )
-}
+      options);
+    }
 
-export const getUpdateFacilityMutationOptions = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof updateFacility>>,
-    TError,
-    { id: number; data: BodyType<UpdateFacilityDto> },
-    TContext
-  >
-  request?: SecondParameter<typeof apiClient>
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof updateFacility>>,
-  TError,
-  { id: number; data: BodyType<UpdateFacilityDto> },
-  TContext
-> => {
-  const mutationKey = ["updateFacility"]
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof updateFacility>>,
-    { id: number; data: BodyType<UpdateFacilityDto> }
-  > = (props) => {
-    const { id, data } = props ?? {}
 
-    return updateFacility(id, data, requestOptions)
-  }
+export const getUpdateFacilityMutationOptions = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateFacility>>, TError,{id: number;data: BodyType<UpdateFacilityDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateFacility>>, TError,{id: number;data: BodyType<UpdateFacilityDto>}, TContext> => {
 
-  return { mutationFn, ...mutationOptions }
-}
+const mutationKey = ['updateFacility'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type UpdateFacilityMutationResult = NonNullable<
-  Awaited<ReturnType<typeof updateFacility>>
->
-export type UpdateFacilityMutationBody = BodyType<UpdateFacilityDto>
-export type UpdateFacilityMutationError = ErrorType<ApiErrorResponseDto>
 
-export const useUpdateFacility = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof updateFacility>>,
-      TError,
-      { id: number; data: BodyType<UpdateFacilityDto> },
-      TContext
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof updateFacility>>,
-  TError,
-  { id: number; data: BodyType<UpdateFacilityDto> },
-  TContext
-> => {
-  return useMutation(getUpdateFacilityMutationOptions(options), queryClient)
-}
-export const deleteFacility = (
-  id: number,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateFacility>>, {id: number;data: BodyType<UpdateFacilityDto>}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateFacility(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateFacilityMutationResult = NonNullable<Awaited<ReturnType<typeof updateFacility>>>
+    export type UpdateFacilityMutationBody = BodyType<UpdateFacilityDto>
+    export type UpdateFacilityMutationError = ErrorType<ApiErrorResponseDto>
+
+    export const useUpdateFacility = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateFacility>>, TError,{id: number;data: BodyType<UpdateFacilityDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof updateFacility>>,
+        TError,
+        {id: number;data: BodyType<UpdateFacilityDto>},
+        TContext
+      > => {
+      return useMutation(getUpdateFacilityMutationOptions(options), queryClient);
+    }
+    export const deleteFacility = (
+    id: number,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<DeleteFacilityResponse>(
-    { url: `/api/facilities/${id}`, method: "DELETE", signal },
-    options
-  )
-}
 
-export const getDeleteFacilityMutationOptions = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof deleteFacility>>,
-    TError,
-    { id: number },
-    TContext
-  >
-  request?: SecondParameter<typeof apiClient>
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof deleteFacility>>,
-  TError,
-  { id: number },
-  TContext
-> => {
-  const mutationKey = ["deleteFacility"]
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof deleteFacility>>,
-    { id: number }
-  > = (props) => {
-    const { id } = props ?? {}
+      return apiClient<DeleteFacilityResponse>(
+      {url: `/api/facilities/${id}`, method: 'DELETE', signal
+    },
+      options);
+    }
 
-    return deleteFacility(id, requestOptions)
-  }
 
-  return { mutationFn, ...mutationOptions }
-}
 
-export type DeleteFacilityMutationResult = NonNullable<
-  Awaited<ReturnType<typeof deleteFacility>>
->
+export const getDeleteFacilityMutationOptions = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteFacility>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteFacility>>, TError,{id: number}, TContext> => {
 
-export type DeleteFacilityMutationError = ErrorType<ApiErrorResponseDto>
+const mutationKey = ['deleteFacility'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export const useDeleteFacility = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof deleteFacility>>,
-      TError,
-      { id: number },
-      TContext
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof deleteFacility>>,
-  TError,
-  { id: number },
-  TContext
-> => {
-  return useMutation(getDeleteFacilityMutationOptions(options), queryClient)
-}
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteFacility>>, {id: number}> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteFacility(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteFacilityMutationResult = NonNullable<Awaited<ReturnType<typeof deleteFacility>>>
+
+    export type DeleteFacilityMutationError = ErrorType<ApiErrorResponseDto>
+
+    export const useDeleteFacility = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteFacility>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof deleteFacility>>,
+        TError,
+        {id: number},
+        TContext
+      > => {
+      return useMutation(getDeleteFacilityMutationOptions(options), queryClient);
+    }

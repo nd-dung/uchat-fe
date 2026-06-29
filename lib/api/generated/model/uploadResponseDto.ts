@@ -8,5 +8,5 @@
 
 export interface UploadResponseDto {
   /** URL công khai của file đã upload. */
-  url: string
+  url: string;
 }

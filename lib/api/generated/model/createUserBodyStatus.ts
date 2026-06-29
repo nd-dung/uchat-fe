@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type CreateUserBodyStatus =
-  (typeof CreateUserBodyStatus)[keyof typeof CreateUserBodyStatus]
+export type CreateUserBodyStatus = typeof CreateUserBodyStatus[keyof typeof CreateUserBodyStatus];
+
 
 export const CreateUserBodyStatus = {
-  active: "active",
-  inactive: "inactive",
-} as const
+  active: 'active',
+  inactive: 'inactive',
+} as const;

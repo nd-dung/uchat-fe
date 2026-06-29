@@ -7,8 +7,8 @@
  */
 
 export type UploadImageParams = {
-  /**
-   * Thư mục lưu file (mặc định: general).
-   */
-  folder?: string
-}
+/**
+ * Thư mục lưu file (mặc định: general).
+ */
+folder?: string;
+};

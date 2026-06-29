@@ -5,17 +5,17 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ChatbotResponseDtoStatus } from "./chatbotResponseDtoStatus"
+import type { ChatbotResponseDtoStatus } from './chatbotResponseDtoStatus';
 
 export interface ChatbotResponseDto {
-  id: number
-  facility_id: number
-  name: string
-  display_name?: string
-  description?: string
-  status: ChatbotResponseDtoStatus
-  created_by?: number
-  updated_by?: number
-  created_at: string
-  updated_at: string
+  id: number;
+  facility_id: number;
+  name: string;
+  display_name?: string;
+  description?: string;
+  status: ChatbotResponseDtoStatus;
+  created_by?: number;
+  updated_by?: number;
+  created_at: string;
+  updated_at: string;
 }

@@ -5,17 +5,17 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ChatbotInputConfigResponseDtoSendButtonType } from "./chatbotInputConfigResponseDtoSendButtonType"
+import type { ChatbotInputConfigResponseDtoSendButtonType } from './chatbotInputConfigResponseDtoSendButtonType';
 
 export interface ChatbotInputConfigResponseDto {
-  placeholder_text: string
-  input_background_color: string
-  input_text_color: string
-  input_placeholder_color: string
-  input_border_color: string
-  input_border_radius: number
-  send_button_type: ChatbotInputConfigResponseDtoSendButtonType
-  send_button_background_color: string
-  send_button_icon_color: string
-  send_button_text?: string
+  placeholder_text: string;
+  input_background_color: string;
+  input_text_color: string;
+  input_placeholder_color: string;
+  input_border_color: string;
+  input_border_radius: number;
+  send_button_type: ChatbotInputConfigResponseDtoSendButtonType;
+  send_button_background_color: string;
+  send_button_icon_color: string;
+  send_button_text?: string;
 }

@@ -5,32 +5,32 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ConversationFeedbackResponseDtoComment } from "./conversationFeedbackResponseDtoComment"
-import type { ConversationFeedbackResponseDtoMetadata } from "./conversationFeedbackResponseDtoMetadata"
-import type { ConversationFeedbackResponseDtoSatisfactionLevel } from "./conversationFeedbackResponseDtoSatisfactionLevel"
-import type { ConversationFeedbackResponseDtoStatus } from "./conversationFeedbackResponseDtoStatus"
+import type { ConversationFeedbackResponseDtoComment } from './conversationFeedbackResponseDtoComment';
+import type { ConversationFeedbackResponseDtoMetadata } from './conversationFeedbackResponseDtoMetadata';
+import type { ConversationFeedbackResponseDtoSatisfactionLevel } from './conversationFeedbackResponseDtoSatisfactionLevel';
+import type { ConversationFeedbackResponseDtoStatus } from './conversationFeedbackResponseDtoStatus';
 
 export interface ConversationFeedbackResponseDto {
-  id: number
-  conversation_id: number
-  visitor_id: number
-  chatbot_id: number
-  facility_id: number
+  id: number;
+  conversation_id: number;
+  visitor_id: number;
+  chatbot_id: number;
+  facility_id: number;
   /** @nullable */
-  rating?: number | null
+  rating?: number | null;
   /** @nullable */
-  satisfaction_level?: ConversationFeedbackResponseDtoSatisfactionLevel
+  satisfaction_level?: ConversationFeedbackResponseDtoSatisfactionLevel;
   /** @nullable */
-  comment?: ConversationFeedbackResponseDtoComment
-  status: ConversationFeedbackResponseDtoStatus
+  comment?: ConversationFeedbackResponseDtoComment;
+  status: ConversationFeedbackResponseDtoStatus;
   /** @nullable */
-  reviewed_by?: number | null
+  reviewed_by?: number | null;
   /** @nullable */
-  reviewed_at?: string | null
+  reviewed_at?: string | null;
   /** @nullable */
-  resolved_at?: string | null
+  resolved_at?: string | null;
   /** @nullable */
-  metadata?: ConversationFeedbackResponseDtoMetadata
-  created_at: string
-  updated_at: string
+  metadata?: ConversationFeedbackResponseDtoMetadata;
+  created_at: string;
+  updated_at: string;
 }

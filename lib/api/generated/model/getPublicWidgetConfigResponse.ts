@@ -5,9 +5,9 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ApiSuccessResponseDto } from "./apiSuccessResponseDto"
-import type { PublicWidgetConfigResponseDto } from "./publicWidgetConfigResponseDto"
+import type { ApiSuccessResponseDto } from './apiSuccessResponseDto';
+import type { PublicWidgetConfigResponseDto } from './publicWidgetConfigResponseDto';
 
 export type GetPublicWidgetConfigResponse = ApiSuccessResponseDto & {
-  data?: PublicWidgetConfigResponseDto
-}
+  data?: PublicWidgetConfigResponseDto;
+};

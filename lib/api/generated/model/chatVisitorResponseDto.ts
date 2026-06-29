@@ -5,28 +5,28 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ChatVisitorResponseDtoEmail } from "./chatVisitorResponseDtoEmail"
-import type { ChatVisitorResponseDtoMetadata } from "./chatVisitorResponseDtoMetadata"
-import type { ChatVisitorResponseDtoName } from "./chatVisitorResponseDtoName"
-import type { ChatVisitorResponseDtoPhone } from "./chatVisitorResponseDtoPhone"
+import type { ChatVisitorResponseDtoEmail } from './chatVisitorResponseDtoEmail';
+import type { ChatVisitorResponseDtoMetadata } from './chatVisitorResponseDtoMetadata';
+import type { ChatVisitorResponseDtoName } from './chatVisitorResponseDtoName';
+import type { ChatVisitorResponseDtoPhone } from './chatVisitorResponseDtoPhone';
 
 export interface ChatVisitorResponseDto {
-  id: number
-  visitor_uid: string
+  id: number;
+  visitor_uid: string;
   /** @nullable */
-  name?: ChatVisitorResponseDtoName
+  name?: ChatVisitorResponseDtoName;
   /** @nullable */
-  email?: ChatVisitorResponseDtoEmail
+  email?: ChatVisitorResponseDtoEmail;
   /** @nullable */
-  phone?: ChatVisitorResponseDtoPhone
+  phone?: ChatVisitorResponseDtoPhone;
   /** @nullable */
-  last_chatbot_id?: number | null
+  last_chatbot_id?: number | null;
   /** @nullable */
-  last_facility_id?: number | null
+  last_facility_id?: number | null;
   /** @nullable */
-  last_seen_at?: string | null
+  last_seen_at?: string | null;
   /** @nullable */
-  metadata?: ChatVisitorResponseDtoMetadata
-  created_at: string
-  updated_at: string
+  metadata?: ChatVisitorResponseDtoMetadata;
+  created_at: string;
+  updated_at: string;
 }

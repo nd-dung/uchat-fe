@@ -7,7 +7,7 @@
  */
 
 export interface ApiResponseMetaDataDto {
-  timestamp: string
-  path: string
-  method: string
+  timestamp: string;
+  path: string;
+  method: string;
 }

@@ -6,10 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ListUsersRole = (typeof ListUsersRole)[keyof typeof ListUsersRole]
+export type ListUsersRole = typeof ListUsersRole[keyof typeof ListUsersRole];
+
 
 export const ListUsersRole = {
-  super_admin: "super_admin",
-  facility_admin: "facility_admin",
-  facility_staff: "facility_staff",
-} as const
+  super_admin: 'super_admin',
+  facility_admin: 'facility_admin',
+  facility_staff: 'facility_staff',
+} as const;

@@ -5,12 +5,12 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { FindConversationsStatus } from "./findConversationsStatus"
+import type { FindConversationsStatus } from './findConversationsStatus';
 
 export type FindConversationsParams = {
-  page?: number
-  limit?: number
-  status?: FindConversationsStatus
-  chatbot_id?: number
-  assigned_staff_id?: number
-}
+page?: number;
+limit?: number;
+status?: FindConversationsStatus;
+chatbot_id?: number;
+assigned_staff_id?: number;
+};

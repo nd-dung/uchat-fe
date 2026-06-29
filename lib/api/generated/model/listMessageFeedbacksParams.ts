@@ -5,22 +5,22 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ListMessageFeedbacksFeedbackType } from "./listMessageFeedbacksFeedbackType"
-import type { ListMessageFeedbacksStatus } from "./listMessageFeedbacksStatus"
+import type { ListMessageFeedbacksFeedbackType } from './listMessageFeedbacksFeedbackType';
+import type { ListMessageFeedbacksStatus } from './listMessageFeedbacksStatus';
 
 export type ListMessageFeedbacksParams = {
-  page?: number
-  limit?: number
-  chatbot_id?: number
-  conversation_id?: number
-  /**
-   * @minimum 1
-   * @maximum 5
-   */
-  rating?: number
-  status?: ListMessageFeedbacksStatus
-  from_date?: string
-  to_date?: string
-  keyword?: string
-  feedback_type?: ListMessageFeedbacksFeedbackType
-}
+page?: number;
+limit?: number;
+chatbot_id?: number;
+conversation_id?: number;
+/**
+ * @minimum 1
+ * @maximum 5
+ */
+rating?: number;
+status?: ListMessageFeedbacksStatus;
+from_date?: string;
+to_date?: string;
+keyword?: string;
+feedback_type?: ListMessageFeedbacksFeedbackType;
+};

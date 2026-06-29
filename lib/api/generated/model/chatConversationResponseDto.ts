@@ -5,25 +5,25 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ChatConversationResponseDtoMetadata } from "./chatConversationResponseDtoMetadata"
-import type { ChatConversationResponseDtoStatus } from "./chatConversationResponseDtoStatus"
+import type { ChatConversationResponseDtoMetadata } from './chatConversationResponseDtoMetadata';
+import type { ChatConversationResponseDtoStatus } from './chatConversationResponseDtoStatus';
 
 export interface ChatConversationResponseDto {
-  id: number
-  visitor_id: number
-  chatbot_id: number
-  facility_id: number
+  id: number;
+  visitor_id: number;
+  chatbot_id: number;
+  facility_id: number;
   /** @nullable */
-  assigned_staff_id?: number | null
-  status: ChatConversationResponseDtoStatus
-  channel: string
-  started_at: string
+  assigned_staff_id?: number | null;
+  status: ChatConversationResponseDtoStatus;
+  channel: string;
+  started_at: string;
   /** @nullable */
-  last_message_at?: string | null
+  last_message_at?: string | null;
   /** @nullable */
-  ended_at?: string | null
+  ended_at?: string | null;
   /** @nullable */
-  metadata?: ChatConversationResponseDtoMetadata
-  created_at: string
-  updated_at: string
+  metadata?: ChatConversationResponseDtoMetadata;
+  created_at: string;
+  updated_at: string;
 }

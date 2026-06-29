@@ -5,13 +5,13 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { UpdateChatbotDtoDescription } from "./updateChatbotDtoDescription"
-import type { UpdateChatbotDtoDisplayName } from "./updateChatbotDtoDisplayName"
-import type { UpdateChatbotDtoStatus } from "./updateChatbotDtoStatus"
+import type { UpdateChatbotDtoDescription } from './updateChatbotDtoDescription';
+import type { UpdateChatbotDtoDisplayName } from './updateChatbotDtoDisplayName';
+import type { UpdateChatbotDtoStatus } from './updateChatbotDtoStatus';
 
 export interface UpdateChatbotDto {
-  name?: string
-  display_name?: UpdateChatbotDtoDisplayName
-  description?: UpdateChatbotDtoDescription
-  status?: UpdateChatbotDtoStatus
+  name?: string;
+  display_name?: UpdateChatbotDtoDisplayName;
+  description?: UpdateChatbotDtoDescription;
+  status?: UpdateChatbotDtoStatus;
 }

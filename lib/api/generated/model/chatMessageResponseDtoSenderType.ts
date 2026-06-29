@@ -6,12 +6,12 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ChatMessageResponseDtoSenderType =
-  (typeof ChatMessageResponseDtoSenderType)[keyof typeof ChatMessageResponseDtoSenderType]
+export type ChatMessageResponseDtoSenderType = typeof ChatMessageResponseDtoSenderType[keyof typeof ChatMessageResponseDtoSenderType];
+
 
 export const ChatMessageResponseDtoSenderType = {
-  visitor: "visitor",
-  bot: "bot",
-  staff: "staff",
-  system: "system",
-} as const
+  visitor: 'visitor',
+  bot: 'bot',
+  staff: 'staff',
+  system: 'system',
+} as const;

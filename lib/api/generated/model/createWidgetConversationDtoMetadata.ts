@@ -6,4 +6,4 @@
  * OpenAPI spec version: 1.0
  */
 
-export type CreateWidgetConversationDtoMetadata = { [key: string]: unknown }
+export type CreateWidgetConversationDtoMetadata = { [key: string]: unknown };

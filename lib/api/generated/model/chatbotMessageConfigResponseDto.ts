@@ -7,14 +7,14 @@
  */
 
 export interface ChatbotMessageConfigResponseDto {
-  message_area_background_color: string
-  message_area_padding: number
-  message_spacing: number
-  show_message_timestamp: boolean
-  bot_message_background_color: string
-  bot_message_text_color: string
-  user_message_background_color: string
-  user_message_text_color: string
-  message_bubble_radius: number
-  message_max_width_percent: number
+  message_area_background_color: string;
+  message_area_padding: number;
+  message_spacing: number;
+  show_message_timestamp: boolean;
+  bot_message_background_color: string;
+  bot_message_text_color: string;
+  user_message_background_color: string;
+  user_message_text_color: string;
+  message_bubble_radius: number;
+  message_max_width_percent: number;
 }

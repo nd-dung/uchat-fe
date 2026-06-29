@@ -9,6 +9,4 @@
 /**
  * @nullable
  */
-export type RuntimeChatbotSummaryResponseDtoDisplayName = {
-  [key: string]: unknown
-} | null
+export type RuntimeChatbotSummaryResponseDtoDisplayName = { [key: string]: unknown } | null;

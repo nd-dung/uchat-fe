@@ -5,164 +5,150 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import * as zod from "zod"
+import * as zod from 'zod';
+
 
 export const GetPublicFacilityChatbotParams = zod.object({
-  facility_id: zod.number(),
+  "facility_id": zod.number()
 })
 
-export const GetPublicFacilityChatbotResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          id: zod.number(),
-          facility_id: zod.number(),
-          name: zod.string(),
-          display_name: zod.string().optional(),
-          description: zod.string().optional(),
-          status: zod.enum(["active", "inactive", "draft"]),
-          created_by: zod.number().optional(),
-          updated_by: zod.number().optional(),
-          created_at: zod.string(),
-          updated_at: zod.string(),
-          ui_setting: zod.object({
-            launcher: zod.object({
-              launcher_type: zod.enum(["circle", "rounded_square", "pill"]),
-              launcher_size: zod.number(),
-              launcher_background_color: zod.string(),
-              launcher_icon_color: zod.string(),
-              launcher_icon_url: zod.string().optional(),
-              launcher_text: zod.string().optional(),
-              launcher_text_color: zod.string(),
-              launcher_shadow: zod.boolean(),
-              launcher_offset_x: zod.number(),
-              launcher_offset_y: zod.number(),
-            }),
-            chat_window: zod.object({
-              chat_window_position: zod.enum(["bottom_right", "bottom_left"]),
-              chat_window_width: zod.number(),
-              chat_window_height: zod.number(),
-              chat_window_shadow: zod.boolean(),
-              chat_window_border_color: zod.string(),
-              chat_window_border_width: zod.number(),
-              chat_window_z_index: zod.number(),
-              mobile_fullscreen_enabled: zod.boolean(),
-              border_radius: zod.number(),
-            }),
-            header: zod.object({
-              header_layout: zod.enum([
-                "simple",
-                "avatar_title",
-                "centered",
-                "compact",
-              ]),
-              header_height: zod.number(),
-              header_background_color: zod.string(),
-              header_text_color: zod.string(),
-              header_title: zod.string().optional(),
-              header_subtitle: zod.string().optional(),
-              header_show_status: zod.boolean(),
-              header_status_text: zod.string(),
-              header_status_color: zod.string(),
-              header_show_close_button: zod.boolean(),
-            }),
-            message: zod.object({
-              message_area_background_color: zod.string(),
-              message_area_padding: zod.number(),
-              message_spacing: zod.number(),
-              show_message_timestamp: zod.boolean(),
-              bot_message_background_color: zod.string(),
-              bot_message_text_color: zod.string(),
-              user_message_background_color: zod.string(),
-              user_message_text_color: zod.string(),
-              message_bubble_radius: zod.number(),
-              message_max_width_percent: zod.number(),
-            }),
-            typography: zod.object({
-              font_family: zod.string(),
-              base_font_size: zod.number(),
-              header_title_font_size: zod.number(),
-              header_subtitle_font_size: zod.number(),
-              message_font_size: zod.number(),
-              input_font_size: zod.number(),
-            }),
-            input: zod.object({
-              placeholder_text: zod.string(),
-              input_background_color: zod.string(),
-              input_text_color: zod.string(),
-              input_placeholder_color: zod.string(),
-              input_border_color: zod.string(),
-              input_border_radius: zod.number(),
-              send_button_type: zod.enum(["icon", "text", "icon_text"]),
-              send_button_background_color: zod.string(),
-              send_button_icon_color: zod.string(),
-              send_button_text: zod.string().optional(),
-            }),
-            welcome: zod.object({
-              welcome_screen_enabled: zod.boolean(),
-              welcome_title: zod.string(),
-              welcome_subtitle: zod.string().optional(),
-              welcome_message: zod.string(),
-              welcome_avatar_url: zod.string().optional(),
-              welcome_background_color: zod.string(),
-            }),
-            animation: zod.object({
-              animation_enabled: zod.boolean(),
-              launcher_animation: zod.enum(["none", "pulse", "bounce"]),
-              chat_open_animation: zod.enum([
-                "none",
-                "fade",
-                "slide_up",
-                "scale",
-              ]),
-              message_animation: zod.enum(["none", "fade", "slide"]),
-              typing_indicator_enabled: zod.boolean(),
-              typing_indicator_style: zod.enum(["dots", "text"]),
-            }),
-            footer: zod.object({
-              footer_enabled: zod.boolean(),
-              footer_text: zod.string(),
-              footer_text_color: zod.string(),
-              footer_link_url: zod.string().optional(),
-              show_powered_by: zod.boolean(),
-            }),
-            id: zod.number(),
-            chatbot_id: zod.number(),
-            primary_color: zod.string(),
-            background_color: zod.string(),
-            header_background_color: zod.string(),
-            header_text_color: zod.string(),
-            bot_message_background_color: zod.string(),
-            bot_message_text_color: zod.string(),
-            user_message_background_color: zod.string(),
-            user_message_text_color: zod.string(),
-            avatar_url: zod.string().optional(),
-            logo_url: zod.string().optional(),
-            launcher_icon_url: zod.string().optional(),
-            header_title: zod.string().optional(),
-            header_subtitle: zod.string().optional(),
-            welcome_message: zod.string(),
-            placeholder_text: zod.string(),
-            chat_window_position: zod.enum(["bottom_right", "bottom_left"]),
-            chat_window_width: zod.number(),
-            chat_window_height: zod.number(),
-            border_radius: zod.number(),
-            message_bubble_radius: zod.number(),
-            show_avatar: zod.boolean(),
-            show_logo: zod.boolean(),
-          }),
-        })
-        .optional(),
-    })
-  )
+export const GetPublicFacilityChatbotResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "id": zod.number(),
+  "facility_id": zod.number(),
+  "name": zod.string(),
+  "display_name": zod.string().optional(),
+  "description": zod.string().optional(),
+  "status": zod.enum(['active', 'inactive', 'draft']),
+  "created_by": zod.number().optional(),
+  "updated_by": zod.number().optional(),
+  "created_at": zod.string(),
+  "updated_at": zod.string(),
+  "ui_setting": zod.object({
+  "launcher": zod.object({
+  "launcher_type": zod.enum(['circle', 'rounded_square', 'pill']),
+  "launcher_size": zod.number(),
+  "launcher_background_color": zod.string(),
+  "launcher_icon_color": zod.string(),
+  "launcher_icon_url": zod.string().optional(),
+  "launcher_text": zod.string().optional(),
+  "launcher_text_color": zod.string(),
+  "launcher_shadow": zod.boolean(),
+  "launcher_offset_x": zod.number(),
+  "launcher_offset_y": zod.number()
+}),
+  "chat_window": zod.object({
+  "chat_window_position": zod.enum(['bottom_right', 'bottom_left']),
+  "chat_window_width": zod.number(),
+  "chat_window_height": zod.number(),
+  "chat_window_shadow": zod.boolean(),
+  "chat_window_border_color": zod.string(),
+  "chat_window_border_width": zod.number(),
+  "chat_window_z_index": zod.number(),
+  "mobile_fullscreen_enabled": zod.boolean(),
+  "border_radius": zod.number()
+}),
+  "header": zod.object({
+  "header_layout": zod.enum(['simple', 'avatar_title', 'centered', 'compact']),
+  "header_height": zod.number(),
+  "header_background_color": zod.string(),
+  "header_text_color": zod.string(),
+  "header_title": zod.string().optional(),
+  "header_subtitle": zod.string().optional(),
+  "header_show_status": zod.boolean(),
+  "header_status_text": zod.string(),
+  "header_status_color": zod.string(),
+  "header_show_close_button": zod.boolean()
+}),
+  "message": zod.object({
+  "message_area_background_color": zod.string(),
+  "message_area_padding": zod.number(),
+  "message_spacing": zod.number(),
+  "show_message_timestamp": zod.boolean(),
+  "bot_message_background_color": zod.string(),
+  "bot_message_text_color": zod.string(),
+  "user_message_background_color": zod.string(),
+  "user_message_text_color": zod.string(),
+  "message_bubble_radius": zod.number(),
+  "message_max_width_percent": zod.number()
+}),
+  "typography": zod.object({
+  "font_family": zod.string(),
+  "base_font_size": zod.number(),
+  "header_title_font_size": zod.number(),
+  "header_subtitle_font_size": zod.number(),
+  "message_font_size": zod.number(),
+  "input_font_size": zod.number()
+}),
+  "input": zod.object({
+  "placeholder_text": zod.string(),
+  "input_background_color": zod.string(),
+  "input_text_color": zod.string(),
+  "input_placeholder_color": zod.string(),
+  "input_border_color": zod.string(),
+  "input_border_radius": zod.number(),
+  "send_button_type": zod.enum(['icon', 'text', 'icon_text']),
+  "send_button_background_color": zod.string(),
+  "send_button_icon_color": zod.string(),
+  "send_button_text": zod.string().optional()
+}),
+  "welcome": zod.object({
+  "welcome_screen_enabled": zod.boolean(),
+  "welcome_title": zod.string(),
+  "welcome_subtitle": zod.string().optional(),
+  "welcome_message": zod.string(),
+  "welcome_avatar_url": zod.string().optional(),
+  "welcome_background_color": zod.string()
+}),
+  "animation": zod.object({
+  "animation_enabled": zod.boolean(),
+  "launcher_animation": zod.enum(['none', 'pulse', 'bounce']),
+  "chat_open_animation": zod.enum(['none', 'fade', 'slide_up', 'scale']),
+  "message_animation": zod.enum(['none', 'fade', 'slide']),
+  "typing_indicator_enabled": zod.boolean(),
+  "typing_indicator_style": zod.enum(['dots', 'text'])
+}),
+  "footer": zod.object({
+  "footer_enabled": zod.boolean(),
+  "footer_text": zod.string(),
+  "footer_text_color": zod.string(),
+  "footer_link_url": zod.string().optional(),
+  "show_powered_by": zod.boolean()
+}),
+  "id": zod.number(),
+  "chatbot_id": zod.number(),
+  "primary_color": zod.string(),
+  "background_color": zod.string(),
+  "header_background_color": zod.string(),
+  "header_text_color": zod.string(),
+  "bot_message_background_color": zod.string(),
+  "bot_message_text_color": zod.string(),
+  "user_message_background_color": zod.string(),
+  "user_message_text_color": zod.string(),
+  "avatar_url": zod.string().optional(),
+  "logo_url": zod.string().optional(),
+  "launcher_icon_url": zod.string().optional(),
+  "header_title": zod.string().optional(),
+  "header_subtitle": zod.string().optional(),
+  "welcome_message": zod.string(),
+  "placeholder_text": zod.string(),
+  "chat_window_position": zod.enum(['bottom_right', 'bottom_left']),
+  "chat_window_width": zod.number(),
+  "chat_window_height": zod.number(),
+  "border_radius": zod.number(),
+  "message_bubble_radius": zod.number(),
+  "show_avatar": zod.boolean(),
+  "show_logo": zod.boolean()
+})
+}).optional()
+}))
+

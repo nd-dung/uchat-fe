@@ -6,11 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
-export type FindHandoffRequestsPriority =
-  (typeof FindHandoffRequestsPriority)[keyof typeof FindHandoffRequestsPriority]
+export type FindHandoffRequestsPriority = typeof FindHandoffRequestsPriority[keyof typeof FindHandoffRequestsPriority];
+
 
 export const FindHandoffRequestsPriority = {
-  low: "low",
-  normal: "normal",
-  high: "high",
-} as const
+  low: 'low',
+  normal: 'normal',
+  high: 'high',
+} as const;

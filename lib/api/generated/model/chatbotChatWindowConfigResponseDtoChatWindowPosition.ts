@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ChatbotChatWindowConfigResponseDtoChatWindowPosition =
-  (typeof ChatbotChatWindowConfigResponseDtoChatWindowPosition)[keyof typeof ChatbotChatWindowConfigResponseDtoChatWindowPosition]
+export type ChatbotChatWindowConfigResponseDtoChatWindowPosition = typeof ChatbotChatWindowConfigResponseDtoChatWindowPosition[keyof typeof ChatbotChatWindowConfigResponseDtoChatWindowPosition];
+
 
 export const ChatbotChatWindowConfigResponseDtoChatWindowPosition = {
-  bottom_right: "bottom_right",
-  bottom_left: "bottom_left",
-} as const
+  bottom_right: 'bottom_right',
+  bottom_left: 'bottom_left',
+} as const;

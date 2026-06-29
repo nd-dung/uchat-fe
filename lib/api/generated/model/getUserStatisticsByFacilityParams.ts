@@ -7,13 +7,13 @@
  */
 
 export type GetUserStatisticsByFacilityParams = {
-  /**
-   * Ngày bắt đầu, định dạng YYYY-MM-DD. Mặc định 30 ngày gần nhất.
-   */
-  from_date?: string
-  /**
-   * Ngày kết thúc, định dạng YYYY-MM-DD. Mặc định hôm nay.
-   */
-  to_date?: string
-  facility_id?: number
-}
+/**
+ * Ngày bắt đầu, định dạng YYYY-MM-DD. Mặc định 30 ngày gần nhất.
+ */
+from_date?: string;
+/**
+ * Ngày kết thúc, định dạng YYYY-MM-DD. Mặc định hôm nay.
+ */
+to_date?: string;
+facility_id?: number;
+};

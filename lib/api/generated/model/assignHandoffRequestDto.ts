@@ -8,5 +8,5 @@
 
 export interface AssignHandoffRequestDto {
   /** Bỏ trống để người thao tác tự tiếp nhận request. */
-  assigned_staff_id?: number
+  assigned_staff_id?: number;
 }

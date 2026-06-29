@@ -5,9 +5,9 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ApiSuccessResponseDto } from "./apiSuccessResponseDto"
-import type { ChatHandoffRequestResponseDto } from "./chatHandoffRequestResponseDto"
+import type { ApiSuccessResponseDto } from './apiSuccessResponseDto';
+import type { ChatHandoffRequestResponseDto } from './chatHandoffRequestResponseDto';
 
 export type CreateHandoffRequestResponse = ApiSuccessResponseDto & {
-  data?: ChatHandoffRequestResponseDto
-}
+  data?: ChatHandoffRequestResponseDto;
+};

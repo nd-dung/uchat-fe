@@ -6,4 +6,4 @@
  * OpenAPI spec version: 1.0
  */
 
-export type CreateWidgetSessionDtoMetadata = { [key: string]: unknown }
+export type CreateWidgetSessionDtoMetadata = { [key: string]: unknown };

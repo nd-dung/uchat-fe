@@ -5,118 +5,96 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import { useMutation } from "@tanstack/react-query"
+import {
+  useMutation
+} from '@tanstack/react-query';
 import type {
   MutationFunction,
   QueryClient,
   UseMutationOptions,
-  UseMutationResult,
-} from "@tanstack/react-query"
+  UseMutationResult
+} from '@tanstack/react-query';
 
 import type {
   ApiErrorResponseDto,
   UploadImageBody,
   UploadImageParams,
-  UploadImageResponse,
-} from "../model"
+  UploadImageResponse
+} from '../model';
 
-import { apiClient } from "../../axios"
-import type { ErrorType, BodyType } from "../../axios"
+import { apiClient } from '../../axios';
+import type { ErrorType , BodyType } from '../../axios';
 
-type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1]
+
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
+
 
 /**
  * Upload một file ảnh (JPG, PNG, WEBP, GIF) và trả về URL công khai. Tối đa 5MB.
  * @summary Upload ảnh
  */
 export const uploadImage = (
-  uploadImageBody: BodyType<UploadImageBody>,
-  params?: UploadImageParams,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+    uploadImageBody: BodyType<UploadImageBody>,
+    params?: UploadImageParams,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  const formData = new FormData()
-  formData.append(`file`, uploadImageBody.file)
 
-  return apiClient<UploadImageResponse>(
-    {
-      url: `/api/upload`,
-      method: "POST",
-      headers: { "Content-Type": "multipart/form-data" },
-      data: formData,
-      params,
-      signal,
+      const formData = new FormData();
+formData.append(`file`, uploadImageBody.file);
+
+      return apiClient<UploadImageResponse>(
+      {url: `/api/upload`, method: 'POST',
+      headers: {'Content-Type': 'multipart/form-data', },
+       data: formData,
+        params, signal
     },
-    options
-  )
-}
+      options);
+    }
 
-export const getUploadImageMutationOptions = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof uploadImage>>,
-    TError,
-    { data: BodyType<UploadImageBody>; params?: UploadImageParams },
-    TContext
-  >
-  request?: SecondParameter<typeof apiClient>
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof uploadImage>>,
-  TError,
-  { data: BodyType<UploadImageBody>; params?: UploadImageParams },
-  TContext
-> => {
-  const mutationKey = ["uploadImage"]
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof uploadImage>>,
-    { data: BodyType<UploadImageBody>; params?: UploadImageParams }
-  > = (props) => {
-    const { data, params } = props ?? {}
 
-    return uploadImage(data, params, requestOptions)
-  }
+export const getUploadImageMutationOptions = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof uploadImage>>, TError,{data: BodyType<UploadImageBody>;params?: UploadImageParams}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof uploadImage>>, TError,{data: BodyType<UploadImageBody>;params?: UploadImageParams}, TContext> => {
 
-  return { mutationFn, ...mutationOptions }
-}
+const mutationKey = ['uploadImage'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type UploadImageMutationResult = NonNullable<
-  Awaited<ReturnType<typeof uploadImage>>
->
-export type UploadImageMutationBody = BodyType<UploadImageBody>
-export type UploadImageMutationError = ErrorType<ApiErrorResponseDto>
 
-/**
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof uploadImage>>, {data: BodyType<UploadImageBody>;params?: UploadImageParams}> = (props) => {
+          const {data,params} = props ?? {};
+
+          return  uploadImage(data,params,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UploadImageMutationResult = NonNullable<Awaited<ReturnType<typeof uploadImage>>>
+    export type UploadImageMutationBody = BodyType<UploadImageBody>
+    export type UploadImageMutationError = ErrorType<ApiErrorResponseDto>
+
+    /**
  * @summary Upload ảnh
  */
-export const useUploadImage = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof uploadImage>>,
-      TError,
-      { data: BodyType<UploadImageBody>; params?: UploadImageParams },
-      TContext
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof uploadImage>>,
-  TError,
-  { data: BodyType<UploadImageBody>; params?: UploadImageParams },
-  TContext
-> => {
-  return useMutation(getUploadImageMutationOptions(options), queryClient)
-}
+export const useUploadImage = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof uploadImage>>, TError,{data: BodyType<UploadImageBody>;params?: UploadImageParams}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof uploadImage>>,
+        TError,
+        {data: BodyType<UploadImageBody>;params?: UploadImageParams},
+        TContext
+      > => {
+      return useMutation(getUploadImageMutationOptions(options), queryClient);
+    }

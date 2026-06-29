@@ -5,16 +5,16 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ChatbotUiSettingResponseDto } from "./chatbotUiSettingResponseDto"
-import type { PublicWidgetConfigResponseDtoStatus } from "./publicWidgetConfigResponseDtoStatus"
+import type { ChatbotUiSettingResponseDto } from './chatbotUiSettingResponseDto';
+import type { PublicWidgetConfigResponseDtoStatus } from './publicWidgetConfigResponseDtoStatus';
 
 export interface PublicWidgetConfigResponseDto {
-  id: number
-  facility_id: number
-  name: string
-  display_name?: string
-  description?: string
-  status: PublicWidgetConfigResponseDtoStatus
-  ui_setting: ChatbotUiSettingResponseDto
-  public_key: string
+  id: number;
+  facility_id: number;
+  name: string;
+  display_name?: string;
+  description?: string;
+  status: PublicWidgetConfigResponseDtoStatus;
+  ui_setting: ChatbotUiSettingResponseDto;
+  public_key: string;
 }

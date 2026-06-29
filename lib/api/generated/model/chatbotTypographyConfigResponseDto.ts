@@ -7,10 +7,10 @@
  */
 
 export interface ChatbotTypographyConfigResponseDto {
-  font_family: string
-  base_font_size: number
-  header_title_font_size: number
-  header_subtitle_font_size: number
-  message_font_size: number
-  input_font_size: number
+  font_family: string;
+  base_font_size: number;
+  header_title_font_size: number;
+  header_subtitle_font_size: number;
+  message_font_size: number;
+  input_font_size: number;
 }

@@ -9,6 +9,4 @@
 /**
  * @nullable
  */
-export type UpdateChatbotBehaviorSettingDtoFallbackMessage = {
-  [key: string]: unknown
-} | null
+export type UpdateChatbotBehaviorSettingDtoFallbackMessage = { [key: string]: unknown } | null;

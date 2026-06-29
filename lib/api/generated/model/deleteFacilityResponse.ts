@@ -5,9 +5,9 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ApiSuccessResponseDto } from "./apiSuccessResponseDto"
-import type { MessageResponseDto } from "./messageResponseDto"
+import type { ApiSuccessResponseDto } from './apiSuccessResponseDto';
+import type { MessageResponseDto } from './messageResponseDto';
 
 export type DeleteFacilityResponse = ApiSuccessResponseDto & {
-  data?: MessageResponseDto
-}
+  data?: MessageResponseDto;
+};

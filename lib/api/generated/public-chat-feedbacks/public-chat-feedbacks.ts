@@ -5,201 +5,145 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import { useMutation } from "@tanstack/react-query"
+import {
+  useMutation
+} from '@tanstack/react-query';
 import type {
   MutationFunction,
   QueryClient,
   UseMutationOptions,
-  UseMutationResult,
-} from "@tanstack/react-query"
+  UseMutationResult
+} from '@tanstack/react-query';
 
 import type {
   ApiErrorResponseDto,
   CreateConversationFeedbackDto,
   CreateMessageFeedbackDto,
   UpsertConversationFeedbackResponse,
-  UpsertMessageFeedbackResponse,
-} from "../model"
+  UpsertMessageFeedbackResponse
+} from '../model';
 
-import { apiClient } from "../../axios"
-import type { ErrorType, BodyType } from "../../axios"
+import { apiClient } from '../../axios';
+import type { ErrorType , BodyType } from '../../axios';
 
-type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1]
+
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
+
 
 export const upsertMessageFeedback = (
-  messageId: number,
-  createMessageFeedbackDto: BodyType<CreateMessageFeedbackDto>,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+    messageId: number,
+    createMessageFeedbackDto: BodyType<CreateMessageFeedbackDto>,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<UpsertMessageFeedbackResponse>(
-    {
-      url: `/api/public/chat/messages/${messageId}/feedback`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: createMessageFeedbackDto,
-      signal,
+
+
+      return apiClient<UpsertMessageFeedbackResponse>(
+      {url: `/api/public/chat/messages/${messageId}/feedback`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createMessageFeedbackDto, signal
     },
-    options
-  )
-}
+      options);
+    }
 
-export const getUpsertMessageFeedbackMutationOptions = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof upsertMessageFeedback>>,
-    TError,
-    { messageId: number; data: BodyType<CreateMessageFeedbackDto> },
-    TContext
-  >
-  request?: SecondParameter<typeof apiClient>
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof upsertMessageFeedback>>,
-  TError,
-  { messageId: number; data: BodyType<CreateMessageFeedbackDto> },
-  TContext
-> => {
-  const mutationKey = ["upsertMessageFeedback"]
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof upsertMessageFeedback>>,
-    { messageId: number; data: BodyType<CreateMessageFeedbackDto> }
-  > = (props) => {
-    const { messageId, data } = props ?? {}
 
-    return upsertMessageFeedback(messageId, data, requestOptions)
-  }
+export const getUpsertMessageFeedbackMutationOptions = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof upsertMessageFeedback>>, TError,{messageId: number;data: BodyType<CreateMessageFeedbackDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof upsertMessageFeedback>>, TError,{messageId: number;data: BodyType<CreateMessageFeedbackDto>}, TContext> => {
 
-  return { mutationFn, ...mutationOptions }
-}
+const mutationKey = ['upsertMessageFeedback'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type UpsertMessageFeedbackMutationResult = NonNullable<
-  Awaited<ReturnType<typeof upsertMessageFeedback>>
->
-export type UpsertMessageFeedbackMutationBody =
-  BodyType<CreateMessageFeedbackDto>
-export type UpsertMessageFeedbackMutationError = ErrorType<ApiErrorResponseDto>
 
-export const useUpsertMessageFeedback = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof upsertMessageFeedback>>,
-      TError,
-      { messageId: number; data: BodyType<CreateMessageFeedbackDto> },
-      TContext
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof upsertMessageFeedback>>,
-  TError,
-  { messageId: number; data: BodyType<CreateMessageFeedbackDto> },
-  TContext
-> => {
-  return useMutation(
-    getUpsertMessageFeedbackMutationOptions(options),
-    queryClient
-  )
-}
-export const upsertConversationFeedback = (
-  conversationId: number,
-  createConversationFeedbackDto: BodyType<CreateConversationFeedbackDto>,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof upsertMessageFeedback>>, {messageId: number;data: BodyType<CreateMessageFeedbackDto>}> = (props) => {
+          const {messageId,data} = props ?? {};
+
+          return  upsertMessageFeedback(messageId,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpsertMessageFeedbackMutationResult = NonNullable<Awaited<ReturnType<typeof upsertMessageFeedback>>>
+    export type UpsertMessageFeedbackMutationBody = BodyType<CreateMessageFeedbackDto>
+    export type UpsertMessageFeedbackMutationError = ErrorType<ApiErrorResponseDto>
+
+    export const useUpsertMessageFeedback = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof upsertMessageFeedback>>, TError,{messageId: number;data: BodyType<CreateMessageFeedbackDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof upsertMessageFeedback>>,
+        TError,
+        {messageId: number;data: BodyType<CreateMessageFeedbackDto>},
+        TContext
+      > => {
+      return useMutation(getUpsertMessageFeedbackMutationOptions(options), queryClient);
+    }
+    export const upsertConversationFeedback = (
+    conversationId: number,
+    createConversationFeedbackDto: BodyType<CreateConversationFeedbackDto>,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<UpsertConversationFeedbackResponse>(
-    {
-      url: `/api/public/chat/conversations/${conversationId}/feedback`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: createConversationFeedbackDto,
-      signal,
+
+
+      return apiClient<UpsertConversationFeedbackResponse>(
+      {url: `/api/public/chat/conversations/${conversationId}/feedback`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createConversationFeedbackDto, signal
     },
-    options
-  )
-}
+      options);
+    }
 
-export const getUpsertConversationFeedbackMutationOptions = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof upsertConversationFeedback>>,
-    TError,
-    { conversationId: number; data: BodyType<CreateConversationFeedbackDto> },
-    TContext
-  >
-  request?: SecondParameter<typeof apiClient>
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof upsertConversationFeedback>>,
-  TError,
-  { conversationId: number; data: BodyType<CreateConversationFeedbackDto> },
-  TContext
-> => {
-  const mutationKey = ["upsertConversationFeedback"]
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof upsertConversationFeedback>>,
-    { conversationId: number; data: BodyType<CreateConversationFeedbackDto> }
-  > = (props) => {
-    const { conversationId, data } = props ?? {}
 
-    return upsertConversationFeedback(conversationId, data, requestOptions)
-  }
+export const getUpsertConversationFeedbackMutationOptions = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof upsertConversationFeedback>>, TError,{conversationId: number;data: BodyType<CreateConversationFeedbackDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof upsertConversationFeedback>>, TError,{conversationId: number;data: BodyType<CreateConversationFeedbackDto>}, TContext> => {
 
-  return { mutationFn, ...mutationOptions }
-}
+const mutationKey = ['upsertConversationFeedback'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type UpsertConversationFeedbackMutationResult = NonNullable<
-  Awaited<ReturnType<typeof upsertConversationFeedback>>
->
-export type UpsertConversationFeedbackMutationBody =
-  BodyType<CreateConversationFeedbackDto>
-export type UpsertConversationFeedbackMutationError =
-  ErrorType<ApiErrorResponseDto>
 
-export const useUpsertConversationFeedback = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof upsertConversationFeedback>>,
-      TError,
-      { conversationId: number; data: BodyType<CreateConversationFeedbackDto> },
-      TContext
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof upsertConversationFeedback>>,
-  TError,
-  { conversationId: number; data: BodyType<CreateConversationFeedbackDto> },
-  TContext
-> => {
-  return useMutation(
-    getUpsertConversationFeedbackMutationOptions(options),
-    queryClient
-  )
-}
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof upsertConversationFeedback>>, {conversationId: number;data: BodyType<CreateConversationFeedbackDto>}> = (props) => {
+          const {conversationId,data} = props ?? {};
+
+          return  upsertConversationFeedback(conversationId,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpsertConversationFeedbackMutationResult = NonNullable<Awaited<ReturnType<typeof upsertConversationFeedback>>>
+    export type UpsertConversationFeedbackMutationBody = BodyType<CreateConversationFeedbackDto>
+    export type UpsertConversationFeedbackMutationError = ErrorType<ApiErrorResponseDto>
+
+    export const useUpsertConversationFeedback = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof upsertConversationFeedback>>, TError,{conversationId: number;data: BodyType<CreateConversationFeedbackDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof upsertConversationFeedback>>,
+        TError,
+        {conversationId: number;data: BodyType<CreateConversationFeedbackDto>},
+        TContext
+      > => {
+      return useMutation(getUpsertConversationFeedbackMutationOptions(options), queryClient);
+    }

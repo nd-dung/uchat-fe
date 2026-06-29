@@ -5,6 +5,8 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import * as zod from "zod"
+import * as zod from 'zod';
+
 
 export const GetHelloResponse = zod.unknown()
+

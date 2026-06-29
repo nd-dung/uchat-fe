@@ -5,7 +5,10 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import { useMutation, useQuery } from "@tanstack/react-query"
+import {
+  useMutation,
+  useQuery
+} from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -18,8 +21,8 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult,
-} from "@tanstack/react-query"
+  UseQueryResult
+} from '@tanstack/react-query';
 
 import type {
   ApiErrorResponseDto,
@@ -29,426 +32,273 @@ import type {
   CreateWidgetMessageDto,
   CreateWidgetSessionDto,
   CreateWidgetSessionResponse,
-  GetPublicWidgetConfigResponse,
-} from "../model"
+  GetPublicWidgetConfigResponse
+} from '../model';
 
-import { apiClient } from "../../axios"
-import type { ErrorType, BodyType } from "../../axios"
+import { apiClient } from '../../axios';
+import type { ErrorType , BodyType } from '../../axios';
 
-type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1]
+
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
+
 
 export const getPublicWidgetConfig = (
-  publicKey: string,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+    publicKey: string,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<GetPublicWidgetConfigResponse>(
-    { url: `/api/public/widget/${publicKey}/config`, method: "GET", signal },
-    options
-  )
-}
 
-export const getGetPublicWidgetConfigQueryKey = (publicKey: string) => {
-  return [`/api/public/widget/${publicKey}/config`] as const
-}
 
-export const getGetPublicWidgetConfigQueryOptions = <
-  TData = Awaited<ReturnType<typeof getPublicWidgetConfig>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  publicKey: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getPublicWidgetConfig>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  }
+      return apiClient<GetPublicWidgetConfigResponse>(
+      {url: `/api/public/widget/${publicKey}/config`, method: 'GET', signal
+    },
+      options);
+    }
+
+
+
+
+export const getGetPublicWidgetConfigQueryKey = (publicKey: string,) => {
+    return [
+    `/api/public/widget/${publicKey}/config`
+    ] as const;
+    }
+
+
+export const getGetPublicWidgetConfigQueryOptions = <TData = Awaited<ReturnType<typeof getPublicWidgetConfig>>, TError = ErrorType<ApiErrorResponseDto>>(publicKey: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPublicWidgetConfig>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
 ) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {}
 
-  const queryKey =
-    queryOptions?.queryKey ?? getGetPublicWidgetConfigQueryKey(publicKey)
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getPublicWidgetConfig>>
-  > = ({ signal }) => getPublicWidgetConfig(publicKey, requestOptions, signal)
+  const queryKey =  queryOptions?.queryKey ?? getGetPublicWidgetConfigQueryKey(publicKey);
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: publicKey !== null && publicKey !== undefined,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof getPublicWidgetConfig>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPublicWidgetConfig>>> = ({ signal }) => getPublicWidgetConfig(publicKey, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: publicKey !== null && publicKey !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPublicWidgetConfig>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type GetPublicWidgetConfigQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getPublicWidgetConfig>>
->
+export type GetPublicWidgetConfigQueryResult = NonNullable<Awaited<ReturnType<typeof getPublicWidgetConfig>>>
 export type GetPublicWidgetConfigQueryError = ErrorType<ApiErrorResponseDto>
 
-export function useGetPublicWidgetConfig<
-  TData = Awaited<ReturnType<typeof getPublicWidgetConfig>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  publicKey: string,
-  options: {
-    query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getPublicWidgetConfig>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+
+export function useGetPublicWidgetConfig<TData = Awaited<ReturnType<typeof getPublicWidgetConfig>>, TError = ErrorType<ApiErrorResponseDto>>(
+ publicKey: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPublicWidgetConfig>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getPublicWidgetConfig>>,
           TError,
           Awaited<ReturnType<typeof getPublicWidgetConfig>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useGetPublicWidgetConfig<
-  TData = Awaited<ReturnType<typeof getPublicWidgetConfig>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  publicKey: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getPublicWidgetConfig>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetPublicWidgetConfig<TData = Awaited<ReturnType<typeof getPublicWidgetConfig>>, TError = ErrorType<ApiErrorResponseDto>>(
+ publicKey: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPublicWidgetConfig>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getPublicWidgetConfig>>,
           TError,
           Awaited<ReturnType<typeof getPublicWidgetConfig>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useGetPublicWidgetConfig<
-  TData = Awaited<ReturnType<typeof getPublicWidgetConfig>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  publicKey: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getPublicWidgetConfig>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetPublicWidgetConfig<TData = Awaited<ReturnType<typeof getPublicWidgetConfig>>, TError = ErrorType<ApiErrorResponseDto>>(
+ publicKey: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPublicWidgetConfig>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetPublicWidgetConfig<TData = Awaited<ReturnType<typeof getPublicWidgetConfig>>, TError = ErrorType<ApiErrorResponseDto>>(
+ publicKey: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPublicWidgetConfig>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetPublicWidgetConfigQueryOptions(publicKey,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
 }
 
-export function useGetPublicWidgetConfig<
-  TData = Awaited<ReturnType<typeof getPublicWidgetConfig>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  publicKey: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getPublicWidgetConfig>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-} {
-  const queryOptions = getGetPublicWidgetConfigQueryOptions(publicKey, options)
 
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
-}
+
+
 
 export const createWidgetSession = (
-  publicKey: string,
-  createWidgetSessionDto: BodyType<CreateWidgetSessionDto>,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+    publicKey: string,
+    createWidgetSessionDto: BodyType<CreateWidgetSessionDto>,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<CreateWidgetSessionResponse>(
-    {
-      url: `/api/public/widget/${publicKey}/session`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: createWidgetSessionDto,
-      signal,
+
+
+      return apiClient<CreateWidgetSessionResponse>(
+      {url: `/api/public/widget/${publicKey}/session`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createWidgetSessionDto, signal
     },
-    options
-  )
-}
+      options);
+    }
 
-export const getCreateWidgetSessionMutationOptions = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof createWidgetSession>>,
-    TError,
-    { publicKey: string; data: BodyType<CreateWidgetSessionDto> },
-    TContext
-  >
-  request?: SecondParameter<typeof apiClient>
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof createWidgetSession>>,
-  TError,
-  { publicKey: string; data: BodyType<CreateWidgetSessionDto> },
-  TContext
-> => {
-  const mutationKey = ["createWidgetSession"]
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof createWidgetSession>>,
-    { publicKey: string; data: BodyType<CreateWidgetSessionDto> }
-  > = (props) => {
-    const { publicKey, data } = props ?? {}
 
-    return createWidgetSession(publicKey, data, requestOptions)
-  }
+export const getCreateWidgetSessionMutationOptions = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createWidgetSession>>, TError,{publicKey: string;data: BodyType<CreateWidgetSessionDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof createWidgetSession>>, TError,{publicKey: string;data: BodyType<CreateWidgetSessionDto>}, TContext> => {
 
-  return { mutationFn, ...mutationOptions }
-}
+const mutationKey = ['createWidgetSession'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type CreateWidgetSessionMutationResult = NonNullable<
-  Awaited<ReturnType<typeof createWidgetSession>>
->
-export type CreateWidgetSessionMutationBody = BodyType<CreateWidgetSessionDto>
-export type CreateWidgetSessionMutationError = ErrorType<ApiErrorResponseDto>
 
-export const useCreateWidgetSession = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof createWidgetSession>>,
-      TError,
-      { publicKey: string; data: BodyType<CreateWidgetSessionDto> },
-      TContext
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof createWidgetSession>>,
-  TError,
-  { publicKey: string; data: BodyType<CreateWidgetSessionDto> },
-  TContext
-> => {
-  return useMutation(
-    getCreateWidgetSessionMutationOptions(options),
-    queryClient
-  )
-}
-export const createConversation = (
-  createWidgetConversationDto: BodyType<CreateWidgetConversationDto>,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createWidgetSession>>, {publicKey: string;data: BodyType<CreateWidgetSessionDto>}> = (props) => {
+          const {publicKey,data} = props ?? {};
+
+          return  createWidgetSession(publicKey,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateWidgetSessionMutationResult = NonNullable<Awaited<ReturnType<typeof createWidgetSession>>>
+    export type CreateWidgetSessionMutationBody = BodyType<CreateWidgetSessionDto>
+    export type CreateWidgetSessionMutationError = ErrorType<ApiErrorResponseDto>
+
+    export const useCreateWidgetSession = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createWidgetSession>>, TError,{publicKey: string;data: BodyType<CreateWidgetSessionDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof createWidgetSession>>,
+        TError,
+        {publicKey: string;data: BodyType<CreateWidgetSessionDto>},
+        TContext
+      > => {
+      return useMutation(getCreateWidgetSessionMutationOptions(options), queryClient);
+    }
+    export const createConversation = (
+    createWidgetConversationDto: BodyType<CreateWidgetConversationDto>,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<CreateConversationResponse>(
-    {
-      url: `/api/public/widget/conversations`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: createWidgetConversationDto,
-      signal,
+
+
+      return apiClient<CreateConversationResponse>(
+      {url: `/api/public/widget/conversations`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createWidgetConversationDto, signal
     },
-    options
-  )
-}
+      options);
+    }
 
-export const getCreateConversationMutationOptions = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof createConversation>>,
-    TError,
-    { data: BodyType<CreateWidgetConversationDto> },
-    TContext
-  >
-  request?: SecondParameter<typeof apiClient>
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof createConversation>>,
-  TError,
-  { data: BodyType<CreateWidgetConversationDto> },
-  TContext
-> => {
-  const mutationKey = ["createConversation"]
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof createConversation>>,
-    { data: BodyType<CreateWidgetConversationDto> }
-  > = (props) => {
-    const { data } = props ?? {}
 
-    return createConversation(data, requestOptions)
-  }
+export const getCreateConversationMutationOptions = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createConversation>>, TError,{data: BodyType<CreateWidgetConversationDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof createConversation>>, TError,{data: BodyType<CreateWidgetConversationDto>}, TContext> => {
 
-  return { mutationFn, ...mutationOptions }
-}
+const mutationKey = ['createConversation'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type CreateConversationMutationResult = NonNullable<
-  Awaited<ReturnType<typeof createConversation>>
->
-export type CreateConversationMutationBody =
-  BodyType<CreateWidgetConversationDto>
-export type CreateConversationMutationError = ErrorType<ApiErrorResponseDto>
 
-export const useCreateConversation = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof createConversation>>,
-      TError,
-      { data: BodyType<CreateWidgetConversationDto> },
-      TContext
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof createConversation>>,
-  TError,
-  { data: BodyType<CreateWidgetConversationDto> },
-  TContext
-> => {
-  return useMutation(getCreateConversationMutationOptions(options), queryClient)
-}
-export const createMessage = (
-  conversationId: number,
-  createWidgetMessageDto: BodyType<CreateWidgetMessageDto>,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createConversation>>, {data: BodyType<CreateWidgetConversationDto>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  createConversation(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateConversationMutationResult = NonNullable<Awaited<ReturnType<typeof createConversation>>>
+    export type CreateConversationMutationBody = BodyType<CreateWidgetConversationDto>
+    export type CreateConversationMutationError = ErrorType<ApiErrorResponseDto>
+
+    export const useCreateConversation = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createConversation>>, TError,{data: BodyType<CreateWidgetConversationDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof createConversation>>,
+        TError,
+        {data: BodyType<CreateWidgetConversationDto>},
+        TContext
+      > => {
+      return useMutation(getCreateConversationMutationOptions(options), queryClient);
+    }
+    export const createMessage = (
+    conversationId: number,
+    createWidgetMessageDto: BodyType<CreateWidgetMessageDto>,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<CreateMessageResponse>(
-    {
-      url: `/api/public/widget/conversations/${conversationId}/messages`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: createWidgetMessageDto,
-      signal,
+
+
+      return apiClient<CreateMessageResponse>(
+      {url: `/api/public/widget/conversations/${conversationId}/messages`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createWidgetMessageDto, signal
     },
-    options
-  )
-}
+      options);
+    }
 
-export const getCreateMessageMutationOptions = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof createMessage>>,
-    TError,
-    { conversationId: number; data: BodyType<CreateWidgetMessageDto> },
-    TContext
-  >
-  request?: SecondParameter<typeof apiClient>
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof createMessage>>,
-  TError,
-  { conversationId: number; data: BodyType<CreateWidgetMessageDto> },
-  TContext
-> => {
-  const mutationKey = ["createMessage"]
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof createMessage>>,
-    { conversationId: number; data: BodyType<CreateWidgetMessageDto> }
-  > = (props) => {
-    const { conversationId, data } = props ?? {}
 
-    return createMessage(conversationId, data, requestOptions)
-  }
+export const getCreateMessageMutationOptions = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createMessage>>, TError,{conversationId: number;data: BodyType<CreateWidgetMessageDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof createMessage>>, TError,{conversationId: number;data: BodyType<CreateWidgetMessageDto>}, TContext> => {
 
-  return { mutationFn, ...mutationOptions }
-}
+const mutationKey = ['createMessage'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type CreateMessageMutationResult = NonNullable<
-  Awaited<ReturnType<typeof createMessage>>
->
-export type CreateMessageMutationBody = BodyType<CreateWidgetMessageDto>
-export type CreateMessageMutationError = ErrorType<ApiErrorResponseDto>
 
-export const useCreateMessage = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof createMessage>>,
-      TError,
-      { conversationId: number; data: BodyType<CreateWidgetMessageDto> },
-      TContext
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof createMessage>>,
-  TError,
-  { conversationId: number; data: BodyType<CreateWidgetMessageDto> },
-  TContext
-> => {
-  return useMutation(getCreateMessageMutationOptions(options), queryClient)
-}
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createMessage>>, {conversationId: number;data: BodyType<CreateWidgetMessageDto>}> = (props) => {
+          const {conversationId,data} = props ?? {};
+
+          return  createMessage(conversationId,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateMessageMutationResult = NonNullable<Awaited<ReturnType<typeof createMessage>>>
+    export type CreateMessageMutationBody = BodyType<CreateWidgetMessageDto>
+    export type CreateMessageMutationError = ErrorType<ApiErrorResponseDto>
+
+    export const useCreateMessage = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createMessage>>, TError,{conversationId: number;data: BodyType<CreateWidgetMessageDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof createMessage>>,
+        TError,
+        {conversationId: number;data: BodyType<CreateWidgetMessageDto>},
+        TContext
+      > => {
+      return useMutation(getCreateMessageMutationOptions(options), queryClient);
+    }

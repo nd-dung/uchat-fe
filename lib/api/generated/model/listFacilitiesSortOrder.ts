@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ListFacilitiesSortOrder =
-  (typeof ListFacilitiesSortOrder)[keyof typeof ListFacilitiesSortOrder]
+export type ListFacilitiesSortOrder = typeof ListFacilitiesSortOrder[keyof typeof ListFacilitiesSortOrder];
+
 
 export const ListFacilitiesSortOrder = {
-  asc: "asc",
-  desc: "desc",
-} as const
+  asc: 'asc',
+  desc: 'desc',
+} as const;

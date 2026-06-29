@@ -5,36 +5,36 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ChatMessageResponseDto } from "./chatMessageResponseDto"
-import type { ChatVisitorSummaryResponseDto } from "./chatVisitorSummaryResponseDto"
-import type { MessageFeedbackListItemResponseDtoComment } from "./messageFeedbackListItemResponseDtoComment"
-import type { MessageFeedbackListItemResponseDtoFeedbackType } from "./messageFeedbackListItemResponseDtoFeedbackType"
-import type { MessageFeedbackListItemResponseDtoMetadata } from "./messageFeedbackListItemResponseDtoMetadata"
-import type { MessageFeedbackListItemResponseDtoStatus } from "./messageFeedbackListItemResponseDtoStatus"
+import type { ChatMessageResponseDto } from './chatMessageResponseDto';
+import type { ChatVisitorSummaryResponseDto } from './chatVisitorSummaryResponseDto';
+import type { MessageFeedbackListItemResponseDtoComment } from './messageFeedbackListItemResponseDtoComment';
+import type { MessageFeedbackListItemResponseDtoFeedbackType } from './messageFeedbackListItemResponseDtoFeedbackType';
+import type { MessageFeedbackListItemResponseDtoMetadata } from './messageFeedbackListItemResponseDtoMetadata';
+import type { MessageFeedbackListItemResponseDtoStatus } from './messageFeedbackListItemResponseDtoStatus';
 
 export interface MessageFeedbackListItemResponseDto {
-  id: number
-  message_id: number
-  conversation_id: number
-  visitor_id: number
-  chatbot_id: number
-  facility_id: number
-  feedback_type: MessageFeedbackListItemResponseDtoFeedbackType
+  id: number;
+  message_id: number;
+  conversation_id: number;
+  visitor_id: number;
+  chatbot_id: number;
+  facility_id: number;
+  feedback_type: MessageFeedbackListItemResponseDtoFeedbackType;
   /** @nullable */
-  rating?: number | null
+  rating?: number | null;
   /** @nullable */
-  comment?: MessageFeedbackListItemResponseDtoComment
-  status: MessageFeedbackListItemResponseDtoStatus
+  comment?: MessageFeedbackListItemResponseDtoComment;
+  status: MessageFeedbackListItemResponseDtoStatus;
   /** @nullable */
-  reviewed_by?: number | null
+  reviewed_by?: number | null;
   /** @nullable */
-  reviewed_at?: string | null
+  reviewed_at?: string | null;
   /** @nullable */
-  resolved_at?: string | null
+  resolved_at?: string | null;
   /** @nullable */
-  metadata?: MessageFeedbackListItemResponseDtoMetadata
-  created_at: string
-  updated_at: string
-  message: ChatMessageResponseDto
-  visitor: ChatVisitorSummaryResponseDto
+  metadata?: MessageFeedbackListItemResponseDtoMetadata;
+  created_at: string;
+  updated_at: string;
+  message: ChatMessageResponseDto;
+  visitor: ChatVisitorSummaryResponseDto;
 }

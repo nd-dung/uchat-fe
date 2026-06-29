@@ -5,7 +5,10 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import { useMutation, useQuery } from "@tanstack/react-query"
+import {
+  useMutation,
+  useQuery
+} from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -18,8 +21,8 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult,
-} from "@tanstack/react-query"
+  UseQueryResult
+} from '@tanstack/react-query';
 
 import type {
   ApiErrorResponseDto,
@@ -30,585 +33,358 @@ import type {
   FindHandoffRequestsResponse,
   ResolveHandoffRequestResponse,
   UpdateHandoffStatusDto,
-  UpdateHandoffStatusResponse,
-} from "../model"
+  UpdateHandoffStatusResponse
+} from '../model';
 
-import { apiClient } from "../../axios"
-import type { ErrorType, BodyType } from "../../axios"
+import { apiClient } from '../../axios';
+import type { ErrorType , BodyType } from '../../axios';
 
-type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1]
+
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
+
 
 export const findHandoffRequests = (
-  params?: FindHandoffRequestsParams,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+    params?: FindHandoffRequestsParams,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<FindHandoffRequestsResponse>(
-    { url: `/api/chat-handoff-requests`, method: "GET", params, signal },
-    options
-  )
+
+
+      return apiClient<FindHandoffRequestsResponse>(
+      {url: `/api/chat-handoff-requests`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+
+
+
+
+export const getFindHandoffRequestsQueryKey = (params?: FindHandoffRequestsParams,) => {
+    return [
+    `/api/chat-handoff-requests`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getFindHandoffRequestsQueryOptions = <TData = Awaited<ReturnType<typeof findHandoffRequests>>, TError = ErrorType<ApiErrorResponseDto>>(params?: FindHandoffRequestsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof findHandoffRequests>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getFindHandoffRequestsQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof findHandoffRequests>>> = ({ signal }) => findHandoffRequests(params, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof findHandoffRequests>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export const getFindHandoffRequestsQueryKey = (
-  params?: FindHandoffRequestsParams
-) => {
-  return [`/api/chat-handoff-requests`, ...(params ? [params] : [])] as const
-}
-
-export const getFindHandoffRequestsQueryOptions = <
-  TData = Awaited<ReturnType<typeof findHandoffRequests>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  params?: FindHandoffRequestsParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof findHandoffRequests>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  }
-) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {}
-
-  const queryKey =
-    queryOptions?.queryKey ?? getFindHandoffRequestsQueryKey(params)
-
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof findHandoffRequests>>
-  > = ({ signal }) => findHandoffRequests(params, requestOptions, signal)
-
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof findHandoffRequests>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type FindHandoffRequestsQueryResult = NonNullable<
-  Awaited<ReturnType<typeof findHandoffRequests>>
->
+export type FindHandoffRequestsQueryResult = NonNullable<Awaited<ReturnType<typeof findHandoffRequests>>>
 export type FindHandoffRequestsQueryError = ErrorType<ApiErrorResponseDto>
 
-export function useFindHandoffRequests<
-  TData = Awaited<ReturnType<typeof findHandoffRequests>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  params: undefined | FindHandoffRequestsParams,
-  options: {
-    query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof findHandoffRequests>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+
+export function useFindHandoffRequests<TData = Awaited<ReturnType<typeof findHandoffRequests>>, TError = ErrorType<ApiErrorResponseDto>>(
+ params: undefined |  FindHandoffRequestsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof findHandoffRequests>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof findHandoffRequests>>,
           TError,
           Awaited<ReturnType<typeof findHandoffRequests>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useFindHandoffRequests<
-  TData = Awaited<ReturnType<typeof findHandoffRequests>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  params?: FindHandoffRequestsParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof findHandoffRequests>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useFindHandoffRequests<TData = Awaited<ReturnType<typeof findHandoffRequests>>, TError = ErrorType<ApiErrorResponseDto>>(
+ params?: FindHandoffRequestsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof findHandoffRequests>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof findHandoffRequests>>,
           TError,
           Awaited<ReturnType<typeof findHandoffRequests>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useFindHandoffRequests<
-  TData = Awaited<ReturnType<typeof findHandoffRequests>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  params?: FindHandoffRequestsParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof findHandoffRequests>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useFindHandoffRequests<TData = Awaited<ReturnType<typeof findHandoffRequests>>, TError = ErrorType<ApiErrorResponseDto>>(
+ params?: FindHandoffRequestsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof findHandoffRequests>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useFindHandoffRequests<TData = Awaited<ReturnType<typeof findHandoffRequests>>, TError = ErrorType<ApiErrorResponseDto>>(
+ params?: FindHandoffRequestsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof findHandoffRequests>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getFindHandoffRequestsQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
 }
 
-export function useFindHandoffRequests<
-  TData = Awaited<ReturnType<typeof findHandoffRequests>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  params?: FindHandoffRequestsParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof findHandoffRequests>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-} {
-  const queryOptions = getFindHandoffRequestsQueryOptions(params, options)
 
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
-}
+
+
 
 export const findHandoffRequest = (
-  id: number,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+    id: number,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<FindHandoffRequestResponse>(
-    { url: `/api/chat-handoff-requests/${id}`, method: "GET", signal },
-    options
-  )
-}
 
-export const getFindHandoffRequestQueryKey = (id: number) => {
-  return [`/api/chat-handoff-requests/${id}`] as const
-}
 
-export const getFindHandoffRequestQueryOptions = <
-  TData = Awaited<ReturnType<typeof findHandoffRequest>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof findHandoffRequest>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  }
+      return apiClient<FindHandoffRequestResponse>(
+      {url: `/api/chat-handoff-requests/${id}`, method: 'GET', signal
+    },
+      options);
+    }
+
+
+
+
+export const getFindHandoffRequestQueryKey = (id: number,) => {
+    return [
+    `/api/chat-handoff-requests/${id}`
+    ] as const;
+    }
+
+
+export const getFindHandoffRequestQueryOptions = <TData = Awaited<ReturnType<typeof findHandoffRequest>>, TError = ErrorType<ApiErrorResponseDto>>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof findHandoffRequest>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
 ) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {}
 
-  const queryKey = queryOptions?.queryKey ?? getFindHandoffRequestQueryKey(id)
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof findHandoffRequest>>
-  > = ({ signal }) => findHandoffRequest(id, requestOptions, signal)
+  const queryKey =  queryOptions?.queryKey ?? getFindHandoffRequestQueryKey(id);
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: id !== null && id !== undefined,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof findHandoffRequest>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof findHandoffRequest>>> = ({ signal }) => findHandoffRequest(id, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof findHandoffRequest>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type FindHandoffRequestQueryResult = NonNullable<
-  Awaited<ReturnType<typeof findHandoffRequest>>
->
+export type FindHandoffRequestQueryResult = NonNullable<Awaited<ReturnType<typeof findHandoffRequest>>>
 export type FindHandoffRequestQueryError = ErrorType<ApiErrorResponseDto>
 
-export function useFindHandoffRequest<
-  TData = Awaited<ReturnType<typeof findHandoffRequest>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options: {
-    query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof findHandoffRequest>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+
+export function useFindHandoffRequest<TData = Awaited<ReturnType<typeof findHandoffRequest>>, TError = ErrorType<ApiErrorResponseDto>>(
+ id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof findHandoffRequest>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof findHandoffRequest>>,
           TError,
           Awaited<ReturnType<typeof findHandoffRequest>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useFindHandoffRequest<
-  TData = Awaited<ReturnType<typeof findHandoffRequest>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof findHandoffRequest>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useFindHandoffRequest<TData = Awaited<ReturnType<typeof findHandoffRequest>>, TError = ErrorType<ApiErrorResponseDto>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof findHandoffRequest>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof findHandoffRequest>>,
           TError,
           Awaited<ReturnType<typeof findHandoffRequest>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useFindHandoffRequest<
-  TData = Awaited<ReturnType<typeof findHandoffRequest>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof findHandoffRequest>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useFindHandoffRequest<TData = Awaited<ReturnType<typeof findHandoffRequest>>, TError = ErrorType<ApiErrorResponseDto>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof findHandoffRequest>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useFindHandoffRequest<TData = Awaited<ReturnType<typeof findHandoffRequest>>, TError = ErrorType<ApiErrorResponseDto>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof findHandoffRequest>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getFindHandoffRequestQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
 }
 
-export function useFindHandoffRequest<
-  TData = Awaited<ReturnType<typeof findHandoffRequest>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof findHandoffRequest>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-} {
-  const queryOptions = getFindHandoffRequestQueryOptions(id, options)
 
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
-}
+
+
 
 export const assignHandoffRequest = (
-  id: number,
-  assignHandoffRequestDto: BodyType<AssignHandoffRequestDto>,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+    id: number,
+    assignHandoffRequestDto: BodyType<AssignHandoffRequestDto>,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<AssignHandoffRequestResponse>(
-    {
-      url: `/api/chat-handoff-requests/${id}/assign`,
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      data: assignHandoffRequestDto,
-      signal,
+
+
+      return apiClient<AssignHandoffRequestResponse>(
+      {url: `/api/chat-handoff-requests/${id}/assign`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: assignHandoffRequestDto, signal
     },
-    options
-  )
-}
+      options);
+    }
 
-export const getAssignHandoffRequestMutationOptions = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof assignHandoffRequest>>,
-    TError,
-    { id: number; data: BodyType<AssignHandoffRequestDto> },
-    TContext
-  >
-  request?: SecondParameter<typeof apiClient>
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof assignHandoffRequest>>,
-  TError,
-  { id: number; data: BodyType<AssignHandoffRequestDto> },
-  TContext
-> => {
-  const mutationKey = ["assignHandoffRequest"]
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof assignHandoffRequest>>,
-    { id: number; data: BodyType<AssignHandoffRequestDto> }
-  > = (props) => {
-    const { id, data } = props ?? {}
 
-    return assignHandoffRequest(id, data, requestOptions)
-  }
+export const getAssignHandoffRequestMutationOptions = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof assignHandoffRequest>>, TError,{id: number;data: BodyType<AssignHandoffRequestDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof assignHandoffRequest>>, TError,{id: number;data: BodyType<AssignHandoffRequestDto>}, TContext> => {
 
-  return { mutationFn, ...mutationOptions }
-}
+const mutationKey = ['assignHandoffRequest'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type AssignHandoffRequestMutationResult = NonNullable<
-  Awaited<ReturnType<typeof assignHandoffRequest>>
->
-export type AssignHandoffRequestMutationBody = BodyType<AssignHandoffRequestDto>
-export type AssignHandoffRequestMutationError = ErrorType<ApiErrorResponseDto>
 
-export const useAssignHandoffRequest = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof assignHandoffRequest>>,
-      TError,
-      { id: number; data: BodyType<AssignHandoffRequestDto> },
-      TContext
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof assignHandoffRequest>>,
-  TError,
-  { id: number; data: BodyType<AssignHandoffRequestDto> },
-  TContext
-> => {
-  return useMutation(
-    getAssignHandoffRequestMutationOptions(options),
-    queryClient
-  )
-}
-export const updateHandoffStatus = (
-  id: number,
-  updateHandoffStatusDto: BodyType<UpdateHandoffStatusDto>,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof assignHandoffRequest>>, {id: number;data: BodyType<AssignHandoffRequestDto>}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  assignHandoffRequest(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AssignHandoffRequestMutationResult = NonNullable<Awaited<ReturnType<typeof assignHandoffRequest>>>
+    export type AssignHandoffRequestMutationBody = BodyType<AssignHandoffRequestDto>
+    export type AssignHandoffRequestMutationError = ErrorType<ApiErrorResponseDto>
+
+    export const useAssignHandoffRequest = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof assignHandoffRequest>>, TError,{id: number;data: BodyType<AssignHandoffRequestDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof assignHandoffRequest>>,
+        TError,
+        {id: number;data: BodyType<AssignHandoffRequestDto>},
+        TContext
+      > => {
+      return useMutation(getAssignHandoffRequestMutationOptions(options), queryClient);
+    }
+    export const updateHandoffStatus = (
+    id: number,
+    updateHandoffStatusDto: BodyType<UpdateHandoffStatusDto>,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<UpdateHandoffStatusResponse>(
-    {
-      url: `/api/chat-handoff-requests/${id}/status`,
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      data: updateHandoffStatusDto,
-      signal,
+
+
+      return apiClient<UpdateHandoffStatusResponse>(
+      {url: `/api/chat-handoff-requests/${id}/status`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: updateHandoffStatusDto, signal
     },
-    options
-  )
-}
+      options);
+    }
 
-export const getUpdateHandoffStatusMutationOptions = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof updateHandoffStatus>>,
-    TError,
-    { id: number; data: BodyType<UpdateHandoffStatusDto> },
-    TContext
-  >
-  request?: SecondParameter<typeof apiClient>
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof updateHandoffStatus>>,
-  TError,
-  { id: number; data: BodyType<UpdateHandoffStatusDto> },
-  TContext
-> => {
-  const mutationKey = ["updateHandoffStatus"]
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof updateHandoffStatus>>,
-    { id: number; data: BodyType<UpdateHandoffStatusDto> }
-  > = (props) => {
-    const { id, data } = props ?? {}
 
-    return updateHandoffStatus(id, data, requestOptions)
-  }
+export const getUpdateHandoffStatusMutationOptions = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateHandoffStatus>>, TError,{id: number;data: BodyType<UpdateHandoffStatusDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateHandoffStatus>>, TError,{id: number;data: BodyType<UpdateHandoffStatusDto>}, TContext> => {
 
-  return { mutationFn, ...mutationOptions }
-}
+const mutationKey = ['updateHandoffStatus'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type UpdateHandoffStatusMutationResult = NonNullable<
-  Awaited<ReturnType<typeof updateHandoffStatus>>
->
-export type UpdateHandoffStatusMutationBody = BodyType<UpdateHandoffStatusDto>
-export type UpdateHandoffStatusMutationError = ErrorType<ApiErrorResponseDto>
 
-export const useUpdateHandoffStatus = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof updateHandoffStatus>>,
-      TError,
-      { id: number; data: BodyType<UpdateHandoffStatusDto> },
-      TContext
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof updateHandoffStatus>>,
-  TError,
-  { id: number; data: BodyType<UpdateHandoffStatusDto> },
-  TContext
-> => {
-  return useMutation(
-    getUpdateHandoffStatusMutationOptions(options),
-    queryClient
-  )
-}
-export const resolveHandoffRequest = (
-  id: number,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateHandoffStatus>>, {id: number;data: BodyType<UpdateHandoffStatusDto>}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateHandoffStatus(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateHandoffStatusMutationResult = NonNullable<Awaited<ReturnType<typeof updateHandoffStatus>>>
+    export type UpdateHandoffStatusMutationBody = BodyType<UpdateHandoffStatusDto>
+    export type UpdateHandoffStatusMutationError = ErrorType<ApiErrorResponseDto>
+
+    export const useUpdateHandoffStatus = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateHandoffStatus>>, TError,{id: number;data: BodyType<UpdateHandoffStatusDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof updateHandoffStatus>>,
+        TError,
+        {id: number;data: BodyType<UpdateHandoffStatusDto>},
+        TContext
+      > => {
+      return useMutation(getUpdateHandoffStatusMutationOptions(options), queryClient);
+    }
+    export const resolveHandoffRequest = (
+    id: number,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<ResolveHandoffRequestResponse>(
-    {
-      url: `/api/chat-handoff-requests/${id}/resolve`,
-      method: "PATCH",
-      signal,
+
+
+      return apiClient<ResolveHandoffRequestResponse>(
+      {url: `/api/chat-handoff-requests/${id}/resolve`, method: 'PATCH', signal
     },
-    options
-  )
-}
+      options);
+    }
 
-export const getResolveHandoffRequestMutationOptions = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof resolveHandoffRequest>>,
-    TError,
-    { id: number },
-    TContext
-  >
-  request?: SecondParameter<typeof apiClient>
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof resolveHandoffRequest>>,
-  TError,
-  { id: number },
-  TContext
-> => {
-  const mutationKey = ["resolveHandoffRequest"]
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof resolveHandoffRequest>>,
-    { id: number }
-  > = (props) => {
-    const { id } = props ?? {}
 
-    return resolveHandoffRequest(id, requestOptions)
-  }
+export const getResolveHandoffRequestMutationOptions = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof resolveHandoffRequest>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof resolveHandoffRequest>>, TError,{id: number}, TContext> => {
 
-  return { mutationFn, ...mutationOptions }
-}
+const mutationKey = ['resolveHandoffRequest'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type ResolveHandoffRequestMutationResult = NonNullable<
-  Awaited<ReturnType<typeof resolveHandoffRequest>>
->
 
-export type ResolveHandoffRequestMutationError = ErrorType<ApiErrorResponseDto>
 
-export const useResolveHandoffRequest = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof resolveHandoffRequest>>,
-      TError,
-      { id: number },
-      TContext
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof resolveHandoffRequest>>,
-  TError,
-  { id: number },
-  TContext
-> => {
-  return useMutation(
-    getResolveHandoffRequestMutationOptions(options),
-    queryClient
-  )
-}
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof resolveHandoffRequest>>, {id: number}> = (props) => {
+          const {id} = props ?? {};
+
+          return  resolveHandoffRequest(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ResolveHandoffRequestMutationResult = NonNullable<Awaited<ReturnType<typeof resolveHandoffRequest>>>
+
+    export type ResolveHandoffRequestMutationError = ErrorType<ApiErrorResponseDto>
+
+    export const useResolveHandoffRequest = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof resolveHandoffRequest>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof resolveHandoffRequest>>,
+        TError,
+        {id: number},
+        TContext
+      > => {
+      return useMutation(getResolveHandoffRequestMutationOptions(options), queryClient);
+    }

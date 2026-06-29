@@ -5,40 +5,40 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { UpdateChatbotBehaviorSettingDtoFallbackMessage } from "./updateChatbotBehaviorSettingDtoFallbackMessage"
-import type { UpdateChatbotBehaviorSettingDtoHandoffTriggerMessage } from "./updateChatbotBehaviorSettingDtoHandoffTriggerMessage"
-import type { UpdateChatbotBehaviorSettingDtoMaxResponseLength } from "./updateChatbotBehaviorSettingDtoMaxResponseLength"
-import type { UpdateChatbotBehaviorSettingDtoOutOfScopeMessage } from "./updateChatbotBehaviorSettingDtoOutOfScopeMessage"
-import type { UpdateChatbotBehaviorSettingDtoResponseStyle } from "./updateChatbotBehaviorSettingDtoResponseStyle"
-import type { UpdateChatbotBehaviorSettingDtoResponseTone } from "./updateChatbotBehaviorSettingDtoResponseTone"
-import type { UpdateChatbotBehaviorSettingDtoSupportScope } from "./updateChatbotBehaviorSettingDtoSupportScope"
-import type { UpdateChatbotBehaviorSettingDtoSystemPrompt } from "./updateChatbotBehaviorSettingDtoSystemPrompt"
-import type { UpdateChatbotBehaviorSettingDtoTemperature } from "./updateChatbotBehaviorSettingDtoTemperature"
+import type { UpdateChatbotBehaviorSettingDtoFallbackMessage } from './updateChatbotBehaviorSettingDtoFallbackMessage';
+import type { UpdateChatbotBehaviorSettingDtoHandoffTriggerMessage } from './updateChatbotBehaviorSettingDtoHandoffTriggerMessage';
+import type { UpdateChatbotBehaviorSettingDtoMaxResponseLength } from './updateChatbotBehaviorSettingDtoMaxResponseLength';
+import type { UpdateChatbotBehaviorSettingDtoOutOfScopeMessage } from './updateChatbotBehaviorSettingDtoOutOfScopeMessage';
+import type { UpdateChatbotBehaviorSettingDtoResponseStyle } from './updateChatbotBehaviorSettingDtoResponseStyle';
+import type { UpdateChatbotBehaviorSettingDtoResponseTone } from './updateChatbotBehaviorSettingDtoResponseTone';
+import type { UpdateChatbotBehaviorSettingDtoSupportScope } from './updateChatbotBehaviorSettingDtoSupportScope';
+import type { UpdateChatbotBehaviorSettingDtoSystemPrompt } from './updateChatbotBehaviorSettingDtoSystemPrompt';
+import type { UpdateChatbotBehaviorSettingDtoTemperature } from './updateChatbotBehaviorSettingDtoTemperature';
 
 export interface UpdateChatbotBehaviorSettingDto {
   /** @nullable */
-  system_prompt?: UpdateChatbotBehaviorSettingDtoSystemPrompt
+  system_prompt?: UpdateChatbotBehaviorSettingDtoSystemPrompt;
   /** @nullable */
-  support_scope?: UpdateChatbotBehaviorSettingDtoSupportScope
-  response_tone?: UpdateChatbotBehaviorSettingDtoResponseTone
-  response_style?: UpdateChatbotBehaviorSettingDtoResponseStyle
+  support_scope?: UpdateChatbotBehaviorSettingDtoSupportScope;
+  response_tone?: UpdateChatbotBehaviorSettingDtoResponseTone;
+  response_style?: UpdateChatbotBehaviorSettingDtoResponseStyle;
   /** @nullable */
-  fallback_message?: UpdateChatbotBehaviorSettingDtoFallbackMessage
+  fallback_message?: UpdateChatbotBehaviorSettingDtoFallbackMessage;
   /** @nullable */
-  out_of_scope_message?: UpdateChatbotBehaviorSettingDtoOutOfScopeMessage
-  enable_human_handoff?: boolean
+  out_of_scope_message?: UpdateChatbotBehaviorSettingDtoOutOfScopeMessage;
+  enable_human_handoff?: boolean;
   /** @nullable */
-  handoff_trigger_message?: UpdateChatbotBehaviorSettingDtoHandoffTriggerMessage
+  handoff_trigger_message?: UpdateChatbotBehaviorSettingDtoHandoffTriggerMessage;
   /**
-   * @minimum 200
-   * @maximum 3000
-   * @nullable
-   */
-  max_response_length?: UpdateChatbotBehaviorSettingDtoMaxResponseLength
+     * @minimum 200
+     * @maximum 3000
+     * @nullable
+     */
+  max_response_length?: UpdateChatbotBehaviorSettingDtoMaxResponseLength;
   /**
-   * @minimum 0
-   * @maximum 1
-   * @nullable
-   */
-  temperature?: UpdateChatbotBehaviorSettingDtoTemperature
+     * @minimum 0
+     * @maximum 1
+     * @nullable
+     */
+  temperature?: UpdateChatbotBehaviorSettingDtoTemperature;
 }

@@ -11,6 +11,4 @@
  * @maximum 1
  * @nullable
  */
-export type UpdateChatbotBehaviorSettingDtoTemperature = {
-  [key: string]: unknown
-} | null
+export type UpdateChatbotBehaviorSettingDtoTemperature = { [key: string]: unknown } | null;

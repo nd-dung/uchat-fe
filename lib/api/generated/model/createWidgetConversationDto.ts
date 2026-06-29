@@ -5,9 +5,9 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { CreateWidgetConversationDtoMetadata } from "./createWidgetConversationDtoMetadata"
+import type { CreateWidgetConversationDtoMetadata } from './createWidgetConversationDtoMetadata';
 
 export interface CreateWidgetConversationDto {
-  channel?: string
-  metadata?: CreateWidgetConversationDtoMetadata
+  channel?: string;
+  metadata?: CreateWidgetConversationDtoMetadata;
 }

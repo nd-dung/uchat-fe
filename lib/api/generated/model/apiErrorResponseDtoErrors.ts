@@ -9,4 +9,4 @@
 /**
  * @nullable
  */
-export type ApiErrorResponseDtoErrors = { [key: string]: unknown } | null
+export type ApiErrorResponseDtoErrors = { [key: string]: unknown } | null;

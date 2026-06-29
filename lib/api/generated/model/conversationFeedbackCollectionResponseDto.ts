@@ -5,11 +5,11 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ConversationFeedbackResponseDto } from "./conversationFeedbackResponseDto"
-import type { MessageFeedbackResponseDto } from "./messageFeedbackResponseDto"
+import type { ConversationFeedbackResponseDto } from './conversationFeedbackResponseDto';
+import type { MessageFeedbackResponseDto } from './messageFeedbackResponseDto';
 
 export interface ConversationFeedbackCollectionResponseDto {
-  message_feedbacks: MessageFeedbackResponseDto[]
+  message_feedbacks: MessageFeedbackResponseDto[];
   /** @nullable */
-  conversation_feedback?: ConversationFeedbackResponseDto | null
+  conversation_feedback?: ConversationFeedbackResponseDto | null;
 }

@@ -5,14 +5,14 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ApiErrorResponseDtoErrors } from "./apiErrorResponseDtoErrors"
-import type { ApiResponseMetaDataDto } from "./apiResponseMetaDataDto"
+import type { ApiErrorResponseDtoErrors } from './apiErrorResponseDtoErrors';
+import type { ApiResponseMetaDataDto } from './apiResponseMetaDataDto';
 
 export interface ApiErrorResponseDto {
-  success: boolean
-  status_code: number
-  message: string
+  success: boolean;
+  status_code: number;
+  message: string;
   /** @nullable */
-  errors: ApiErrorResponseDtoErrors
-  meta_data: ApiResponseMetaDataDto
+  errors: ApiErrorResponseDtoErrors;
+  meta_data: ApiResponseMetaDataDto;
 }

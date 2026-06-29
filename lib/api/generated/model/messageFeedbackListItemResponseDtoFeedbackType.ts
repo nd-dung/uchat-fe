@@ -6,13 +6,13 @@
  * OpenAPI spec version: 1.0
  */
 
-export type MessageFeedbackListItemResponseDtoFeedbackType =
-  (typeof MessageFeedbackListItemResponseDtoFeedbackType)[keyof typeof MessageFeedbackListItemResponseDtoFeedbackType]
+export type MessageFeedbackListItemResponseDtoFeedbackType = typeof MessageFeedbackListItemResponseDtoFeedbackType[keyof typeof MessageFeedbackListItemResponseDtoFeedbackType];
+
 
 export const MessageFeedbackListItemResponseDtoFeedbackType = {
-  helpful: "helpful",
-  not_helpful: "not_helpful",
-  incorrect: "incorrect",
-  not_enough_information: "not_enough_information",
-  need_human_support: "need_human_support",
-} as const
+  helpful: 'helpful',
+  not_helpful: 'not_helpful',
+  incorrect: 'incorrect',
+  not_enough_information: 'not_enough_information',
+  need_human_support: 'need_human_support',
+} as const;

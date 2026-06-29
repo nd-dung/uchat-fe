@@ -5,11 +5,12 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { CreateWidgetSessionDtoMetadata } from "./createWidgetSessionDtoMetadata"
-import type { WidgetSessionVisitorDto } from "./widgetSessionVisitorDto"
+import type { CreateWidgetSessionDtoMetadata } from './createWidgetSessionDtoMetadata';
+import type { WidgetSessionVisitorDto } from './widgetSessionVisitorDto';
 
 export interface CreateWidgetSessionDto {
-  public_key?: string
-  visitor?: WidgetSessionVisitorDto
-  metadata?: CreateWidgetSessionDtoMetadata
+  public_key?: string;
+  visitor_uid?: string;
+  visitor?: WidgetSessionVisitorDto;
+  metadata?: CreateWidgetSessionDtoMetadata;
 }

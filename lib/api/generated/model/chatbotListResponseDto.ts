@@ -5,10 +5,10 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ChatbotListItemResponseDto } from "./chatbotListItemResponseDto"
-import type { PaginationDto } from "./paginationDto"
+import type { ChatbotListItemResponseDto } from './chatbotListItemResponseDto';
+import type { PaginationDto } from './paginationDto';
 
 export interface ChatbotListResponseDto {
-  items: ChatbotListItemResponseDto[]
-  pagination: PaginationDto
+  items: ChatbotListItemResponseDto[];
+  pagination: PaginationDto;
 }

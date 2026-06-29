@@ -7,6 +7,6 @@
  */
 
 export interface CreateVisitorMessageDto {
-  visitor_uid: string
-  content: string
+  visitor_uid: string;
+  content: string;
 }

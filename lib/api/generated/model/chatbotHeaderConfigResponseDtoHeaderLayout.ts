@@ -6,12 +6,12 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ChatbotHeaderConfigResponseDtoHeaderLayout =
-  (typeof ChatbotHeaderConfigResponseDtoHeaderLayout)[keyof typeof ChatbotHeaderConfigResponseDtoHeaderLayout]
+export type ChatbotHeaderConfigResponseDtoHeaderLayout = typeof ChatbotHeaderConfigResponseDtoHeaderLayout[keyof typeof ChatbotHeaderConfigResponseDtoHeaderLayout];
+
 
 export const ChatbotHeaderConfigResponseDtoHeaderLayout = {
-  simple: "simple",
-  avatar_title: "avatar_title",
-  centered: "centered",
-  compact: "compact",
-} as const
+  simple: 'simple',
+  avatar_title: 'avatar_title',
+  centered: 'centered',
+  compact: 'compact',
+} as const;

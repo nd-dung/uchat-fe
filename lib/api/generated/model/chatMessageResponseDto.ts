@@ -5,26 +5,26 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ChatMessageResponseDtoAnswerStatus } from "./chatMessageResponseDtoAnswerStatus"
-import type { ChatMessageResponseDtoContent } from "./chatMessageResponseDtoContent"
-import type { ChatMessageResponseDtoMessageType } from "./chatMessageResponseDtoMessageType"
-import type { ChatMessageResponseDtoMetadata } from "./chatMessageResponseDtoMetadata"
-import type { ChatMessageResponseDtoSenderType } from "./chatMessageResponseDtoSenderType"
+import type { ChatMessageResponseDtoAnswerStatus } from './chatMessageResponseDtoAnswerStatus';
+import type { ChatMessageResponseDtoContent } from './chatMessageResponseDtoContent';
+import type { ChatMessageResponseDtoMessageType } from './chatMessageResponseDtoMessageType';
+import type { ChatMessageResponseDtoMetadata } from './chatMessageResponseDtoMetadata';
+import type { ChatMessageResponseDtoSenderType } from './chatMessageResponseDtoSenderType';
 
 export interface ChatMessageResponseDto {
-  id: number
-  conversation_id: number
-  sender_type: ChatMessageResponseDtoSenderType
+  id: number;
+  conversation_id: number;
+  sender_type: ChatMessageResponseDtoSenderType;
   /** @nullable */
-  sender_id?: number | null
-  message_type: ChatMessageResponseDtoMessageType
+  sender_id?: number | null;
+  message_type: ChatMessageResponseDtoMessageType;
   /** @nullable */
-  content?: ChatMessageResponseDtoContent
+  content?: ChatMessageResponseDtoContent;
   /** @nullable */
-  answer_status?: ChatMessageResponseDtoAnswerStatus
+  answer_status?: ChatMessageResponseDtoAnswerStatus;
   /** @nullable */
-  metadata?: ChatMessageResponseDtoMetadata
-  sent_at: string
-  created_at: string
-  updated_at: string
+  metadata?: ChatMessageResponseDtoMetadata;
+  sent_at: string;
+  created_at: string;
+  updated_at: string;
 }

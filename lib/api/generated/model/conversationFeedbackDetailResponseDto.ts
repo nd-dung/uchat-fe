@@ -5,38 +5,38 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ChatConversationResponseDto } from "./chatConversationResponseDto"
-import type { ChatMessageResponseDto } from "./chatMessageResponseDto"
-import type { ChatVisitorSummaryResponseDto } from "./chatVisitorSummaryResponseDto"
-import type { ConversationFeedbackDetailResponseDtoComment } from "./conversationFeedbackDetailResponseDtoComment"
-import type { ConversationFeedbackDetailResponseDtoMetadata } from "./conversationFeedbackDetailResponseDtoMetadata"
-import type { ConversationFeedbackDetailResponseDtoSatisfactionLevel } from "./conversationFeedbackDetailResponseDtoSatisfactionLevel"
-import type { ConversationFeedbackDetailResponseDtoStatus } from "./conversationFeedbackDetailResponseDtoStatus"
+import type { ChatConversationResponseDto } from './chatConversationResponseDto';
+import type { ChatMessageResponseDto } from './chatMessageResponseDto';
+import type { ChatVisitorSummaryResponseDto } from './chatVisitorSummaryResponseDto';
+import type { ConversationFeedbackDetailResponseDtoComment } from './conversationFeedbackDetailResponseDtoComment';
+import type { ConversationFeedbackDetailResponseDtoMetadata } from './conversationFeedbackDetailResponseDtoMetadata';
+import type { ConversationFeedbackDetailResponseDtoSatisfactionLevel } from './conversationFeedbackDetailResponseDtoSatisfactionLevel';
+import type { ConversationFeedbackDetailResponseDtoStatus } from './conversationFeedbackDetailResponseDtoStatus';
 
 export interface ConversationFeedbackDetailResponseDto {
-  id: number
-  conversation_id: number
-  visitor_id: number
-  chatbot_id: number
-  facility_id: number
+  id: number;
+  conversation_id: number;
+  visitor_id: number;
+  chatbot_id: number;
+  facility_id: number;
   /** @nullable */
-  rating?: number | null
+  rating?: number | null;
   /** @nullable */
-  satisfaction_level?: ConversationFeedbackDetailResponseDtoSatisfactionLevel
+  satisfaction_level?: ConversationFeedbackDetailResponseDtoSatisfactionLevel;
   /** @nullable */
-  comment?: ConversationFeedbackDetailResponseDtoComment
-  status: ConversationFeedbackDetailResponseDtoStatus
+  comment?: ConversationFeedbackDetailResponseDtoComment;
+  status: ConversationFeedbackDetailResponseDtoStatus;
   /** @nullable */
-  reviewed_by?: number | null
+  reviewed_by?: number | null;
   /** @nullable */
-  reviewed_at?: string | null
+  reviewed_at?: string | null;
   /** @nullable */
-  resolved_at?: string | null
+  resolved_at?: string | null;
   /** @nullable */
-  metadata?: ConversationFeedbackDetailResponseDtoMetadata
-  created_at: string
-  updated_at: string
-  conversation: ChatConversationResponseDto
-  visitor: ChatVisitorSummaryResponseDto
-  messages: ChatMessageResponseDto[]
+  metadata?: ConversationFeedbackDetailResponseDtoMetadata;
+  created_at: string;
+  updated_at: string;
+  conversation: ChatConversationResponseDto;
+  visitor: ChatVisitorSummaryResponseDto;
+  messages: ChatMessageResponseDto[];
 }

@@ -5,27 +5,27 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ChatHandoffRequestResponseDtoPriority } from "./chatHandoffRequestResponseDtoPriority"
-import type { ChatHandoffRequestResponseDtoReason } from "./chatHandoffRequestResponseDtoReason"
-import type { ChatHandoffRequestResponseDtoStatus } from "./chatHandoffRequestResponseDtoStatus"
+import type { ChatHandoffRequestResponseDtoPriority } from './chatHandoffRequestResponseDtoPriority';
+import type { ChatHandoffRequestResponseDtoReason } from './chatHandoffRequestResponseDtoReason';
+import type { ChatHandoffRequestResponseDtoStatus } from './chatHandoffRequestResponseDtoStatus';
 
 export interface ChatHandoffRequestResponseDto {
-  id: number
-  conversation_id: number
-  visitor_id: number
-  chatbot_id: number
-  facility_id: number
+  id: number;
+  conversation_id: number;
+  visitor_id: number;
+  chatbot_id: number;
+  facility_id: number;
   /** @nullable */
-  assigned_staff_id?: number | null
+  assigned_staff_id?: number | null;
   /** @nullable */
-  reason?: ChatHandoffRequestResponseDtoReason
-  status: ChatHandoffRequestResponseDtoStatus
-  priority: ChatHandoffRequestResponseDtoPriority
-  requested_at: string
+  reason?: ChatHandoffRequestResponseDtoReason;
+  status: ChatHandoffRequestResponseDtoStatus;
+  priority: ChatHandoffRequestResponseDtoPriority;
+  requested_at: string;
   /** @nullable */
-  assigned_at?: string | null
+  assigned_at?: string | null;
   /** @nullable */
-  resolved_at?: string | null
-  created_at: string
-  updated_at: string
+  resolved_at?: string | null;
+  created_at: string;
+  updated_at: string;
 }

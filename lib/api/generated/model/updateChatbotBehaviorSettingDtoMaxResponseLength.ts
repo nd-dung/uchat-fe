@@ -11,6 +11,4 @@
  * @maximum 3000
  * @nullable
  */
-export type UpdateChatbotBehaviorSettingDtoMaxResponseLength = {
-  [key: string]: unknown
-} | null
+export type UpdateChatbotBehaviorSettingDtoMaxResponseLength = { [key: string]: unknown } | null;

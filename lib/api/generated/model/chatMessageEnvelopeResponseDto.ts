@@ -5,8 +5,8 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ChatMessageResponseDto } from "./chatMessageResponseDto"
+import type { ChatMessageResponseDto } from './chatMessageResponseDto';
 
 export interface ChatMessageEnvelopeResponseDto {
-  message: ChatMessageResponseDto
+  message: ChatMessageResponseDto;
 }

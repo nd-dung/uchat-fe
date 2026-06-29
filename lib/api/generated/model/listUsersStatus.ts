@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ListUsersStatus =
-  (typeof ListUsersStatus)[keyof typeof ListUsersStatus]
+export type ListUsersStatus = typeof ListUsersStatus[keyof typeof ListUsersStatus];
+
 
 export const ListUsersStatus = {
-  active: "active",
-  inactive: "inactive",
-} as const
+  active: 'active',
+  inactive: 'inactive',
+} as const;

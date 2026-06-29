@@ -6,12 +6,12 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ConversationFeedbackDetailResponseDtoStatus =
-  (typeof ConversationFeedbackDetailResponseDtoStatus)[keyof typeof ConversationFeedbackDetailResponseDtoStatus]
+export type ConversationFeedbackDetailResponseDtoStatus = typeof ConversationFeedbackDetailResponseDtoStatus[keyof typeof ConversationFeedbackDetailResponseDtoStatus];
+
 
 export const ConversationFeedbackDetailResponseDtoStatus = {
-  new: "new",
-  reviewing: "reviewing",
-  resolved: "resolved",
-  ignored: "ignored",
-} as const
+  new: 'new',
+  reviewing: 'reviewing',
+  resolved: 'resolved',
+  ignored: 'ignored',
+} as const;

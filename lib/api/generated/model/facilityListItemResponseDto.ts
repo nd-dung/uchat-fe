@@ -5,17 +5,17 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { FacilityListItemResponseDtoStatus } from "./facilityListItemResponseDtoStatus"
+import type { FacilityListItemResponseDtoStatus } from './facilityListItemResponseDtoStatus';
 
 export interface FacilityListItemResponseDto {
-  id: number
-  name: string
-  code: string
-  slug: string
+  id: number;
+  name: string;
+  code: string;
+  slug: string;
   /** @nullable */
-  description?: string | null
-  status: FacilityListItemResponseDtoStatus
-  created_at: string
-  updated_at: string
-  user_count: number
+  description?: string | null;
+  status: FacilityListItemResponseDtoStatus;
+  created_at: string;
+  updated_at: string;
+  user_count: number;
 }

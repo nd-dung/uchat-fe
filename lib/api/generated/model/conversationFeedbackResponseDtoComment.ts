@@ -9,6 +9,4 @@
 /**
  * @nullable
  */
-export type ConversationFeedbackResponseDtoComment = {
-  [key: string]: unknown
-} | null
+export type ConversationFeedbackResponseDtoComment = { [key: string]: unknown } | null;

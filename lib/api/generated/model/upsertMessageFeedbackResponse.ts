@@ -5,9 +5,9 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ApiSuccessResponseDto } from "./apiSuccessResponseDto"
-import type { MessageFeedbackResponseDto } from "./messageFeedbackResponseDto"
+import type { ApiSuccessResponseDto } from './apiSuccessResponseDto';
+import type { MessageFeedbackResponseDto } from './messageFeedbackResponseDto';
 
 export type UpsertMessageFeedbackResponse = ApiSuccessResponseDto & {
-  data?: MessageFeedbackResponseDto
-}
+  data?: MessageFeedbackResponseDto;
+};

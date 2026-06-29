@@ -5,10 +5,10 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ChatbotRuntimeBehaviorResponseDto } from "./chatbotRuntimeBehaviorResponseDto"
-import type { RuntimeChatbotSummaryResponseDto } from "./runtimeChatbotSummaryResponseDto"
+import type { ChatbotRuntimeBehaviorResponseDto } from './chatbotRuntimeBehaviorResponseDto';
+import type { RuntimeChatbotSummaryResponseDto } from './runtimeChatbotSummaryResponseDto';
 
 export interface ChatbotRuntimeConfigResponseDto {
-  chatbot: RuntimeChatbotSummaryResponseDto
-  behavior_setting: ChatbotRuntimeBehaviorResponseDto
+  chatbot: RuntimeChatbotSummaryResponseDto;
+  behavior_setting: ChatbotRuntimeBehaviorResponseDto;
 }

@@ -5,10 +5,10 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { CurrentUserResponseDto } from "./currentUserResponseDto"
+import type { CurrentUserResponseDto } from './currentUserResponseDto';
 
 export interface LoginResponseDto {
-  access_token: string
-  token_type: string
-  user: CurrentUserResponseDto
+  access_token: string;
+  token_type: string;
+  user: CurrentUserResponseDto;
 }

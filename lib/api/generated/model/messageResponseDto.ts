@@ -7,5 +7,5 @@
  */
 
 export interface MessageResponseDto {
-  message: string
+  message: string;
 }

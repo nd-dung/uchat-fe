@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ChatbotAnimationConfigResponseDtoTypingIndicatorStyle =
-  (typeof ChatbotAnimationConfigResponseDtoTypingIndicatorStyle)[keyof typeof ChatbotAnimationConfigResponseDtoTypingIndicatorStyle]
+export type ChatbotAnimationConfigResponseDtoTypingIndicatorStyle = typeof ChatbotAnimationConfigResponseDtoTypingIndicatorStyle[keyof typeof ChatbotAnimationConfigResponseDtoTypingIndicatorStyle];
+
 
 export const ChatbotAnimationConfigResponseDtoTypingIndicatorStyle = {
-  dots: "dots",
-  text: "text",
-} as const
+  dots: 'dots',
+  text: 'text',
+} as const;

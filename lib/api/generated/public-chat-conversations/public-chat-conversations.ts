@@ -5,13 +5,15 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import { useMutation } from "@tanstack/react-query"
+import {
+  useMutation
+} from '@tanstack/react-query';
 import type {
   MutationFunction,
   QueryClient,
   UseMutationOptions,
-  UseMutationResult,
-} from "@tanstack/react-query"
+  UseMutationResult
+} from '@tanstack/react-query';
 
 import type {
   ApiErrorResponseDto,
@@ -20,273 +22,187 @@ import type {
   CreateOrReuseConversationDto,
   CreateOrReuseConversationResponse,
   CreateVisitorMessageDto,
-  CreateVisitorMessageResponse,
-} from "../model"
+  CreateVisitorMessageResponse
+} from '../model';
 
-import { apiClient } from "../../axios"
-import type { ErrorType, BodyType } from "../../axios"
+import { apiClient } from '../../axios';
+import type { ErrorType , BodyType } from '../../axios';
 
-type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1]
+
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
+
 
 export const createHandoffRequest = (
-  conversationId: number,
-  createHandoffRequestDto: BodyType<CreateHandoffRequestDto>,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+    conversationId: number,
+    createHandoffRequestDto: BodyType<CreateHandoffRequestDto>,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<CreateHandoffRequestResponse>(
-    {
-      url: `/api/public/chat/conversations/${conversationId}/handoff-request`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: createHandoffRequestDto,
-      signal,
+
+
+      return apiClient<CreateHandoffRequestResponse>(
+      {url: `/api/public/chat/conversations/${conversationId}/handoff-request`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createHandoffRequestDto, signal
     },
-    options
-  )
-}
+      options);
+    }
 
-export const getCreateHandoffRequestMutationOptions = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof createHandoffRequest>>,
-    TError,
-    { conversationId: number; data: BodyType<CreateHandoffRequestDto> },
-    TContext
-  >
-  request?: SecondParameter<typeof apiClient>
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof createHandoffRequest>>,
-  TError,
-  { conversationId: number; data: BodyType<CreateHandoffRequestDto> },
-  TContext
-> => {
-  const mutationKey = ["createHandoffRequest"]
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof createHandoffRequest>>,
-    { conversationId: number; data: BodyType<CreateHandoffRequestDto> }
-  > = (props) => {
-    const { conversationId, data } = props ?? {}
 
-    return createHandoffRequest(conversationId, data, requestOptions)
-  }
+export const getCreateHandoffRequestMutationOptions = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createHandoffRequest>>, TError,{conversationId: number;data: BodyType<CreateHandoffRequestDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof createHandoffRequest>>, TError,{conversationId: number;data: BodyType<CreateHandoffRequestDto>}, TContext> => {
 
-  return { mutationFn, ...mutationOptions }
-}
+const mutationKey = ['createHandoffRequest'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type CreateHandoffRequestMutationResult = NonNullable<
-  Awaited<ReturnType<typeof createHandoffRequest>>
->
-export type CreateHandoffRequestMutationBody = BodyType<CreateHandoffRequestDto>
-export type CreateHandoffRequestMutationError = ErrorType<ApiErrorResponseDto>
 
-export const useCreateHandoffRequest = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof createHandoffRequest>>,
-      TError,
-      { conversationId: number; data: BodyType<CreateHandoffRequestDto> },
-      TContext
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof createHandoffRequest>>,
-  TError,
-  { conversationId: number; data: BodyType<CreateHandoffRequestDto> },
-  TContext
-> => {
-  return useMutation(
-    getCreateHandoffRequestMutationOptions(options),
-    queryClient
-  )
-}
-export const createOrReuseConversation = (
-  createOrReuseConversationDto: BodyType<CreateOrReuseConversationDto>,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createHandoffRequest>>, {conversationId: number;data: BodyType<CreateHandoffRequestDto>}> = (props) => {
+          const {conversationId,data} = props ?? {};
+
+          return  createHandoffRequest(conversationId,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateHandoffRequestMutationResult = NonNullable<Awaited<ReturnType<typeof createHandoffRequest>>>
+    export type CreateHandoffRequestMutationBody = BodyType<CreateHandoffRequestDto>
+    export type CreateHandoffRequestMutationError = ErrorType<ApiErrorResponseDto>
+
+    export const useCreateHandoffRequest = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createHandoffRequest>>, TError,{conversationId: number;data: BodyType<CreateHandoffRequestDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof createHandoffRequest>>,
+        TError,
+        {conversationId: number;data: BodyType<CreateHandoffRequestDto>},
+        TContext
+      > => {
+      return useMutation(getCreateHandoffRequestMutationOptions(options), queryClient);
+    }
+    export const createOrReuseConversation = (
+    createOrReuseConversationDto: BodyType<CreateOrReuseConversationDto>,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<CreateOrReuseConversationResponse>(
-    {
-      url: `/api/public/chat/conversations`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: createOrReuseConversationDto,
-      signal,
+
+
+      return apiClient<CreateOrReuseConversationResponse>(
+      {url: `/api/public/chat/conversations`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createOrReuseConversationDto, signal
     },
-    options
-  )
-}
+      options);
+    }
 
-export const getCreateOrReuseConversationMutationOptions = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof createOrReuseConversation>>,
-    TError,
-    { data: BodyType<CreateOrReuseConversationDto> },
-    TContext
-  >
-  request?: SecondParameter<typeof apiClient>
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof createOrReuseConversation>>,
-  TError,
-  { data: BodyType<CreateOrReuseConversationDto> },
-  TContext
-> => {
-  const mutationKey = ["createOrReuseConversation"]
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof createOrReuseConversation>>,
-    { data: BodyType<CreateOrReuseConversationDto> }
-  > = (props) => {
-    const { data } = props ?? {}
 
-    return createOrReuseConversation(data, requestOptions)
-  }
+export const getCreateOrReuseConversationMutationOptions = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createOrReuseConversation>>, TError,{data: BodyType<CreateOrReuseConversationDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof createOrReuseConversation>>, TError,{data: BodyType<CreateOrReuseConversationDto>}, TContext> => {
 
-  return { mutationFn, ...mutationOptions }
-}
+const mutationKey = ['createOrReuseConversation'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type CreateOrReuseConversationMutationResult = NonNullable<
-  Awaited<ReturnType<typeof createOrReuseConversation>>
->
-export type CreateOrReuseConversationMutationBody =
-  BodyType<CreateOrReuseConversationDto>
-export type CreateOrReuseConversationMutationError =
-  ErrorType<ApiErrorResponseDto>
 
-export const useCreateOrReuseConversation = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof createOrReuseConversation>>,
-      TError,
-      { data: BodyType<CreateOrReuseConversationDto> },
-      TContext
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof createOrReuseConversation>>,
-  TError,
-  { data: BodyType<CreateOrReuseConversationDto> },
-  TContext
-> => {
-  return useMutation(
-    getCreateOrReuseConversationMutationOptions(options),
-    queryClient
-  )
-}
-export const createVisitorMessage = (
-  conversationId: number,
-  createVisitorMessageDto: BodyType<CreateVisitorMessageDto>,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createOrReuseConversation>>, {data: BodyType<CreateOrReuseConversationDto>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  createOrReuseConversation(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateOrReuseConversationMutationResult = NonNullable<Awaited<ReturnType<typeof createOrReuseConversation>>>
+    export type CreateOrReuseConversationMutationBody = BodyType<CreateOrReuseConversationDto>
+    export type CreateOrReuseConversationMutationError = ErrorType<ApiErrorResponseDto>
+
+    export const useCreateOrReuseConversation = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createOrReuseConversation>>, TError,{data: BodyType<CreateOrReuseConversationDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof createOrReuseConversation>>,
+        TError,
+        {data: BodyType<CreateOrReuseConversationDto>},
+        TContext
+      > => {
+      return useMutation(getCreateOrReuseConversationMutationOptions(options), queryClient);
+    }
+    export const createVisitorMessage = (
+    conversationId: number,
+    createVisitorMessageDto: BodyType<CreateVisitorMessageDto>,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<CreateVisitorMessageResponse>(
-    {
-      url: `/api/public/chat/conversations/${conversationId}/messages`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: createVisitorMessageDto,
-      signal,
+
+
+      return apiClient<CreateVisitorMessageResponse>(
+      {url: `/api/public/chat/conversations/${conversationId}/messages`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createVisitorMessageDto, signal
     },
-    options
-  )
-}
+      options);
+    }
 
-export const getCreateVisitorMessageMutationOptions = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof createVisitorMessage>>,
-    TError,
-    { conversationId: number; data: BodyType<CreateVisitorMessageDto> },
-    TContext
-  >
-  request?: SecondParameter<typeof apiClient>
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof createVisitorMessage>>,
-  TError,
-  { conversationId: number; data: BodyType<CreateVisitorMessageDto> },
-  TContext
-> => {
-  const mutationKey = ["createVisitorMessage"]
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof createVisitorMessage>>,
-    { conversationId: number; data: BodyType<CreateVisitorMessageDto> }
-  > = (props) => {
-    const { conversationId, data } = props ?? {}
 
-    return createVisitorMessage(conversationId, data, requestOptions)
-  }
+export const getCreateVisitorMessageMutationOptions = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createVisitorMessage>>, TError,{conversationId: number;data: BodyType<CreateVisitorMessageDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof createVisitorMessage>>, TError,{conversationId: number;data: BodyType<CreateVisitorMessageDto>}, TContext> => {
 
-  return { mutationFn, ...mutationOptions }
-}
+const mutationKey = ['createVisitorMessage'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type CreateVisitorMessageMutationResult = NonNullable<
-  Awaited<ReturnType<typeof createVisitorMessage>>
->
-export type CreateVisitorMessageMutationBody = BodyType<CreateVisitorMessageDto>
-export type CreateVisitorMessageMutationError = ErrorType<ApiErrorResponseDto>
 
-export const useCreateVisitorMessage = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof createVisitorMessage>>,
-      TError,
-      { conversationId: number; data: BodyType<CreateVisitorMessageDto> },
-      TContext
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof createVisitorMessage>>,
-  TError,
-  { conversationId: number; data: BodyType<CreateVisitorMessageDto> },
-  TContext
-> => {
-  return useMutation(
-    getCreateVisitorMessageMutationOptions(options),
-    queryClient
-  )
-}
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createVisitorMessage>>, {conversationId: number;data: BodyType<CreateVisitorMessageDto>}> = (props) => {
+          const {conversationId,data} = props ?? {};
+
+          return  createVisitorMessage(conversationId,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateVisitorMessageMutationResult = NonNullable<Awaited<ReturnType<typeof createVisitorMessage>>>
+    export type CreateVisitorMessageMutationBody = BodyType<CreateVisitorMessageDto>
+    export type CreateVisitorMessageMutationError = ErrorType<ApiErrorResponseDto>
+
+    export const useCreateVisitorMessage = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createVisitorMessage>>, TError,{conversationId: number;data: BodyType<CreateVisitorMessageDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof createVisitorMessage>>,
+        TError,
+        {conversationId: number;data: BodyType<CreateVisitorMessageDto>},
+        TContext
+      > => {
+      return useMutation(getCreateVisitorMessageMutationOptions(options), queryClient);
+    }

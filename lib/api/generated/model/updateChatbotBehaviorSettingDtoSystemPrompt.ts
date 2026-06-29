@@ -9,6 +9,4 @@
 /**
  * @nullable
  */
-export type UpdateChatbotBehaviorSettingDtoSystemPrompt = {
-  [key: string]: unknown
-} | null
+export type UpdateChatbotBehaviorSettingDtoSystemPrompt = { [key: string]: unknown } | null;

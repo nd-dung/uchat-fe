@@ -5,12 +5,12 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { CreateFacilityDtoStatus } from "./createFacilityDtoStatus"
+import type { CreateFacilityDtoStatus } from './createFacilityDtoStatus';
 
 export interface CreateFacilityDto {
-  name: string
-  code: string
-  slug: string
-  description?: string
-  status?: CreateFacilityDtoStatus
+  name: string;
+  code: string;
+  slug: string;
+  description?: string;
+  status?: CreateFacilityDtoStatus;
 }

@@ -5,16 +5,16 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ChatbotChatWindowConfigResponseDtoChatWindowPosition } from "./chatbotChatWindowConfigResponseDtoChatWindowPosition"
+import type { ChatbotChatWindowConfigResponseDtoChatWindowPosition } from './chatbotChatWindowConfigResponseDtoChatWindowPosition';
 
 export interface ChatbotChatWindowConfigResponseDto {
-  chat_window_position: ChatbotChatWindowConfigResponseDtoChatWindowPosition
-  chat_window_width: number
-  chat_window_height: number
-  chat_window_shadow: boolean
-  chat_window_border_color: string
-  chat_window_border_width: number
-  chat_window_z_index: number
-  mobile_fullscreen_enabled: boolean
-  border_radius: number
+  chat_window_position: ChatbotChatWindowConfigResponseDtoChatWindowPosition;
+  chat_window_width: number;
+  chat_window_height: number;
+  chat_window_shadow: boolean;
+  chat_window_border_color: string;
+  chat_window_border_width: number;
+  chat_window_z_index: number;
+  mobile_fullscreen_enabled: boolean;
+  border_radius: number;
 }

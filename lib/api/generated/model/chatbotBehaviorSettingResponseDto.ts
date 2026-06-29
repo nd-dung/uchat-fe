@@ -5,29 +5,29 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ChatbotBehaviorSettingResponseDtoResponseStyle } from "./chatbotBehaviorSettingResponseDtoResponseStyle"
-import type { ChatbotBehaviorSettingResponseDtoResponseTone } from "./chatbotBehaviorSettingResponseDtoResponseTone"
+import type { ChatbotBehaviorSettingResponseDtoResponseStyle } from './chatbotBehaviorSettingResponseDtoResponseStyle';
+import type { ChatbotBehaviorSettingResponseDtoResponseTone } from './chatbotBehaviorSettingResponseDtoResponseTone';
 
 export interface ChatbotBehaviorSettingResponseDto {
   /** @nullable */
-  system_prompt?: string | null
+  system_prompt?: string | null;
   /** @nullable */
-  support_scope?: string | null
-  response_tone: ChatbotBehaviorSettingResponseDtoResponseTone
-  response_style: ChatbotBehaviorSettingResponseDtoResponseStyle
+  support_scope?: string | null;
+  response_tone: ChatbotBehaviorSettingResponseDtoResponseTone;
+  response_style: ChatbotBehaviorSettingResponseDtoResponseStyle;
   /** @nullable */
-  fallback_message?: string | null
+  fallback_message?: string | null;
   /** @nullable */
-  out_of_scope_message?: string | null
-  enable_human_handoff: boolean
+  out_of_scope_message?: string | null;
+  enable_human_handoff: boolean;
   /** @nullable */
-  handoff_trigger_message?: string | null
+  handoff_trigger_message?: string | null;
   /** @nullable */
-  max_response_length?: number | null
+  max_response_length?: number | null;
   /** @nullable */
-  temperature?: number | null
-  id: number
-  chatbot_id: number
-  created_at: string
-  updated_at: string
+  temperature?: number | null;
+  id: number;
+  chatbot_id: number;
+  created_at: string;
+  updated_at: string;
 }

@@ -5,221 +5,184 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import * as zod from "zod"
+import * as zod from 'zod';
 
-export const listFacilitiesQuerySortByDefault = `created_at`
-export const listFacilitiesQuerySortOrderDefault = `desc`
+
+export const listFacilitiesQuerySortByDefault = `created_at`;
+export const listFacilitiesQuerySortOrderDefault = `desc`;
 
 export const ListFacilitiesQueryParams = zod.object({
-  search: zod.string().optional(),
-  status: zod.enum(["active", "inactive"]).optional(),
-  has_users: zod
-    .boolean()
-    .optional()
-    .describe("Lọc khoa có hoặc chưa có người dùng."),
-  sort_by: zod
-    .enum(["name", "created_at", "user_count"])
-    .default(listFacilitiesQuerySortByDefault),
-  sort_order: zod
-    .enum(["asc", "desc"])
-    .default(listFacilitiesQuerySortOrderDefault),
-  page: zod.looseObject({}).optional(),
-  limit: zod.looseObject({}).optional(),
+  "search": zod.string().optional(),
+  "status": zod.enum(['active', 'inactive']).optional(),
+  "has_users": zod.boolean().optional().describe('Lọc khoa có hoặc chưa có người dùng.'),
+  "sort_by": zod.enum(['name', 'created_at', 'user_count']).default(listFacilitiesQuerySortByDefault),
+  "sort_order": zod.enum(['asc', 'desc']).default(listFacilitiesQuerySortOrderDefault),
+  "page": zod.looseObject({
+
+}).optional(),
+  "limit": zod.looseObject({
+
+}).optional()
 })
 
-export const ListFacilitiesResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          items: zod.array(
-            zod.object({
-              id: zod.number(),
-              name: zod.string(),
-              code: zod.string(),
-              slug: zod.string(),
-              description: zod.string().nullish(),
-              status: zod.enum(["active", "inactive"]),
-              created_at: zod.string(),
-              updated_at: zod.string(),
-              user_count: zod.number(),
-            })
-          ),
-          pagination: zod.object({
-            page: zod.number(),
-            limit: zod.number(),
-            total: zod.number(),
-            total_pages: zod.number(),
-          }),
-        })
-        .optional(),
-    })
-  )
+export const ListFacilitiesResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "items": zod.array(zod.object({
+  "id": zod.number(),
+  "name": zod.string(),
+  "code": zod.string(),
+  "slug": zod.string(),
+  "description": zod.string().nullish(),
+  "status": zod.enum(['active', 'inactive']),
+  "created_at": zod.string(),
+  "updated_at": zod.string(),
+  "user_count": zod.number()
+})),
+  "pagination": zod.object({
+  "page": zod.number(),
+  "limit": zod.number(),
+  "total": zod.number(),
+  "total_pages": zod.number()
+})
+}).optional()
+}))
 
 export const CreateFacilityBody = zod.object({
-  name: zod.string(),
-  code: zod.string(),
-  slug: zod.string(),
-  description: zod.string().optional(),
-  status: zod.enum(["active", "inactive"]).optional(),
+  "name": zod.string(),
+  "code": zod.string(),
+  "slug": zod.string(),
+  "description": zod.string().optional(),
+  "status": zod.enum(['active', 'inactive']).optional()
 })
 
-export const CreateFacilityResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          id: zod.number(),
-          name: zod.string(),
-          code: zod.string(),
-          slug: zod.string(),
-          description: zod.string().nullish(),
-          status: zod.enum(["active", "inactive"]),
-          created_at: zod.string(),
-          updated_at: zod.string(),
-        })
-        .optional(),
-    })
-  )
+export const CreateFacilityResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "id": zod.number(),
+  "name": zod.string(),
+  "code": zod.string(),
+  "slug": zod.string(),
+  "description": zod.string().nullish(),
+  "status": zod.enum(['active', 'inactive']),
+  "created_at": zod.string(),
+  "updated_at": zod.string()
+}).optional()
+}))
 
-export const GetFacilityStatisticsOverviewResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          total: zod.number(),
-          active: zod.number(),
-          inactive: zod.number(),
-          with_users: zod.number(),
-          without_users: zod.number(),
-        })
-        .optional(),
-    })
-  )
+export const GetFacilityStatisticsOverviewResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "total": zod.number(),
+  "active": zod.number(),
+  "inactive": zod.number(),
+  "with_users": zod.number(),
+  "without_users": zod.number()
+}).optional()
+}))
 
 export const GetFacilityParams = zod.object({
-  id: zod.number(),
+  "id": zod.number()
 })
 
-export const GetFacilityResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          id: zod.number(),
-          name: zod.string(),
-          code: zod.string(),
-          slug: zod.string(),
-          description: zod.string().nullish(),
-          status: zod.enum(["active", "inactive"]),
-          created_at: zod.string(),
-          updated_at: zod.string(),
-        })
-        .optional(),
-    })
-  )
+export const GetFacilityResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "id": zod.number(),
+  "name": zod.string(),
+  "code": zod.string(),
+  "slug": zod.string(),
+  "description": zod.string().nullish(),
+  "status": zod.enum(['active', 'inactive']),
+  "created_at": zod.string(),
+  "updated_at": zod.string()
+}).optional()
+}))
 
 export const UpdateFacilityParams = zod.object({
-  id: zod.number(),
+  "id": zod.number()
 })
 
 export const UpdateFacilityBody = zod.object({
-  name: zod.string().optional(),
-  code: zod.string().optional(),
-  slug: zod.string().optional(),
-  description: zod.looseObject({}).optional(),
-  status: zod.enum(["active", "inactive"]).optional(),
+  "name": zod.string().optional(),
+  "code": zod.string().optional(),
+  "slug": zod.string().optional(),
+  "description": zod.looseObject({
+
+}).optional(),
+  "status": zod.enum(['active', 'inactive']).optional()
 })
 
-export const UpdateFacilityResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          id: zod.number(),
-          name: zod.string(),
-          code: zod.string(),
-          slug: zod.string(),
-          description: zod.string().nullish(),
-          status: zod.enum(["active", "inactive"]),
-          created_at: zod.string(),
-          updated_at: zod.string(),
-        })
-        .optional(),
-    })
-  )
+export const UpdateFacilityResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "id": zod.number(),
+  "name": zod.string(),
+  "code": zod.string(),
+  "slug": zod.string(),
+  "description": zod.string().nullish(),
+  "status": zod.enum(['active', 'inactive']),
+  "created_at": zod.string(),
+  "updated_at": zod.string()
+}).optional()
+}))
 
 export const DeleteFacilityParams = zod.object({
-  id: zod.number(),
+  "id": zod.number()
 })
 
-export const DeleteFacilityResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          message: zod.string(),
-        })
-        .optional(),
-    })
-  )
+export const DeleteFacilityResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "message": zod.string()
+}).optional()
+}))
+

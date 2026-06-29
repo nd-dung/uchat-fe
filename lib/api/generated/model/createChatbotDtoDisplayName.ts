@@ -6,4 +6,4 @@
  * OpenAPI spec version: 1.0
  */
 
-export type CreateChatbotDtoDisplayName = { [key: string]: unknown }
+export type CreateChatbotDtoDisplayName = { [key: string]: unknown };

@@ -5,16 +5,16 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import type { ListUsersRole } from "./listUsersRole"
-import type { ListUsersStatus } from "./listUsersStatus"
-import type { Object } from "./object"
+import type { ListUsersRole } from './listUsersRole';
+import type { ListUsersStatus } from './listUsersStatus';
+import type { Object } from './object';
 
 export type ListUsersParams = {
-  search?: string
-  email?: string
-  role?: ListUsersRole
-  status?: ListUsersStatus
-  facility_id?: number
-  page?: Object
-  limit?: Object
-}
+search?: string;
+email?: string;
+role?: ListUsersRole;
+status?: ListUsersStatus;
+facility_id?: number;
+page?: Object;
+limit?: Object;
+};

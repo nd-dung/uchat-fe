@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type UpdateFacilityDtoStatus =
-  (typeof UpdateFacilityDtoStatus)[keyof typeof UpdateFacilityDtoStatus]
+export type UpdateFacilityDtoStatus = typeof UpdateFacilityDtoStatus[keyof typeof UpdateFacilityDtoStatus];
+
 
 export const UpdateFacilityDtoStatus = {
-  active: "active",
-  inactive: "inactive",
-} as const
+  active: 'active',
+  inactive: 'inactive',
+} as const;

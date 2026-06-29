@@ -6,12 +6,12 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ChatMessageResponseDtoMessageType =
-  (typeof ChatMessageResponseDtoMessageType)[keyof typeof ChatMessageResponseDtoMessageType]
+export type ChatMessageResponseDtoMessageType = typeof ChatMessageResponseDtoMessageType[keyof typeof ChatMessageResponseDtoMessageType];
+
 
 export const ChatMessageResponseDtoMessageType = {
-  text: "text",
-  system_event: "system_event",
-  image: "image",
-  file: "file",
-} as const
+  text: 'text',
+  system_event: 'system_event',
+  image: 'image',
+  file: 'file',
+} as const;

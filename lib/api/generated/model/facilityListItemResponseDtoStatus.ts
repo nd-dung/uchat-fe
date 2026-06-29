@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type FacilityListItemResponseDtoStatus =
-  (typeof FacilityListItemResponseDtoStatus)[keyof typeof FacilityListItemResponseDtoStatus]
+export type FacilityListItemResponseDtoStatus = typeof FacilityListItemResponseDtoStatus[keyof typeof FacilityListItemResponseDtoStatus];
+
 
 export const FacilityListItemResponseDtoStatus = {
-  active: "active",
-  inactive: "inactive",
-} as const
+  active: 'active',
+  inactive: 'inactive',
+} as const;

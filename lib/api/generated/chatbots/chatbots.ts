@@ -5,7 +5,10 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import { useMutation, useQuery } from "@tanstack/react-query"
+import {
+  useMutation,
+  useQuery
+} from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -18,8 +21,8 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult,
-} from "@tanstack/react-query"
+  UseQueryResult
+} from '@tanstack/react-query';
 
 import type {
   ApiErrorResponseDto,
@@ -37,1109 +40,700 @@ import type {
   UpdateChatbotEmbedSettingResponse,
   UpdateChatbotResponse,
   UpdateChatbotUiSettingDto,
-  UpdateChatbotUiSettingResponse,
-} from "../model"
+  UpdateChatbotUiSettingResponse
+} from '../model';
 
-import { apiClient } from "../../axios"
-import type { ErrorType, BodyType } from "../../axios"
+import { apiClient } from '../../axios';
+import type { ErrorType , BodyType } from '../../axios';
 
-type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1]
+
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
+
 
 export const listChatbots = (
-  params?: ListChatbotsParams,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+    params?: ListChatbotsParams,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<ListChatbotsResponse>(
-    { url: `/api/chatbots`, method: "GET", params, signal },
-    options
-  )
-}
 
-export const getListChatbotsQueryKey = (params?: ListChatbotsParams) => {
-  return [`/api/chatbots`, ...(params ? [params] : [])] as const
-}
 
-export const getListChatbotsQueryOptions = <
-  TData = Awaited<ReturnType<typeof listChatbots>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  params?: ListChatbotsParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof listChatbots>>, TError, TData>
-    >
-    request?: SecondParameter<typeof apiClient>
-  }
+      return apiClient<ListChatbotsResponse>(
+      {url: `/api/chatbots`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+
+
+
+
+export const getListChatbotsQueryKey = (params?: ListChatbotsParams,) => {
+    return [
+    `/api/chatbots`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getListChatbotsQueryOptions = <TData = Awaited<ReturnType<typeof listChatbots>>, TError = ErrorType<ApiErrorResponseDto>>(params?: ListChatbotsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listChatbots>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
 ) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {}
 
-  const queryKey = queryOptions?.queryKey ?? getListChatbotsQueryKey(params)
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof listChatbots>>> = ({
-    signal,
-  }) => listChatbots(params, requestOptions, signal)
+  const queryKey =  queryOptions?.queryKey ?? getListChatbotsQueryKey(params);
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof listChatbots>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listChatbots>>> = ({ signal }) => listChatbots(params, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listChatbots>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type ListChatbotsQueryResult = NonNullable<
-  Awaited<ReturnType<typeof listChatbots>>
->
+export type ListChatbotsQueryResult = NonNullable<Awaited<ReturnType<typeof listChatbots>>>
 export type ListChatbotsQueryError = ErrorType<ApiErrorResponseDto>
 
-export function useListChatbots<
-  TData = Awaited<ReturnType<typeof listChatbots>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  params: undefined | ListChatbotsParams,
-  options: {
-    query: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof listChatbots>>, TError, TData>
-    > &
-      Pick<
+
+export function useListChatbots<TData = Awaited<ReturnType<typeof listChatbots>>, TError = ErrorType<ApiErrorResponseDto>>(
+ params: undefined |  ListChatbotsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listChatbots>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof listChatbots>>,
           TError,
           Awaited<ReturnType<typeof listChatbots>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useListChatbots<
-  TData = Awaited<ReturnType<typeof listChatbots>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  params?: ListChatbotsParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof listChatbots>>, TError, TData>
-    > &
-      Pick<
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListChatbots<TData = Awaited<ReturnType<typeof listChatbots>>, TError = ErrorType<ApiErrorResponseDto>>(
+ params?: ListChatbotsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listChatbots>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof listChatbots>>,
           TError,
           Awaited<ReturnType<typeof listChatbots>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useListChatbots<
-  TData = Awaited<ReturnType<typeof listChatbots>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  params?: ListChatbotsParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof listChatbots>>, TError, TData>
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListChatbots<TData = Awaited<ReturnType<typeof listChatbots>>, TError = ErrorType<ApiErrorResponseDto>>(
+ params?: ListChatbotsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listChatbots>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useListChatbots<TData = Awaited<ReturnType<typeof listChatbots>>, TError = ErrorType<ApiErrorResponseDto>>(
+ params?: ListChatbotsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listChatbots>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListChatbotsQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
 }
 
-export function useListChatbots<
-  TData = Awaited<ReturnType<typeof listChatbots>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  params?: ListChatbotsParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof listChatbots>>, TError, TData>
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-} {
-  const queryOptions = getListChatbotsQueryOptions(params, options)
 
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
-}
+
+
 
 export const createChatbot = (
-  createChatbotDto: BodyType<CreateChatbotDto>,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+    createChatbotDto: BodyType<CreateChatbotDto>,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<CreateChatbotResponse>(
-    {
-      url: `/api/chatbots`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: createChatbotDto,
-      signal,
+
+
+      return apiClient<CreateChatbotResponse>(
+      {url: `/api/chatbots`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createChatbotDto, signal
     },
-    options
-  )
-}
+      options);
+    }
 
-export const getCreateChatbotMutationOptions = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof createChatbot>>,
-    TError,
-    { data: BodyType<CreateChatbotDto> },
-    TContext
-  >
-  request?: SecondParameter<typeof apiClient>
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof createChatbot>>,
-  TError,
-  { data: BodyType<CreateChatbotDto> },
-  TContext
-> => {
-  const mutationKey = ["createChatbot"]
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof createChatbot>>,
-    { data: BodyType<CreateChatbotDto> }
-  > = (props) => {
-    const { data } = props ?? {}
 
-    return createChatbot(data, requestOptions)
-  }
+export const getCreateChatbotMutationOptions = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createChatbot>>, TError,{data: BodyType<CreateChatbotDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof createChatbot>>, TError,{data: BodyType<CreateChatbotDto>}, TContext> => {
 
-  return { mutationFn, ...mutationOptions }
-}
+const mutationKey = ['createChatbot'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type CreateChatbotMutationResult = NonNullable<
-  Awaited<ReturnType<typeof createChatbot>>
->
-export type CreateChatbotMutationBody = BodyType<CreateChatbotDto>
-export type CreateChatbotMutationError = ErrorType<ApiErrorResponseDto>
 
-export const useCreateChatbot = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof createChatbot>>,
-      TError,
-      { data: BodyType<CreateChatbotDto> },
-      TContext
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof createChatbot>>,
-  TError,
-  { data: BodyType<CreateChatbotDto> },
-  TContext
-> => {
-  return useMutation(getCreateChatbotMutationOptions(options), queryClient)
-}
-export const getChatbot = (
-  id: number,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createChatbot>>, {data: BodyType<CreateChatbotDto>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  createChatbot(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateChatbotMutationResult = NonNullable<Awaited<ReturnType<typeof createChatbot>>>
+    export type CreateChatbotMutationBody = BodyType<CreateChatbotDto>
+    export type CreateChatbotMutationError = ErrorType<ApiErrorResponseDto>
+
+    export const useCreateChatbot = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createChatbot>>, TError,{data: BodyType<CreateChatbotDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof createChatbot>>,
+        TError,
+        {data: BodyType<CreateChatbotDto>},
+        TContext
+      > => {
+      return useMutation(getCreateChatbotMutationOptions(options), queryClient);
+    }
+    export const getChatbot = (
+    id: number,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<GetChatbotResponse>(
-    { url: `/api/chatbots/${id}`, method: "GET", signal },
-    options
-  )
-}
 
-export const getGetChatbotQueryKey = (id: number) => {
-  return [`/api/chatbots/${id}`] as const
-}
 
-export const getGetChatbotQueryOptions = <
-  TData = Awaited<ReturnType<typeof getChatbot>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getChatbot>>, TError, TData>
-    >
-    request?: SecondParameter<typeof apiClient>
-  }
+      return apiClient<GetChatbotResponse>(
+      {url: `/api/chatbots/${id}`, method: 'GET', signal
+    },
+      options);
+    }
+
+
+
+
+export const getGetChatbotQueryKey = (id: number,) => {
+    return [
+    `/api/chatbots/${id}`
+    ] as const;
+    }
+
+
+export const getGetChatbotQueryOptions = <TData = Awaited<ReturnType<typeof getChatbot>>, TError = ErrorType<ApiErrorResponseDto>>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getChatbot>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
 ) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {}
 
-  const queryKey = queryOptions?.queryKey ?? getGetChatbotQueryKey(id)
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof getChatbot>>> = ({
-    signal,
-  }) => getChatbot(id, requestOptions, signal)
+  const queryKey =  queryOptions?.queryKey ?? getGetChatbotQueryKey(id);
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: id !== null && id !== undefined,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof getChatbot>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getChatbot>>> = ({ signal }) => getChatbot(id, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getChatbot>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type GetChatbotQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getChatbot>>
->
+export type GetChatbotQueryResult = NonNullable<Awaited<ReturnType<typeof getChatbot>>>
 export type GetChatbotQueryError = ErrorType<ApiErrorResponseDto>
 
-export function useGetChatbot<
-  TData = Awaited<ReturnType<typeof getChatbot>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options: {
-    query: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getChatbot>>, TError, TData>
-    > &
-      Pick<
+
+export function useGetChatbot<TData = Awaited<ReturnType<typeof getChatbot>>, TError = ErrorType<ApiErrorResponseDto>>(
+ id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getChatbot>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getChatbot>>,
           TError,
           Awaited<ReturnType<typeof getChatbot>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useGetChatbot<
-  TData = Awaited<ReturnType<typeof getChatbot>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getChatbot>>, TError, TData>
-    > &
-      Pick<
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetChatbot<TData = Awaited<ReturnType<typeof getChatbot>>, TError = ErrorType<ApiErrorResponseDto>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getChatbot>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getChatbot>>,
           TError,
           Awaited<ReturnType<typeof getChatbot>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useGetChatbot<
-  TData = Awaited<ReturnType<typeof getChatbot>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getChatbot>>, TError, TData>
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetChatbot<TData = Awaited<ReturnType<typeof getChatbot>>, TError = ErrorType<ApiErrorResponseDto>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getChatbot>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetChatbot<TData = Awaited<ReturnType<typeof getChatbot>>, TError = ErrorType<ApiErrorResponseDto>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getChatbot>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetChatbotQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
 }
 
-export function useGetChatbot<
-  TData = Awaited<ReturnType<typeof getChatbot>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getChatbot>>, TError, TData>
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-} {
-  const queryOptions = getGetChatbotQueryOptions(id, options)
 
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
-}
+
+
 
 export const updateChatbot = (
-  id: number,
-  updateChatbotDto: BodyType<UpdateChatbotDto>,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+    id: number,
+    updateChatbotDto: BodyType<UpdateChatbotDto>,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<UpdateChatbotResponse>(
-    {
-      url: `/api/chatbots/${id}`,
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      data: updateChatbotDto,
-      signal,
+
+
+      return apiClient<UpdateChatbotResponse>(
+      {url: `/api/chatbots/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updateChatbotDto, signal
     },
-    options
-  )
-}
+      options);
+    }
 
-export const getUpdateChatbotMutationOptions = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof updateChatbot>>,
-    TError,
-    { id: number; data: BodyType<UpdateChatbotDto> },
-    TContext
-  >
-  request?: SecondParameter<typeof apiClient>
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof updateChatbot>>,
-  TError,
-  { id: number; data: BodyType<UpdateChatbotDto> },
-  TContext
-> => {
-  const mutationKey = ["updateChatbot"]
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof updateChatbot>>,
-    { id: number; data: BodyType<UpdateChatbotDto> }
-  > = (props) => {
-    const { id, data } = props ?? {}
 
-    return updateChatbot(id, data, requestOptions)
-  }
+export const getUpdateChatbotMutationOptions = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateChatbot>>, TError,{id: number;data: BodyType<UpdateChatbotDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateChatbot>>, TError,{id: number;data: BodyType<UpdateChatbotDto>}, TContext> => {
 
-  return { mutationFn, ...mutationOptions }
-}
+const mutationKey = ['updateChatbot'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type UpdateChatbotMutationResult = NonNullable<
-  Awaited<ReturnType<typeof updateChatbot>>
->
-export type UpdateChatbotMutationBody = BodyType<UpdateChatbotDto>
-export type UpdateChatbotMutationError = ErrorType<ApiErrorResponseDto>
 
-export const useUpdateChatbot = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof updateChatbot>>,
-      TError,
-      { id: number; data: BodyType<UpdateChatbotDto> },
-      TContext
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof updateChatbot>>,
-  TError,
-  { id: number; data: BodyType<UpdateChatbotDto> },
-  TContext
-> => {
-  return useMutation(getUpdateChatbotMutationOptions(options), queryClient)
-}
-export const deleteChatbot = (
-  id: number,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
-) => {
-  return apiClient<DeleteChatbotResponse>(
-    { url: `/api/chatbots/${id}`, method: "DELETE", signal },
-    options
-  )
-}
 
-export const getDeleteChatbotMutationOptions = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof deleteChatbot>>,
-    TError,
-    { id: number },
-    TContext
-  >
-  request?: SecondParameter<typeof apiClient>
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof deleteChatbot>>,
-  TError,
-  { id: number },
-  TContext
-> => {
-  const mutationKey = ["deleteChatbot"]
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof deleteChatbot>>,
-    { id: number }
-  > = (props) => {
-    const { id } = props ?? {}
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateChatbot>>, {id: number;data: BodyType<UpdateChatbotDto>}> = (props) => {
+          const {id,data} = props ?? {};
 
-    return deleteChatbot(id, requestOptions)
-  }
+          return  updateChatbot(id,data,requestOptions)
+        }
 
-  return { mutationFn, ...mutationOptions }
-}
 
-export type DeleteChatbotMutationResult = NonNullable<
-  Awaited<ReturnType<typeof deleteChatbot>>
->
 
-export type DeleteChatbotMutationError = ErrorType<ApiErrorResponseDto>
 
-export const useDeleteChatbot = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof deleteChatbot>>,
-      TError,
-      { id: number },
-      TContext
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof deleteChatbot>>,
-  TError,
-  { id: number },
-  TContext
-> => {
-  return useMutation(getDeleteChatbotMutationOptions(options), queryClient)
-}
-export const getChatbotUiSetting = (
-  id: number,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
-) => {
-  return apiClient<GetChatbotUiSettingResponse>(
-    { url: `/api/chatbots/${id}/ui-setting`, method: "GET", signal },
-    options
-  )
-}
 
-export const getGetChatbotUiSettingQueryKey = (id: number) => {
-  return [`/api/chatbots/${id}/ui-setting`] as const
-}
 
-export const getGetChatbotUiSettingQueryOptions = <
-  TData = Awaited<ReturnType<typeof getChatbotUiSetting>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getChatbotUiSetting>>,
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateChatbotMutationResult = NonNullable<Awaited<ReturnType<typeof updateChatbot>>>
+    export type UpdateChatbotMutationBody = BodyType<UpdateChatbotDto>
+    export type UpdateChatbotMutationError = ErrorType<ApiErrorResponseDto>
+
+    export const useUpdateChatbot = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateChatbot>>, TError,{id: number;data: BodyType<UpdateChatbotDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof updateChatbot>>,
         TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  }
+        {id: number;data: BodyType<UpdateChatbotDto>},
+        TContext
+      > => {
+      return useMutation(getUpdateChatbotMutationOptions(options), queryClient);
+    }
+    export const deleteChatbot = (
+    id: number,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {}
 
-  const queryKey = queryOptions?.queryKey ?? getGetChatbotUiSettingQueryKey(id)
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getChatbotUiSetting>>
-  > = ({ signal }) => getChatbotUiSetting(id, requestOptions, signal)
+      return apiClient<DeleteChatbotResponse>(
+      {url: `/api/chatbots/${id}`, method: 'DELETE', signal
+    },
+      options);
+    }
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: id !== null && id !== undefined,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof getChatbotUiSetting>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+
+export const getDeleteChatbotMutationOptions = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteChatbot>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteChatbot>>, TError,{id: number}, TContext> => {
+
+const mutationKey = ['deleteChatbot'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteChatbot>>, {id: number}> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteChatbot(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteChatbotMutationResult = NonNullable<Awaited<ReturnType<typeof deleteChatbot>>>
+
+    export type DeleteChatbotMutationError = ErrorType<ApiErrorResponseDto>
+
+    export const useDeleteChatbot = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteChatbot>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof deleteChatbot>>,
+        TError,
+        {id: number},
+        TContext
+      > => {
+      return useMutation(getDeleteChatbotMutationOptions(options), queryClient);
+    }
+    export const getChatbotUiSetting = (
+    id: number,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
+) => {
+
+
+      return apiClient<GetChatbotUiSettingResponse>(
+      {url: `/api/chatbots/${id}/ui-setting`, method: 'GET', signal
+    },
+      options);
+    }
+
+
+
+
+export const getGetChatbotUiSettingQueryKey = (id: number,) => {
+    return [
+    `/api/chatbots/${id}/ui-setting`
+    ] as const;
+    }
+
+
+export const getGetChatbotUiSettingQueryOptions = <TData = Awaited<ReturnType<typeof getChatbotUiSetting>>, TError = ErrorType<ApiErrorResponseDto>>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getChatbotUiSetting>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetChatbotUiSettingQueryKey(id);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getChatbotUiSetting>>> = ({ signal }) => getChatbotUiSetting(id, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getChatbotUiSetting>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type GetChatbotUiSettingQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getChatbotUiSetting>>
->
+export type GetChatbotUiSettingQueryResult = NonNullable<Awaited<ReturnType<typeof getChatbotUiSetting>>>
 export type GetChatbotUiSettingQueryError = ErrorType<ApiErrorResponseDto>
 
-export function useGetChatbotUiSetting<
-  TData = Awaited<ReturnType<typeof getChatbotUiSetting>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options: {
-    query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getChatbotUiSetting>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+
+export function useGetChatbotUiSetting<TData = Awaited<ReturnType<typeof getChatbotUiSetting>>, TError = ErrorType<ApiErrorResponseDto>>(
+ id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getChatbotUiSetting>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getChatbotUiSetting>>,
           TError,
           Awaited<ReturnType<typeof getChatbotUiSetting>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useGetChatbotUiSetting<
-  TData = Awaited<ReturnType<typeof getChatbotUiSetting>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getChatbotUiSetting>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetChatbotUiSetting<TData = Awaited<ReturnType<typeof getChatbotUiSetting>>, TError = ErrorType<ApiErrorResponseDto>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getChatbotUiSetting>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getChatbotUiSetting>>,
           TError,
           Awaited<ReturnType<typeof getChatbotUiSetting>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useGetChatbotUiSetting<
-  TData = Awaited<ReturnType<typeof getChatbotUiSetting>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getChatbotUiSetting>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetChatbotUiSetting<TData = Awaited<ReturnType<typeof getChatbotUiSetting>>, TError = ErrorType<ApiErrorResponseDto>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getChatbotUiSetting>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetChatbotUiSetting<TData = Awaited<ReturnType<typeof getChatbotUiSetting>>, TError = ErrorType<ApiErrorResponseDto>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getChatbotUiSetting>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetChatbotUiSettingQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
 }
 
-export function useGetChatbotUiSetting<
-  TData = Awaited<ReturnType<typeof getChatbotUiSetting>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getChatbotUiSetting>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-} {
-  const queryOptions = getGetChatbotUiSettingQueryOptions(id, options)
 
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
-}
+
+
 
 export const updateChatbotUiSetting = (
-  id: number,
-  updateChatbotUiSettingDto: BodyType<UpdateChatbotUiSettingDto>,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+    id: number,
+    updateChatbotUiSettingDto: BodyType<UpdateChatbotUiSettingDto>,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<UpdateChatbotUiSettingResponse>(
-    {
-      url: `/api/chatbots/${id}/ui-setting`,
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      data: updateChatbotUiSettingDto,
-      signal,
+
+
+      return apiClient<UpdateChatbotUiSettingResponse>(
+      {url: `/api/chatbots/${id}/ui-setting`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updateChatbotUiSettingDto, signal
     },
-    options
-  )
-}
+      options);
+    }
 
-export const getUpdateChatbotUiSettingMutationOptions = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof updateChatbotUiSetting>>,
-    TError,
-    { id: number; data: BodyType<UpdateChatbotUiSettingDto> },
-    TContext
-  >
-  request?: SecondParameter<typeof apiClient>
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof updateChatbotUiSetting>>,
-  TError,
-  { id: number; data: BodyType<UpdateChatbotUiSettingDto> },
-  TContext
-> => {
-  const mutationKey = ["updateChatbotUiSetting"]
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof updateChatbotUiSetting>>,
-    { id: number; data: BodyType<UpdateChatbotUiSettingDto> }
-  > = (props) => {
-    const { id, data } = props ?? {}
 
-    return updateChatbotUiSetting(id, data, requestOptions)
-  }
+export const getUpdateChatbotUiSettingMutationOptions = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateChatbotUiSetting>>, TError,{id: number;data: BodyType<UpdateChatbotUiSettingDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateChatbotUiSetting>>, TError,{id: number;data: BodyType<UpdateChatbotUiSettingDto>}, TContext> => {
 
-  return { mutationFn, ...mutationOptions }
-}
+const mutationKey = ['updateChatbotUiSetting'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type UpdateChatbotUiSettingMutationResult = NonNullable<
-  Awaited<ReturnType<typeof updateChatbotUiSetting>>
->
-export type UpdateChatbotUiSettingMutationBody =
-  BodyType<UpdateChatbotUiSettingDto>
-export type UpdateChatbotUiSettingMutationError = ErrorType<ApiErrorResponseDto>
 
-export const useUpdateChatbotUiSetting = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof updateChatbotUiSetting>>,
-      TError,
-      { id: number; data: BodyType<UpdateChatbotUiSettingDto> },
-      TContext
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof updateChatbotUiSetting>>,
-  TError,
-  { id: number; data: BodyType<UpdateChatbotUiSettingDto> },
-  TContext
-> => {
-  return useMutation(
-    getUpdateChatbotUiSettingMutationOptions(options),
-    queryClient
-  )
-}
-export const getChatbotEmbedSetting = (
-  id: number,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
-) => {
-  return apiClient<GetChatbotEmbedSettingResponse>(
-    { url: `/api/chatbots/${id}/embed-setting`, method: "GET", signal },
-    options
-  )
-}
 
-export const getGetChatbotEmbedSettingQueryKey = (id: number) => {
-  return [`/api/chatbots/${id}/embed-setting`] as const
-}
 
-export const getGetChatbotEmbedSettingQueryOptions = <
-  TData = Awaited<ReturnType<typeof getChatbotEmbedSetting>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getChatbotEmbedSetting>>,
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateChatbotUiSetting>>, {id: number;data: BodyType<UpdateChatbotUiSettingDto>}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateChatbotUiSetting(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateChatbotUiSettingMutationResult = NonNullable<Awaited<ReturnType<typeof updateChatbotUiSetting>>>
+    export type UpdateChatbotUiSettingMutationBody = BodyType<UpdateChatbotUiSettingDto>
+    export type UpdateChatbotUiSettingMutationError = ErrorType<ApiErrorResponseDto>
+
+    export const useUpdateChatbotUiSetting = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateChatbotUiSetting>>, TError,{id: number;data: BodyType<UpdateChatbotUiSettingDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof updateChatbotUiSetting>>,
         TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  }
+        {id: number;data: BodyType<UpdateChatbotUiSettingDto>},
+        TContext
+      > => {
+      return useMutation(getUpdateChatbotUiSettingMutationOptions(options), queryClient);
+    }
+    export const getChatbotEmbedSetting = (
+    id: number,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {}
 
-  const queryKey =
-    queryOptions?.queryKey ?? getGetChatbotEmbedSettingQueryKey(id)
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getChatbotEmbedSetting>>
-  > = ({ signal }) => getChatbotEmbedSetting(id, requestOptions, signal)
+      return apiClient<GetChatbotEmbedSettingResponse>(
+      {url: `/api/chatbots/${id}/embed-setting`, method: 'GET', signal
+    },
+      options);
+    }
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: id !== null && id !== undefined,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof getChatbotEmbedSetting>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+
+
+export const getGetChatbotEmbedSettingQueryKey = (id: number,) => {
+    return [
+    `/api/chatbots/${id}/embed-setting`
+    ] as const;
+    }
+
+
+export const getGetChatbotEmbedSettingQueryOptions = <TData = Awaited<ReturnType<typeof getChatbotEmbedSetting>>, TError = ErrorType<ApiErrorResponseDto>>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getChatbotEmbedSetting>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetChatbotEmbedSettingQueryKey(id);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getChatbotEmbedSetting>>> = ({ signal }) => getChatbotEmbedSetting(id, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getChatbotEmbedSetting>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type GetChatbotEmbedSettingQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getChatbotEmbedSetting>>
->
+export type GetChatbotEmbedSettingQueryResult = NonNullable<Awaited<ReturnType<typeof getChatbotEmbedSetting>>>
 export type GetChatbotEmbedSettingQueryError = ErrorType<ApiErrorResponseDto>
 
-export function useGetChatbotEmbedSetting<
-  TData = Awaited<ReturnType<typeof getChatbotEmbedSetting>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options: {
-    query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getChatbotEmbedSetting>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+
+export function useGetChatbotEmbedSetting<TData = Awaited<ReturnType<typeof getChatbotEmbedSetting>>, TError = ErrorType<ApiErrorResponseDto>>(
+ id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getChatbotEmbedSetting>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getChatbotEmbedSetting>>,
           TError,
           Awaited<ReturnType<typeof getChatbotEmbedSetting>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useGetChatbotEmbedSetting<
-  TData = Awaited<ReturnType<typeof getChatbotEmbedSetting>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getChatbotEmbedSetting>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetChatbotEmbedSetting<TData = Awaited<ReturnType<typeof getChatbotEmbedSetting>>, TError = ErrorType<ApiErrorResponseDto>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getChatbotEmbedSetting>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getChatbotEmbedSetting>>,
           TError,
           Awaited<ReturnType<typeof getChatbotEmbedSetting>>
-        >,
-        "initialData"
-      >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useGetChatbotEmbedSetting<
-  TData = Awaited<ReturnType<typeof getChatbotEmbedSetting>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getChatbotEmbedSetting>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetChatbotEmbedSetting<TData = Awaited<ReturnType<typeof getChatbotEmbedSetting>>, TError = ErrorType<ApiErrorResponseDto>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getChatbotEmbedSetting>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetChatbotEmbedSetting<TData = Awaited<ReturnType<typeof getChatbotEmbedSetting>>, TError = ErrorType<ApiErrorResponseDto>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getChatbotEmbedSetting>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetChatbotEmbedSettingQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
 }
 
-export function useGetChatbotEmbedSetting<
-  TData = Awaited<ReturnType<typeof getChatbotEmbedSetting>>,
-  TError = ErrorType<ApiErrorResponseDto>,
->(
-  id: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getChatbotEmbedSetting>>,
-        TError,
-        TData
-      >
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-} {
-  const queryOptions = getGetChatbotEmbedSettingQueryOptions(id, options)
 
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
-}
+
+
 
 export const updateChatbotEmbedSetting = (
-  id: number,
-  updateChatbotEmbedSettingDto: BodyType<UpdateChatbotEmbedSettingDto>,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+    id: number,
+    updateChatbotEmbedSettingDto: BodyType<UpdateChatbotEmbedSettingDto>,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<UpdateChatbotEmbedSettingResponse>(
-    {
-      url: `/api/chatbots/${id}/embed-setting`,
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      data: updateChatbotEmbedSettingDto,
-      signal,
+
+
+      return apiClient<UpdateChatbotEmbedSettingResponse>(
+      {url: `/api/chatbots/${id}/embed-setting`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updateChatbotEmbedSettingDto, signal
     },
-    options
-  )
-}
+      options);
+    }
 
-export const getUpdateChatbotEmbedSettingMutationOptions = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof updateChatbotEmbedSetting>>,
-    TError,
-    { id: number; data: BodyType<UpdateChatbotEmbedSettingDto> },
-    TContext
-  >
-  request?: SecondParameter<typeof apiClient>
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof updateChatbotEmbedSetting>>,
-  TError,
-  { id: number; data: BodyType<UpdateChatbotEmbedSettingDto> },
-  TContext
-> => {
-  const mutationKey = ["updateChatbotEmbedSetting"]
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof updateChatbotEmbedSetting>>,
-    { id: number; data: BodyType<UpdateChatbotEmbedSettingDto> }
-  > = (props) => {
-    const { id, data } = props ?? {}
 
-    return updateChatbotEmbedSetting(id, data, requestOptions)
-  }
+export const getUpdateChatbotEmbedSettingMutationOptions = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateChatbotEmbedSetting>>, TError,{id: number;data: BodyType<UpdateChatbotEmbedSettingDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateChatbotEmbedSetting>>, TError,{id: number;data: BodyType<UpdateChatbotEmbedSettingDto>}, TContext> => {
 
-  return { mutationFn, ...mutationOptions }
-}
+const mutationKey = ['updateChatbotEmbedSetting'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type UpdateChatbotEmbedSettingMutationResult = NonNullable<
-  Awaited<ReturnType<typeof updateChatbotEmbedSetting>>
->
-export type UpdateChatbotEmbedSettingMutationBody =
-  BodyType<UpdateChatbotEmbedSettingDto>
-export type UpdateChatbotEmbedSettingMutationError =
-  ErrorType<ApiErrorResponseDto>
 
-export const useUpdateChatbotEmbedSetting = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof updateChatbotEmbedSetting>>,
-      TError,
-      { id: number; data: BodyType<UpdateChatbotEmbedSettingDto> },
-      TContext
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof updateChatbotEmbedSetting>>,
-  TError,
-  { id: number; data: BodyType<UpdateChatbotEmbedSettingDto> },
-  TContext
-> => {
-  return useMutation(
-    getUpdateChatbotEmbedSettingMutationOptions(options),
-    queryClient
-  )
-}
-export const rotateChatbotEmbedPublicKey = (
-  id: number,
-  options?: SecondParameter<typeof apiClient>,
-  signal?: AbortSignal
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateChatbotEmbedSetting>>, {id: number;data: BodyType<UpdateChatbotEmbedSettingDto>}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateChatbotEmbedSetting(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateChatbotEmbedSettingMutationResult = NonNullable<Awaited<ReturnType<typeof updateChatbotEmbedSetting>>>
+    export type UpdateChatbotEmbedSettingMutationBody = BodyType<UpdateChatbotEmbedSettingDto>
+    export type UpdateChatbotEmbedSettingMutationError = ErrorType<ApiErrorResponseDto>
+
+    export const useUpdateChatbotEmbedSetting = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateChatbotEmbedSetting>>, TError,{id: number;data: BodyType<UpdateChatbotEmbedSettingDto>}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof updateChatbotEmbedSetting>>,
+        TError,
+        {id: number;data: BodyType<UpdateChatbotEmbedSettingDto>},
+        TContext
+      > => {
+      return useMutation(getUpdateChatbotEmbedSettingMutationOptions(options), queryClient);
+    }
+    export const rotateChatbotEmbedPublicKey = (
+    id: number,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
-  return apiClient<RotateChatbotEmbedPublicKeyResponse>(
-    {
-      url: `/api/chatbots/${id}/embed-setting/rotate-public-key`,
-      method: "POST",
-      signal,
+
+
+      return apiClient<RotateChatbotEmbedPublicKeyResponse>(
+      {url: `/api/chatbots/${id}/embed-setting/rotate-public-key`, method: 'POST', signal
     },
-    options
-  )
-}
+      options);
+    }
 
-export const getRotateChatbotEmbedPublicKeyMutationOptions = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof rotateChatbotEmbedPublicKey>>,
-    TError,
-    { id: number },
-    TContext
-  >
-  request?: SecondParameter<typeof apiClient>
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof rotateChatbotEmbedPublicKey>>,
-  TError,
-  { id: number },
-  TContext
-> => {
-  const mutationKey = ["rotateChatbotEmbedPublicKey"]
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof rotateChatbotEmbedPublicKey>>,
-    { id: number }
-  > = (props) => {
-    const { id } = props ?? {}
 
-    return rotateChatbotEmbedPublicKey(id, requestOptions)
-  }
+export const getRotateChatbotEmbedPublicKeyMutationOptions = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof rotateChatbotEmbedPublicKey>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof rotateChatbotEmbedPublicKey>>, TError,{id: number}, TContext> => {
 
-  return { mutationFn, ...mutationOptions }
-}
+const mutationKey = ['rotateChatbotEmbedPublicKey'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type RotateChatbotEmbedPublicKeyMutationResult = NonNullable<
-  Awaited<ReturnType<typeof rotateChatbotEmbedPublicKey>>
->
 
-export type RotateChatbotEmbedPublicKeyMutationError =
-  ErrorType<ApiErrorResponseDto>
 
-export const useRotateChatbotEmbedPublicKey = <
-  TError = ErrorType<ApiErrorResponseDto>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof rotateChatbotEmbedPublicKey>>,
-      TError,
-      { id: number },
-      TContext
-    >
-    request?: SecondParameter<typeof apiClient>
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof rotateChatbotEmbedPublicKey>>,
-  TError,
-  { id: number },
-  TContext
-> => {
-  return useMutation(
-    getRotateChatbotEmbedPublicKeyMutationOptions(options),
-    queryClient
-  )
-}
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof rotateChatbotEmbedPublicKey>>, {id: number}> = (props) => {
+          const {id} = props ?? {};
+
+          return  rotateChatbotEmbedPublicKey(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type RotateChatbotEmbedPublicKeyMutationResult = NonNullable<Awaited<ReturnType<typeof rotateChatbotEmbedPublicKey>>>
+
+    export type RotateChatbotEmbedPublicKeyMutationError = ErrorType<ApiErrorResponseDto>
+
+    export const useRotateChatbotEmbedPublicKey = <TError = ErrorType<ApiErrorResponseDto>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof rotateChatbotEmbedPublicKey>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof rotateChatbotEmbedPublicKey>>,
+        TError,
+        {id: number},
+        TContext
+      > => {
+      return useMutation(getRotateChatbotEmbedPublicKeyMutationOptions(options), queryClient);
+    }

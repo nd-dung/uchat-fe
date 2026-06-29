@@ -7,5 +7,5 @@
  */
 
 export interface CreateWidgetMessageDto {
-  content: string
+  content: string;
 }

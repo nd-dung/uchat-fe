@@ -7,10 +7,10 @@
  */
 
 export interface ChatbotWelcomeConfigResponseDto {
-  welcome_screen_enabled: boolean
-  welcome_title: string
-  welcome_subtitle?: string
-  welcome_message: string
-  welcome_avatar_url?: string
-  welcome_background_color: string
+  welcome_screen_enabled: boolean;
+  welcome_title: string;
+  welcome_subtitle?: string;
+  welcome_message: string;
+  welcome_avatar_url?: string;
+  welcome_background_color: string;
 }

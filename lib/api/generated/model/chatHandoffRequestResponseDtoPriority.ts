@@ -6,11 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ChatHandoffRequestResponseDtoPriority =
-  (typeof ChatHandoffRequestResponseDtoPriority)[keyof typeof ChatHandoffRequestResponseDtoPriority]
+export type ChatHandoffRequestResponseDtoPriority = typeof ChatHandoffRequestResponseDtoPriority[keyof typeof ChatHandoffRequestResponseDtoPriority];
+
 
 export const ChatHandoffRequestResponseDtoPriority = {
-  low: "low",
-  normal: "normal",
-  high: "high",
-} as const
+  low: 'low',
+  normal: 'normal',
+  high: 'high',
+} as const;

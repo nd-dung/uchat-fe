@@ -5,233 +5,209 @@
  * Uchat API Documentation
  * OpenAPI spec version: 1.0
  */
-import * as zod from "zod"
+import * as zod from 'zod';
 
-export const listConversationFeedbacksQueryPageDefault = 1
-export const listConversationFeedbacksQueryLimitDefault = 20
-export const listConversationFeedbacksQueryRatingMax = 5
+
+export const listConversationFeedbacksQueryPageDefault = 1;
+export const listConversationFeedbacksQueryLimitDefault = 20;
+export const listConversationFeedbacksQueryRatingMax = 5;
+
+
 
 export const ListConversationFeedbacksQueryParams = zod.object({
-  page: zod.number().default(listConversationFeedbacksQueryPageDefault),
-  limit: zod.number().default(listConversationFeedbacksQueryLimitDefault),
-  chatbot_id: zod.number().optional(),
-  conversation_id: zod.number().optional(),
-  rating: zod
-    .number()
-    .min(1)
-    .max(listConversationFeedbacksQueryRatingMax)
-    .optional(),
-  status: zod.enum(["new", "reviewing", "resolved", "ignored"]).optional(),
-  from_date: zod.string().optional(),
-  to_date: zod.string().optional(),
-  keyword: zod.string().optional(),
-  satisfaction_level: zod
-    .enum(["satisfied", "neutral", "unsatisfied"])
-    .optional(),
+  "page": zod.number().default(listConversationFeedbacksQueryPageDefault),
+  "limit": zod.number().default(listConversationFeedbacksQueryLimitDefault),
+  "chatbot_id": zod.number().optional(),
+  "conversation_id": zod.number().optional(),
+  "rating": zod.number().min(1).max(listConversationFeedbacksQueryRatingMax).optional(),
+  "status": zod.enum(['new', 'reviewing', 'resolved', 'ignored']).optional(),
+  "from_date": zod.string().optional(),
+  "to_date": zod.string().optional(),
+  "keyword": zod.string().optional(),
+  "satisfaction_level": zod.enum(['satisfied', 'neutral', 'unsatisfied']).optional()
 })
 
-export const ListConversationFeedbacksResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          items: zod.array(
-            zod.object({
-              id: zod.number(),
-              conversation_id: zod.number(),
-              visitor_id: zod.number(),
-              chatbot_id: zod.number(),
-              facility_id: zod.number(),
-              rating: zod.number().nullish(),
-              satisfaction_level: zod
-                .enum(["satisfied", "neutral", "unsatisfied"])
-                .nullish(),
-              comment: zod.looseObject({}).nullish(),
-              status: zod.enum(["new", "reviewing", "resolved", "ignored"]),
-              reviewed_by: zod.number().nullish(),
-              reviewed_at: zod.string().nullish(),
-              resolved_at: zod.string().nullish(),
-              metadata: zod.record(zod.string(), zod.unknown()).nullish(),
-              created_at: zod.string(),
-              updated_at: zod.string(),
-              conversation: zod.object({
-                id: zod.number(),
-                visitor_id: zod.number(),
-                chatbot_id: zod.number(),
-                facility_id: zod.number(),
-                assigned_staff_id: zod.number().nullish(),
-                status: zod.enum([
-                  "bot_active",
-                  "handoff_requested",
-                  "staff_assigned",
-                  "staff_active",
-                  "closed",
-                ]),
-                channel: zod.string(),
-                started_at: zod.string(),
-                last_message_at: zod.string().nullish(),
-                ended_at: zod.string().nullish(),
-                metadata: zod.record(zod.string(), zod.unknown()).nullish(),
-                created_at: zod.string(),
-                updated_at: zod.string(),
-              }),
-              visitor: zod.object({
-                id: zod.number(),
-                visitor_uid: zod.string(),
-                name: zod.looseObject({}).nullish(),
-                email: zod.looseObject({}).nullish(),
-                phone: zod.looseObject({}).nullish(),
-              }),
-            })
-          ),
-          pagination: zod.object({
-            page: zod.number(),
-            limit: zod.number(),
-            total: zod.number(),
-            total_pages: zod.number(),
-          }),
-        })
-        .optional(),
-    })
-  )
+export const ListConversationFeedbacksResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "items": zod.array(zod.object({
+  "id": zod.number(),
+  "conversation_id": zod.number(),
+  "visitor_id": zod.number(),
+  "chatbot_id": zod.number(),
+  "facility_id": zod.number(),
+  "rating": zod.number().nullish(),
+  "satisfaction_level": zod.enum(['satisfied', 'neutral', 'unsatisfied']).nullish(),
+  "comment": zod.looseObject({
+
+}).nullish(),
+  "status": zod.enum(['new', 'reviewing', 'resolved', 'ignored']),
+  "reviewed_by": zod.number().nullish(),
+  "reviewed_at": zod.string().nullish(),
+  "resolved_at": zod.string().nullish(),
+  "metadata": zod.record(zod.string(), zod.unknown()).nullish(),
+  "created_at": zod.string(),
+  "updated_at": zod.string(),
+  "conversation": zod.object({
+  "id": zod.number(),
+  "visitor_id": zod.number(),
+  "chatbot_id": zod.number(),
+  "facility_id": zod.number(),
+  "assigned_staff_id": zod.number().nullish(),
+  "status": zod.enum(['bot_active', 'handoff_requested', 'staff_assigned', 'staff_active', 'closed']),
+  "channel": zod.string(),
+  "started_at": zod.string(),
+  "last_message_at": zod.string().nullish(),
+  "ended_at": zod.string().nullish(),
+  "metadata": zod.record(zod.string(), zod.unknown()).nullish(),
+  "created_at": zod.string(),
+  "updated_at": zod.string()
+}),
+  "visitor": zod.object({
+  "id": zod.number(),
+  "visitor_uid": zod.string(),
+  "name": zod.looseObject({
+
+}).nullish(),
+  "email": zod.looseObject({
+
+}).nullish(),
+  "phone": zod.looseObject({
+
+}).nullish()
+})
+})),
+  "pagination": zod.object({
+  "page": zod.number(),
+  "limit": zod.number(),
+  "total": zod.number(),
+  "total_pages": zod.number()
+})
+}).optional()
+}))
 
 export const GetConversationFeedbackParams = zod.object({
-  id: zod.number(),
+  "id": zod.number()
 })
 
-export const GetConversationFeedbackResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          id: zod.number(),
-          conversation_id: zod.number(),
-          visitor_id: zod.number(),
-          chatbot_id: zod.number(),
-          facility_id: zod.number(),
-          rating: zod.number().nullish(),
-          satisfaction_level: zod
-            .enum(["satisfied", "neutral", "unsatisfied"])
-            .nullish(),
-          comment: zod.looseObject({}).nullish(),
-          status: zod.enum(["new", "reviewing", "resolved", "ignored"]),
-          reviewed_by: zod.number().nullish(),
-          reviewed_at: zod.string().nullish(),
-          resolved_at: zod.string().nullish(),
-          metadata: zod.record(zod.string(), zod.unknown()).nullish(),
-          created_at: zod.string(),
-          updated_at: zod.string(),
-          conversation: zod.object({
-            id: zod.number(),
-            visitor_id: zod.number(),
-            chatbot_id: zod.number(),
-            facility_id: zod.number(),
-            assigned_staff_id: zod.number().nullish(),
-            status: zod.enum([
-              "bot_active",
-              "handoff_requested",
-              "staff_assigned",
-              "staff_active",
-              "closed",
-            ]),
-            channel: zod.string(),
-            started_at: zod.string(),
-            last_message_at: zod.string().nullish(),
-            ended_at: zod.string().nullish(),
-            metadata: zod.record(zod.string(), zod.unknown()).nullish(),
-            created_at: zod.string(),
-            updated_at: zod.string(),
-          }),
-          visitor: zod.object({
-            id: zod.number(),
-            visitor_uid: zod.string(),
-            name: zod.looseObject({}).nullish(),
-            email: zod.looseObject({}).nullish(),
-            phone: zod.looseObject({}).nullish(),
-          }),
-          messages: zod.array(
-            zod.object({
-              id: zod.number(),
-              conversation_id: zod.number(),
-              sender_type: zod.enum(["visitor", "bot", "staff", "system"]),
-              sender_id: zod.number().nullish(),
-              message_type: zod.enum(["text", "system_event", "image", "file"]),
-              content: zod.looseObject({}).nullish(),
-              answer_status: zod
-                .enum(["answered", "fallback", "error"])
-                .nullish(),
-              metadata: zod.record(zod.string(), zod.unknown()).nullish(),
-              sent_at: zod.string(),
-              created_at: zod.string(),
-              updated_at: zod.string(),
-            })
-          ),
-        })
-        .optional(),
-    })
-  )
+export const GetConversationFeedbackResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "id": zod.number(),
+  "conversation_id": zod.number(),
+  "visitor_id": zod.number(),
+  "chatbot_id": zod.number(),
+  "facility_id": zod.number(),
+  "rating": zod.number().nullish(),
+  "satisfaction_level": zod.enum(['satisfied', 'neutral', 'unsatisfied']).nullish(),
+  "comment": zod.looseObject({
+
+}).nullish(),
+  "status": zod.enum(['new', 'reviewing', 'resolved', 'ignored']),
+  "reviewed_by": zod.number().nullish(),
+  "reviewed_at": zod.string().nullish(),
+  "resolved_at": zod.string().nullish(),
+  "metadata": zod.record(zod.string(), zod.unknown()).nullish(),
+  "created_at": zod.string(),
+  "updated_at": zod.string(),
+  "conversation": zod.object({
+  "id": zod.number(),
+  "visitor_id": zod.number(),
+  "chatbot_id": zod.number(),
+  "facility_id": zod.number(),
+  "assigned_staff_id": zod.number().nullish(),
+  "status": zod.enum(['bot_active', 'handoff_requested', 'staff_assigned', 'staff_active', 'closed']),
+  "channel": zod.string(),
+  "started_at": zod.string(),
+  "last_message_at": zod.string().nullish(),
+  "ended_at": zod.string().nullish(),
+  "metadata": zod.record(zod.string(), zod.unknown()).nullish(),
+  "created_at": zod.string(),
+  "updated_at": zod.string()
+}),
+  "visitor": zod.object({
+  "id": zod.number(),
+  "visitor_uid": zod.string(),
+  "name": zod.looseObject({
+
+}).nullish(),
+  "email": zod.looseObject({
+
+}).nullish(),
+  "phone": zod.looseObject({
+
+}).nullish()
+}),
+  "messages": zod.array(zod.object({
+  "id": zod.number(),
+  "conversation_id": zod.number(),
+  "sender_type": zod.enum(['visitor', 'bot', 'staff', 'system']),
+  "sender_id": zod.number().nullish(),
+  "message_type": zod.enum(['text', 'system_event', 'image', 'file']),
+  "content": zod.looseObject({
+
+}).nullish(),
+  "answer_status": zod.enum(['answered', 'fallback', 'error']).nullish(),
+  "metadata": zod.record(zod.string(), zod.unknown()).nullish(),
+  "sent_at": zod.string(),
+  "created_at": zod.string(),
+  "updated_at": zod.string()
+}))
+}).optional()
+}))
 
 export const UpdateConversationFeedbackStatusParams = zod.object({
-  id: zod.number(),
+  "id": zod.number()
 })
 
 export const UpdateConversationFeedbackStatusBody = zod.object({
-  status: zod.enum(["new", "reviewing", "resolved", "ignored"]),
+  "status": zod.enum(['new', 'reviewing', 'resolved', 'ignored'])
 })
 
-export const UpdateConversationFeedbackStatusResponse = zod
-  .object({
-    success: zod.boolean(),
-    status_code: zod.number(),
-    message: zod.string(),
-    meta_data: zod.object({
-      timestamp: zod.string(),
-      path: zod.string(),
-      method: zod.string(),
-    }),
-  })
-  .and(
-    zod.object({
-      data: zod
-        .object({
-          id: zod.number(),
-          conversation_id: zod.number(),
-          visitor_id: zod.number(),
-          chatbot_id: zod.number(),
-          facility_id: zod.number(),
-          rating: zod.number().nullish(),
-          satisfaction_level: zod
-            .enum(["satisfied", "neutral", "unsatisfied"])
-            .nullish(),
-          comment: zod.looseObject({}).nullish(),
-          status: zod.enum(["new", "reviewing", "resolved", "ignored"]),
-          reviewed_by: zod.number().nullish(),
-          reviewed_at: zod.string().nullish(),
-          resolved_at: zod.string().nullish(),
-          metadata: zod.record(zod.string(), zod.unknown()).nullish(),
-          created_at: zod.string(),
-          updated_at: zod.string(),
-        })
-        .optional(),
-    })
-  )
+export const UpdateConversationFeedbackStatusResponse = zod.object({
+  "success": zod.boolean(),
+  "status_code": zod.number(),
+  "message": zod.string(),
+  "meta_data": zod.object({
+  "timestamp": zod.string(),
+  "path": zod.string(),
+  "method": zod.string()
+})
+}).and(zod.object({
+  "data": zod.object({
+  "id": zod.number(),
+  "conversation_id": zod.number(),
+  "visitor_id": zod.number(),
+  "chatbot_id": zod.number(),
+  "facility_id": zod.number(),
+  "rating": zod.number().nullish(),
+  "satisfaction_level": zod.enum(['satisfied', 'neutral', 'unsatisfied']).nullish(),
+  "comment": zod.looseObject({
+
+}).nullish(),
+  "status": zod.enum(['new', 'reviewing', 'resolved', 'ignored']),
+  "reviewed_by": zod.number().nullish(),
+  "reviewed_at": zod.string().nullish(),
+  "resolved_at": zod.string().nullish(),
+  "metadata": zod.record(zod.string(), zod.unknown()).nullish(),
+  "created_at": zod.string(),
+  "updated_at": zod.string()
+}).optional()
+}))
+

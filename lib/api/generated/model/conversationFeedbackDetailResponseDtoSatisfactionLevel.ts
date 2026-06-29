@@ -9,12 +9,11 @@
 /**
  * @nullable
  */
-export type ConversationFeedbackDetailResponseDtoSatisfactionLevel =
-  | (typeof ConversationFeedbackDetailResponseDtoSatisfactionLevel)[keyof typeof ConversationFeedbackDetailResponseDtoSatisfactionLevel]
-  | null
+export type ConversationFeedbackDetailResponseDtoSatisfactionLevel = typeof ConversationFeedbackDetailResponseDtoSatisfactionLevel[keyof typeof ConversationFeedbackDetailResponseDtoSatisfactionLevel] | null;
+
 
 export const ConversationFeedbackDetailResponseDtoSatisfactionLevel = {
-  satisfied: "satisfied",
-  neutral: "neutral",
-  unsatisfied: "unsatisfied",
-} as const
+  satisfied: 'satisfied',
+  neutral: 'neutral',
+  unsatisfied: 'unsatisfied',
+} as const;

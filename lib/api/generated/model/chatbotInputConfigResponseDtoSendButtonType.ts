@@ -6,11 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ChatbotInputConfigResponseDtoSendButtonType =
-  (typeof ChatbotInputConfigResponseDtoSendButtonType)[keyof typeof ChatbotInputConfigResponseDtoSendButtonType]
+export type ChatbotInputConfigResponseDtoSendButtonType = typeof ChatbotInputConfigResponseDtoSendButtonType[keyof typeof ChatbotInputConfigResponseDtoSendButtonType];
+
 
 export const ChatbotInputConfigResponseDtoSendButtonType = {
-  icon: "icon",
-  text: "text",
-  icon_text: "icon_text",
-} as const
+  icon: 'icon',
+  text: 'text',
+  icon_text: 'icon_text',
+} as const;

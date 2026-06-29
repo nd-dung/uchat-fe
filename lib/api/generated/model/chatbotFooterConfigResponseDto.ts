@@ -7,9 +7,9 @@
  */
 
 export interface ChatbotFooterConfigResponseDto {
-  footer_enabled: boolean
-  footer_text: string
-  footer_text_color: string
-  footer_link_url?: string
-  show_powered_by: boolean
+  footer_enabled: boolean;
+  footer_text: string;
+  footer_text_color: string;
+  footer_link_url?: string;
+  show_powered_by: boolean;
 }
