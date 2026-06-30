@@ -3,6 +3,7 @@
 import * as React from "react"
 import { NavMain } from "@/components/nav-main"
 import { NavUser } from "@/components/nav-user"
+import { useAuth } from "@/hooks/use-auth"
 import {
   Sidebar,
   SidebarContent,
@@ -17,13 +18,25 @@ import {
   BotIcon,
   SlidersHorizontalIcon,
   MessageSquareIcon,
+  Link2Icon,
 } from "lucide-react"
 import { useGetFacility } from "@/lib/api/generated/facilities/facilities"
+import { CurrentUserResponseDtoRole } from "@/lib/api/generated/model/currentUserResponseDtoRole"
+
+const CONVERSATION_PERMISSIONS = [
+  "conversation.view",
+  "conversation.reply",
+  "conversation.close",
+  "handoff_request.view",
+  "handoff_request.assign",
+  "handoff_request.resolve",
+]
 
 export function FacilitySidebar({
   facilityId,
   ...props
 }: { facilityId: number } & React.ComponentProps<typeof Sidebar>) {
+  const { user } = useAuth()
   const { data: facilityData } = useGetFacility(facilityId, {
     query: {
       staleTime: 5 * 60 * 1000,
@@ -31,12 +44,19 @@ export function FacilitySidebar({
   })
   const facilityName = facilityData?.data?.name || "Khoa"
   const facilityCode = facilityData?.data?.code || facilityName.charAt(0).toUpperCase()
+  const isFacilityAdmin = user?.role === CurrentUserResponseDtoRole.facility_admin
+  const userPermissions = user?.permissions ?? []
+  const canViewConversations =
+    isFacilityAdmin ||
+    CONVERSATION_PERMISSIONS.some((permission) =>
+      userPermissions.includes(permission)
+    )
 
   const data = {
     user: {
-      name: "shadcn",
-      email: "m@example.com",
-      avatar: "/avatars/shadcn.jpg",
+      name: user?.name ?? "Người dùng",
+      email: user?.email ?? "",
+      avatar: user?.avatar ?? "",
     },
     navMain: [
       {
@@ -44,32 +64,49 @@ export function FacilitySidebar({
         url: `/facility/${facilityId}/dashboard`,
         icon: <LayoutDashboardIcon />,
       },
-      {
-        title: "Người dùng khoa",
-        url: `/facility/${facilityId}/users`,
-        icon: <UsersIcon />,
-      },
-      {
-        title: "Cấu hình Chatbot",
-        url: `/facility/${facilityId}/chatbot-config`,
-        icon: <SlidersHorizontalIcon />,
-      },
-      {
-        title: "Cuộc trò chuyện",
-        url: `/facility/${facilityId}/conversations`,
-        icon: <MessageSquareIcon />,
-      },
-      {
-        title: "Chatbot Studio",
-        url: `/facility/${facilityId}/chatbots`,
-        icon: <BotIcon />,
-      },
-      {
-        title: "Cài đặt",
-        url: `/facility/${facilityId}/settings`,
-        icon: <Settings2Icon />,
-      },
-    ],
+      ...(isFacilityAdmin
+        ? [
+            {
+              title: "Người dùng khoa",
+              url: `/facility/${facilityId}/users`,
+              icon: <UsersIcon />,
+            },
+            {
+              title: "Cấu hình Chatbot",
+              url: `/facility/${facilityId}/chatbot-config`,
+              icon: <SlidersHorizontalIcon />,
+            },
+          ]
+        : []),
+      ...(canViewConversations
+        ? [
+            {
+              title: "Cuộc trò chuyện",
+              url: `/facility/${facilityId}/conversations`,
+              icon: <MessageSquareIcon />,
+            },
+          ]
+        : []),
+      ...(isFacilityAdmin
+        ? [
+            {
+              title: "Chatbot Studio",
+              url: `/facility/${facilityId}/chatbots`,
+              icon: <BotIcon />,
+            },
+            {
+              title: "Tích hợp MXH",
+              url: `/facility/${facilityId}/social-integration`,
+              icon: <Link2Icon />,
+            },
+            {
+              title: "Cài đặt",
+              url: `/facility/${facilityId}/settings`,
+              icon: <Settings2Icon />,
+            },
+          ]
+        : []),
+    ].filter(Boolean),
   }
 
   return (

@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
+import { Skeleton } from "@/components/ui/skeleton"
 import { Loader2, Copy, Check, RefreshCw, Plus, X } from "lucide-react"
 import { useQueryClient } from "@tanstack/react-query"
 import {
@@ -23,7 +24,6 @@ interface EmbedTabProps {
 export function EmbedTab({ chatbotId, facilityId }: EmbedTabProps) {
   const queryClient = useQueryClient()
   const [copied, setCopied] = React.useState<string | null>(null)
-  const [widgetUrl, setWidgetUrl] = React.useState("")
   const [newOrigin, setNewOrigin] = React.useState("")
 
   const queryKey = getGetChatbotEmbedSettingQueryKey(chatbotId ?? 0)
@@ -36,15 +36,9 @@ export function EmbedTab({ chatbotId, facilityId }: EmbedTabProps) {
 
   const embedSetting = embedData?.data
 
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      setWidgetUrl(window.location.origin)
-    }
-  }, [])
-
-  const scriptCode = chatbotId
-    ? `<script src="${widgetUrl}/widget.js" data-facility="${facilityId}" data-chatbot="${chatbotId}" async></script>`
-    : `<script src="${widgetUrl}/widget.js" data-facility="${facilityId}" async></script>`
+  const scriptCode = embedSetting?.public_key
+    ? `<script src="https://uchat-boxchat.pages.dev/uchat-loader.js" data-public-key="${embedSetting.public_key}" async></script>`
+    : ""
 
   const copyToClipboard = async (text: string, type: string) => {
     try {
@@ -128,8 +122,49 @@ export function EmbedTab({ chatbotId, facilityId }: EmbedTabProps) {
 
   if (isLoading) {
     return (
-      <div className="flex flex-1 items-center justify-center text-muted-foreground">
-        Đang tải...
+      <div className="space-y-4">
+        <div className="rounded-none border p-4">
+          <div className="flex items-center justify-between">
+            <div className="space-y-1">
+              <Skeleton className="h-4 w-32" />
+              <Skeleton className="h-3 w-60" />
+            </div>
+            <Skeleton className="h-6 w-10" />
+          </div>
+        </div>
+        <div className="rounded-none border p-4 space-y-3">
+          <div className="flex items-center justify-between">
+            <div className="space-y-1">
+              <Skeleton className="h-4 w-24" />
+              <Skeleton className="h-3 w-56" />
+            </div>
+            <Skeleton className="h-8 w-16" />
+          </div>
+          <Skeleton className="h-16 w-full" />
+        </div>
+        <div className="rounded-none border p-4 space-y-3">
+          <div className="space-y-1">
+            <Skeleton className="h-4 w-48" />
+            <Skeleton className="h-3 w-64" />
+          </div>
+          <div className="flex gap-2">
+            <Skeleton className="h-9 flex-1" />
+            <Skeleton className="h-9 w-9" />
+          </div>
+          {Array.from({ length: 2 }).map((_, i) => (
+            <Skeleton key={i} className="h-10 w-full" />
+          ))}
+        </div>
+        <div className="rounded-none border p-4 space-y-3">
+          <div className="flex items-center justify-between">
+            <div className="space-y-1">
+              <Skeleton className="h-4 w-28" />
+              <Skeleton className="h-3 w-52" />
+            </div>
+            <Skeleton className="h-8 w-16" />
+          </div>
+          <Skeleton className="h-12 w-full" />
+        </div>
       </div>
     )
   }

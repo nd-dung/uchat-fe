@@ -7,6 +7,7 @@ import {
   Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { Separator } from "@/components/ui/separator"
+import { Skeleton } from "@/components/ui/skeleton"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { ChatbotEmptyState } from "@/components/feature/facility/chatbots/chatbot-empty-state"
 import { ChatbotFormDialog, type ChatbotFormValues } from "@/components/feature/facility/chatbots/chatbot-form-dialog"
@@ -71,7 +72,24 @@ export default function ChatbotStudioPage() {
         </div>
 
         {isLoadingChatbots ? (
-          <div className="flex flex-1 items-center justify-center text-muted-foreground">Đang tải...</div>
+          <div className="h-[calc(100vh-12rem)] min-h-[500px] overflow-hidden rounded-lg border flex">
+            <div className="flex-1 p-4 space-y-4">
+              <Skeleton className="h-6 w-40" />
+              <Skeleton className="h-4 w-60" />
+              <div className="flex-1 flex items-center justify-center">
+                <Skeleton className="h-[300px] w-[380px] rounded-lg" />
+              </div>
+            </div>
+            <div className="w-80 border-l p-4 space-y-4">
+              <Skeleton className="h-8 w-full" />
+              <Skeleton className="h-4 w-32" />
+              <div className="space-y-3">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Skeleton key={i} className="h-10 w-full" />
+                ))}
+              </div>
+            </div>
+          </div>
         ) : chatbot ? (
           <div className="h-[calc(100vh-12rem)] min-h-[500px] overflow-hidden rounded-lg border">
             <ChatCustomizer chatbotId={chatbot.id} />

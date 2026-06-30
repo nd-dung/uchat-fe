@@ -136,7 +136,7 @@ export const DesignPanel = React.memo(function DesignPanel({
     <div className="w-80 bg-card border-l border-border flex flex-col">
       <div className="p-4 border-b border-border space-y-3">
         <div className="flex items-center justify-between">
-          <h3 className="font-semibold text-sm text-foreground">Design</h3>
+          <h3 className="font-semibold text-sm text-foreground">Thiết kế</h3>
           <div className="flex items-center gap-1">
             <Button variant="ghost" size="sm" onClick={onReset} className="h-8 w-8 p-0">
               <RotateCcw className="w-4 h-4" />
@@ -184,7 +184,7 @@ export const DesignPanel = React.memo(function DesignPanel({
 
       <div className="flex-1 overflow-auto p-4 space-y-4 custom-scrollbar">
         <PropertySection
-          title="Theme"
+          title="Chủ đề"
           icon={Palette}
           sectionKey="theme"
           isCollapsed={isSectionCollapsed("theme")}
@@ -192,7 +192,7 @@ export const DesignPanel = React.memo(function DesignPanel({
           hidden={!sectionMatches("theme color primary background")}
         >
           <ColorInput
-            label="Primary Color"
+            label="Màu chính"
             value={style.primaryColor}
             onChange={(value) => updateStyle("primaryColor", value)}
           />
@@ -204,22 +204,22 @@ export const DesignPanel = React.memo(function DesignPanel({
         </PropertySection>
 
         <PropertySection
-          title="Chat Window"
+          title="Cửa sổ chat"
           icon={Settings}
           sectionKey="chatWindow"
-          badge="Window"
+          badge="Cửa sổ"
           isCollapsed={isSectionCollapsed("chatWindow")}
           onToggle={onToggleSection}
           hidden={!sectionMatches("chat window position width height border radius shadow mobile fullscreen z-index")}
         >
           <SelectInput
-            label="Position"
+            label="Vị trí"
             value={style.chatWindowPosition}
             options={chatWindowPositions}
             onChange={(value) => updateStyle("chatWindowPosition", value as ChatStyle["chatWindowPosition"])}
           />
           <NumericInput
-            label="Width"
+            label="Chiều rộng"
             value={style.chatWindowWidth}
             onChange={(value) => updateStyle("chatWindowWidth", value)}
             min={280}
@@ -228,7 +228,7 @@ export const DesignPanel = React.memo(function DesignPanel({
             unit="px"
           />
           <NumericInput
-            label="Height"
+            label="Chiều cao"
             value={style.chatWindowHeight}
             onChange={(value) => updateStyle("chatWindowHeight", value)}
             min={400}
@@ -237,12 +237,12 @@ export const DesignPanel = React.memo(function DesignPanel({
             unit="px"
           />
           <ColorInput
-            label="Border Color"
+            label="Màu viền"
             value={style.chatWindowBorderColor}
             onChange={(value) => updateStyle("chatWindowBorderColor", value)}
           />
           <NumericInput
-            label="Border Width"
+            label="Độ dày viền"
             value={style.chatWindowBorderWidth}
             onChange={(value) => updateStyle("chatWindowBorderWidth", value)}
             min={0}
@@ -250,7 +250,7 @@ export const DesignPanel = React.memo(function DesignPanel({
             unit="px"
           />
           <NumericInput
-            label="Border Radius"
+            label="Bán kính viền"
             value={style.borderRadius}
             onChange={(value) => updateStyle("borderRadius", value)}
             min={0}
@@ -266,17 +266,17 @@ export const DesignPanel = React.memo(function DesignPanel({
             step={1000}
           />
           <div className="flex items-center justify-between">
-            <Label className="text-xs font-medium text-muted-foreground">Shadow</Label>
+            <Label className="text-xs font-medium text-muted-foreground">Đổ bóng</Label>
             <Switch checked={style.chatWindowShadow} onCheckedChange={(checked) => updateStyle("chatWindowShadow", checked)} />
           </div>
           <div className="flex items-center justify-between">
-            <Label className="text-xs font-medium text-muted-foreground">Mobile Fullscreen</Label>
+            <Label className="text-xs font-medium text-muted-foreground">Toàn màn hình trên di động</Label>
             <Switch checked={style.mobileFullscreenEnabled} onCheckedChange={(checked) => updateStyle("mobileFullscreenEnabled", checked)} />
           </div>
         </PropertySection>
 
         <PropertySection
-          title="Header"
+          title="Đầu trang"
           icon={PanelTop}
           sectionKey="header"
           isCollapsed={isSectionCollapsed("header")}
@@ -284,46 +284,46 @@ export const DesignPanel = React.memo(function DesignPanel({
           hidden={!sectionMatches("header layout title subtitle status color height")}
         >
           <SelectInput
-            label="Layout"
+            label="Bố cục"
             value={style.headerLayout}
             options={headerLayouts}
             onChange={(value) => updateStyle("headerLayout", value as ChatStyle["headerLayout"])}
           />
           <TextInput
-            label="Title"
+            label="Tiêu đề"
             value={style.headerTitle}
             onChange={(value) => updateStyle("headerTitle", value)}
             placeholder="Chat Support"
           />
           <TextInput
-            label="Subtitle"
+            label="Tiêu đề phụ"
             value={style.headerSubtitle}
             onChange={(value) => updateStyle("headerSubtitle", value)}
             placeholder="Đang hoạt động"
           />
           <ColorInput
-            label="Background Color"
+            label="Màu nền"
             value={style.headerBackgroundColor}
             onChange={(value) => updateStyle("headerBackgroundColor", value)}
           />
           <ColorInput
-            label="Text Color"
+            label="Màu chữ"
             value={style.headerTextColor}
             onChange={(value) => updateStyle("headerTextColor", value)}
           />
           <ColorInput
-            label="Status Color"
+            label="Màu trạng thái"
             value={style.headerStatusColor}
             onChange={(value) => updateStyle("headerStatusColor", value)}
           />
           <TextInput
-            label="Status Text"
+            label="Trạng thái"
             value={style.headerStatusText}
             onChange={(value) => updateStyle("headerStatusText", value)}
             placeholder="Đang hoạt động"
           />
           <NumericInput
-            label="Height"
+            label="Chiều cao"
             value={style.headerHeight}
             onChange={(value) => updateStyle("headerHeight", value)}
             min={50}
@@ -332,17 +332,17 @@ export const DesignPanel = React.memo(function DesignPanel({
             unit="px"
           />
           <div className="flex items-center justify-between">
-            <Label className="text-xs font-medium text-muted-foreground">Show Status</Label>
+            <Label className="text-xs font-medium text-muted-foreground">Hiển thị trạng thái</Label>
             <Switch checked={style.headerShowStatus} onCheckedChange={(checked) => updateStyle("headerShowStatus", checked)} />
           </div>
           <div className="flex items-center justify-between">
-            <Label className="text-xs font-medium text-muted-foreground">Show Close Button</Label>
+            <Label className="text-xs font-medium text-muted-foreground">Hiển thị nút đóng</Label>
             <Switch checked={style.headerShowCloseButton} onCheckedChange={(checked) => updateStyle("headerShowCloseButton", checked)} />
           </div>
         </PropertySection>
 
         <PropertySection
-          title="Messages"
+          title="Tin nhắn"
           icon={MessageSquare}
           sectionKey="messages"
           isCollapsed={isSectionCollapsed("messages")}
@@ -350,12 +350,12 @@ export const DesignPanel = React.memo(function DesignPanel({
           hidden={!sectionMatches("messages message bubble color text spacing padding width timestamp bot user")}
         >
           <ColorInput
-            label="Area Background Color"
+            label="Màu nền khu vực"
             value={style.messageAreaBackgroundColor}
             onChange={(value) => updateStyle("messageAreaBackgroundColor", value)}
           />
           <NumericInput
-            label="Area Padding"
+            label="Khoảng cách khu vực"
             value={style.messageAreaPadding}
             onChange={(value) => updateStyle("messageAreaPadding", value)}
             min={8}
@@ -364,7 +364,7 @@ export const DesignPanel = React.memo(function DesignPanel({
             unit="px"
           />
           <NumericInput
-            label="Message Spacing"
+            label="Khoảng cách tin nhắn"
             value={style.messageSpacing}
             onChange={(value) => updateStyle("messageSpacing", value)}
             min={8}
@@ -373,7 +373,7 @@ export const DesignPanel = React.memo(function DesignPanel({
             unit="px"
           />
           <NumericInput
-            label="Bubble Radius"
+            label="Bán kính bong bóng"
             value={style.messageBubbleRadius}
             onChange={(value) => updateStyle("messageBubbleRadius", value)}
             min={0}
@@ -381,7 +381,7 @@ export const DesignPanel = React.memo(function DesignPanel({
             unit="px"
           />
           <NumericInput
-            label="Max Width"
+            label="Chiều rộng tối đa"
             value={style.messageMaxWidthPercent}
             onChange={(value) => updateStyle("messageMaxWidthPercent", value)}
             min={50}
@@ -389,33 +389,33 @@ export const DesignPanel = React.memo(function DesignPanel({
             unit="%"
           />
           <div className="flex items-center justify-between">
-            <Label className="text-xs font-medium text-muted-foreground">Show Timestamp</Label>
+            <Label className="text-xs font-medium text-muted-foreground">Hiển thị thời gian</Label>
             <Switch checked={style.showMessageTimestamp} onCheckedChange={(checked) => updateStyle("showMessageTimestamp", checked)} />
           </div>
           <ColorInput
-            label="Bot Bubble Color"
+            label="Màu bong bóng bot"
             value={style.botMessageBackgroundColor}
             onChange={(value) => updateStyle("botMessageBackgroundColor", value)}
           />
           <ColorInput
-            label="Bot Text Color"
+            label="Màu chữ bot"
             value={style.botMessageTextColor}
             onChange={(value) => updateStyle("botMessageTextColor", value)}
           />
           <ColorInput
-            label="User Bubble Color"
+            label="Màu bong bóng người dùng"
             value={style.userMessageBackgroundColor}
             onChange={(value) => updateStyle("userMessageBackgroundColor", value)}
           />
           <ColorInput
-            label="User Text Color"
+            label="Màu chữ người dùng"
             value={style.userMessageTextColor}
             onChange={(value) => updateStyle("userMessageTextColor", value)}
           />
         </PropertySection>
 
         <PropertySection
-          title="Input"
+          title="Ô nhập"
           icon={SquareTerminal}
           sectionKey="input"
           isCollapsed={isSectionCollapsed("input")}
@@ -423,27 +423,27 @@ export const DesignPanel = React.memo(function DesignPanel({
           hidden={!sectionMatches("input color text placeholder border radius send button")}
         >
           <ColorInput
-            label="Background Color"
+            label="Màu nền"
             value={style.inputBackgroundColor}
             onChange={(value) => updateStyle("inputBackgroundColor", value)}
           />
           <ColorInput
-            label="Text Color"
+            label="Màu chữ"
             value={style.inputTextColor}
             onChange={(value) => updateStyle("inputTextColor", value)}
           />
           <ColorInput
-            label="Placeholder Color"
+            label="Màu placeholder"
             value={style.inputPlaceholderColor}
             onChange={(value) => updateStyle("inputPlaceholderColor", value)}
           />
           <ColorInput
-            label="Border Color"
+            label="Màu viền"
             value={style.inputBorderColor}
             onChange={(value) => updateStyle("inputBorderColor", value)}
           />
           <NumericInput
-            label="Border Radius"
+            label="Bán kính viền"
             value={style.inputBorderRadius}
             onChange={(value) => updateStyle("inputBorderRadius", value)}
             min={0}
@@ -451,29 +451,29 @@ export const DesignPanel = React.memo(function DesignPanel({
             unit="px"
           />
           <TextInput
-            label="Placeholder Text"
+            label="Văn bản placeholder"
             value={style.placeholderText}
             onChange={(value) => updateStyle("placeholderText", value)}
             placeholder="Nhập tin nhắn của bạn..."
           />
           <SelectInput
-            label="Send Button Type"
+            label="Loại nút gửi"
             value={style.sendButtonType}
             options={sendButtonTypes}
             onChange={(value) => updateStyle("sendButtonType", value as ChatStyle["sendButtonType"])}
           />
           <ColorInput
-            label="Send Button Background"
+            label="Màu nền nút gửi"
             value={style.sendButtonBackgroundColor}
             onChange={(value) => updateStyle("sendButtonBackgroundColor", value)}
           />
           <ColorInput
-            label="Send Button Icon Color"
+            label="Màu biểu tượng nút gửi"
             value={style.sendButtonIconColor}
             onChange={(value) => updateStyle("sendButtonIconColor", value)}
           />
           <TextInput
-            label="Send Button Text"
+            label="Văn bản nút gửi"
             value={style.sendButtonText}
             onChange={(value) => updateStyle("sendButtonText", value)}
             placeholder="Gửi"
@@ -481,22 +481,22 @@ export const DesignPanel = React.memo(function DesignPanel({
         </PropertySection>
 
         <PropertySection
-          title="Typography"
+          title="Kiểu chữ"
           icon={Type}
           sectionKey="typography"
-          badge="Text"
+          badge="Văn bản"
           isCollapsed={isSectionCollapsed("typography")}
           onToggle={onToggleSection}
           hidden={!sectionMatches("typography font family size text header message input")}
         >
           <SelectInput
-            label="Font Family"
+            label="Phông chữ"
             value={style.fontFamily}
             options={fontFamilyOptions}
             onChange={(value) => updateStyle("fontFamily", value)}
           />
           <NumericInput
-            label="Base Font Size"
+            label="Kích thước phông cơ bản"
             value={style.baseFontSize}
             onChange={(value) => updateStyle("baseFontSize", value)}
             min={10}
@@ -504,7 +504,7 @@ export const DesignPanel = React.memo(function DesignPanel({
             unit="px"
           />
           <NumericInput
-            label="Header Title Size"
+            label="Kích thước tiêu đề đầu trang"
             value={style.headerTitleFontSize}
             onChange={(value) => updateStyle("headerTitleFontSize", value)}
             min={10}
@@ -512,7 +512,7 @@ export const DesignPanel = React.memo(function DesignPanel({
             unit="px"
           />
           <NumericInput
-            label="Header Subtitle Size"
+            label="Kích thước tiêu đề phụ đầu trang"
             value={style.headerSubtitleFontSize}
             onChange={(value) => updateStyle("headerSubtitleFontSize", value)}
             min={8}
@@ -520,7 +520,7 @@ export const DesignPanel = React.memo(function DesignPanel({
             unit="px"
           />
           <NumericInput
-            label="Message Font Size"
+            label="Kích thước phông tin nhắn"
             value={style.messageFontSize}
             onChange={(value) => updateStyle("messageFontSize", value)}
             min={8}
@@ -528,7 +528,7 @@ export const DesignPanel = React.memo(function DesignPanel({
             unit="px"
           />
           <NumericInput
-            label="Input Font Size"
+            label="Kích thước phông ô nhập"
             value={style.inputFontSize}
             onChange={(value) => updateStyle("inputFontSize", value)}
             min={8}
@@ -538,7 +538,7 @@ export const DesignPanel = React.memo(function DesignPanel({
         </PropertySection>
 
         <PropertySection
-          title="Welcome"
+          title="Chào mừng"
           icon={Hand}
           sectionKey="welcome"
           isCollapsed={isSectionCollapsed("welcome")}
@@ -546,36 +546,36 @@ export const DesignPanel = React.memo(function DesignPanel({
           hidden={!sectionMatches("welcome screen title subtitle message background")}
         >
           <div className="flex items-center justify-between">
-            <Label className="text-xs font-medium text-muted-foreground">Enable Welcome Screen</Label>
+            <Label className="text-xs font-medium text-muted-foreground">Bật màn hình chào mừng</Label>
             <Switch checked={style.welcomeScreenEnabled} onCheckedChange={(checked) => updateStyle("welcomeScreenEnabled", checked)} />
           </div>
           <TextInput
-            label="Welcome Title"
+            label="Tiêu đề chào mừng"
             value={style.welcomeTitle}
             onChange={(value) => updateStyle("welcomeTitle", value)}
             placeholder="Chat Support"
           />
           <TextInput
-            label="Welcome Subtitle"
+            label="Tiêu đề phụ chào mừng"
             value={style.welcomeSubtitle}
             onChange={(value) => updateStyle("welcomeSubtitle", value)}
             placeholder="Đang hoạt động"
           />
           <TextInput
-            label="Welcome Message"
+            label="Tin nhắn chào mừng"
             value={style.welcomeMessage}
             onChange={(value) => updateStyle("welcomeMessage", value)}
             placeholder="Xin chào! Tôi có thể giúp gì cho bạn hôm nay?"
           />
           <ColorInput
-            label="Welcome Background"
+            label="Nền chào mừng"
             value={style.welcomeBackgroundColor}
             onChange={(value) => updateStyle("welcomeBackgroundColor", value)}
           />
         </PropertySection>
 
         <PropertySection
-          title="Animation"
+          title="Hoạt ảnh"
           icon={Sparkles}
           sectionKey="animation"
           isCollapsed={isSectionCollapsed("animation")}
@@ -583,33 +583,33 @@ export const DesignPanel = React.memo(function DesignPanel({
           hidden={!sectionMatches("animation launcher chat open message typing indicator")}
         >
           <div className="flex items-center justify-between">
-            <Label className="text-xs font-medium text-muted-foreground">Enable Animations</Label>
+            <Label className="text-xs font-medium text-muted-foreground">Bật hoạt ảnh</Label>
             <Switch checked={style.animationEnabled} onCheckedChange={(checked) => updateStyle("animationEnabled", checked)} />
           </div>
           <SelectInput
-            label="Launcher Animation"
+            label="Hoạt ảnh khởi chạy"
             value={style.launcherAnimation}
             options={launcherAnimations}
             onChange={(value) => updateStyle("launcherAnimation", value as ChatStyle["launcherAnimation"])}
           />
           <SelectInput
-            label="Chat Open Animation"
+            label="Hoạt ảnh mở chat"
             value={style.chatOpenAnimation}
             options={chatOpenAnimations}
             onChange={(value) => updateStyle("chatOpenAnimation", value as ChatStyle["chatOpenAnimation"])}
           />
           <SelectInput
-            label="Message Animation"
+            label="Hoạt ảnh tin nhắn"
             value={style.messageAnimation}
             options={messageAnimations}
             onChange={(value) => updateStyle("messageAnimation", value as ChatStyle["messageAnimation"])}
           />
           <div className="flex items-center justify-between">
-            <Label className="text-xs font-medium text-muted-foreground">Typing Indicator</Label>
+            <Label className="text-xs font-medium text-muted-foreground">Chỉ báo đang nhập</Label>
             <Switch checked={style.typingIndicatorEnabled} onCheckedChange={(checked) => updateStyle("typingIndicatorEnabled", checked)} />
           </div>
           <SelectInput
-            label="Typing Indicator Style"
+            label="Kiểu chỉ báo đang nhập"
             value={style.typingIndicatorStyle}
             options={typingIndicatorStyles}
             onChange={(value) => updateStyle("typingIndicatorStyle", value as ChatStyle["typingIndicatorStyle"])}
@@ -617,7 +617,7 @@ export const DesignPanel = React.memo(function DesignPanel({
         </PropertySection>
 
         <PropertySection
-          title="Launcher"
+          title="Nút khởi chạy"
           icon={Rocket}
           sectionKey="launcher"
           isCollapsed={isSectionCollapsed("launcher")}
@@ -625,13 +625,13 @@ export const DesignPanel = React.memo(function DesignPanel({
           hidden={!sectionMatches("launcher type size color icon text offset shadow")}
         >
           <SelectInput
-            label="Launcher Type"
+            label="Loại nút khởi chạy"
             value={style.launcherType}
             options={launcherTypes}
             onChange={(value) => updateStyle("launcherType", value as ChatStyle["launcherType"])}
           />
           <NumericInput
-            label="Size"
+            label="Kích thước"
             value={style.launcherSize}
             onChange={(value) => updateStyle("launcherSize", value)}
             min={40}
@@ -639,28 +639,28 @@ export const DesignPanel = React.memo(function DesignPanel({
             unit="px"
           />
           <ColorInput
-            label="Background Color"
+            label="Màu nền"
             value={style.launcherBackgroundColor}
             onChange={(value) => updateStyle("launcherBackgroundColor", value)}
           />
           <ColorInput
-            label="Icon Color"
+            label="Màu biểu tượng"
             value={style.launcherIconColor}
             onChange={(value) => updateStyle("launcherIconColor", value)}
           />
           <TextInput
-            label="Launcher Text"
+            label="Văn bản nút khởi chạy"
             value={style.launcherText}
             onChange={(value) => updateStyle("launcherText", value)}
             placeholder="Chat"
           />
           <ColorInput
-            label="Text Color"
+            label="Màu chữ"
             value={style.launcherTextColor}
             onChange={(value) => updateStyle("launcherTextColor", value)}
           />
           <NumericInput
-            label="Offset X"
+            label="Bù X"
             value={style.launcherOffsetX}
             onChange={(value) => updateStyle("launcherOffsetX", value)}
             min={0}
@@ -668,7 +668,7 @@ export const DesignPanel = React.memo(function DesignPanel({
             unit="px"
           />
           <NumericInput
-            label="Offset Y"
+            label="Bù Y"
             value={style.launcherOffsetY}
             onChange={(value) => updateStyle("launcherOffsetY", value)}
             min={0}
@@ -676,13 +676,13 @@ export const DesignPanel = React.memo(function DesignPanel({
             unit="px"
           />
           <div className="flex items-center justify-between">
-            <Label className="text-xs font-medium text-muted-foreground">Shadow</Label>
+            <Label className="text-xs font-medium text-muted-foreground">Đổ bóng</Label>
             <Switch checked={style.launcherShadow} onCheckedChange={(checked) => updateStyle("launcherShadow", checked)} />
           </div>
         </PropertySection>
 
         <PropertySection
-          title="Footer"
+          title="Chân trang"
           icon={Footprints}
           sectionKey="footer"
           isCollapsed={isSectionCollapsed("footer")}
@@ -690,34 +690,34 @@ export const DesignPanel = React.memo(function DesignPanel({
           hidden={!sectionMatches("footer text color link powered by")}
         >
           <div className="flex items-center justify-between">
-            <Label className="text-xs font-medium text-muted-foreground">Enable Footer</Label>
+            <Label className="text-xs font-medium text-muted-foreground">Bật chân trang</Label>
             <Switch checked={style.footerEnabled} onCheckedChange={(checked) => updateStyle("footerEnabled", checked)} />
           </div>
           <TextInput
-            label="Footer Text"
+            label="Văn bản chân trang"
             value={style.footerText}
             onChange={(value) => updateStyle("footerText", value)}
             placeholder="Powered by Uchat"
           />
           <ColorInput
-            label="Footer Text Color"
+            label="Màu chữ chân trang"
             value={style.footerTextColor}
             onChange={(value) => updateStyle("footerTextColor", value)}
           />
           <TextInput
-            label="Footer Link"
+            label="Liên kết chân trang"
             value={style.footerLinkUrl}
             onChange={(value) => updateStyle("footerLinkUrl", value)}
             placeholder="https://example.com"
           />
           <div className="flex items-center justify-between">
-            <Label className="text-xs font-medium text-muted-foreground">Show Powered By</Label>
+            <Label className="text-xs font-medium text-muted-foreground">Hiển thị Powered By</Label>
             <Switch checked={style.showPoweredBy} onCheckedChange={(checked) => updateStyle("showPoweredBy", checked)} />
           </div>
         </PropertySection>
 
         <PropertySection
-          title="Branding"
+          title="Thương hiệu"
           icon={Tags}
           sectionKey="branding"
           isCollapsed={isSectionCollapsed("branding")}
@@ -725,11 +725,11 @@ export const DesignPanel = React.memo(function DesignPanel({
           hidden={!sectionMatches("branding avatar logo icon")}
         >
           <div className="flex items-center justify-between">
-            <Label className="text-xs font-medium text-muted-foreground">Show Avatar</Label>
+            <Label className="text-xs font-medium text-muted-foreground">Hiển thị avatar</Label>
             <Switch checked={style.showAvatar} onCheckedChange={(checked) => updateStyle("showAvatar", checked)} />
           </div>
           <div className="flex items-center justify-between">
-            <Label className="text-xs font-medium text-muted-foreground">Show Logo</Label>
+            <Label className="text-xs font-medium text-muted-foreground">Hiển thị logo</Label>
             <Switch checked={style.showLogo} onCheckedChange={(checked) => updateStyle("showLogo", checked)} />
           </div>
           <UploadInput
@@ -748,14 +748,14 @@ export const DesignPanel = React.memo(function DesignPanel({
             crop
           />
           <UploadInput
-            label="Launcher Icon"
+            label="Biểu tượng khởi chạy"
             value={style.launcherIconUrl}
             onChange={(value) => updateStyle("launcherIconUrl", value)}
             placeholder="https://..."
             crop
           />
           <UploadInput
-            label="Welcome Avatar"
+            label="Avatar chào mừng"
             value={style.welcomeAvatarUrl}
             onChange={(value) => updateStyle("welcomeAvatarUrl", value)}
             placeholder="https://..."
@@ -769,7 +769,7 @@ export const DesignPanel = React.memo(function DesignPanel({
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="bg-white rounded-lg shadow-lg w-[480px] max-h-[80vh] flex flex-col">
             <div className="flex items-center justify-between p-4 border-b">
-              <h3 className="font-semibold text-sm">Paste JSON</h3>
+              <h3 className="font-semibold text-sm">Dán JSON</h3>
               <Button
                 variant="ghost"
                 size="sm"

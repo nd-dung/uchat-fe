@@ -12,6 +12,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { Separator } from "@/components/ui/separator"
+import { Skeleton } from "@/components/ui/skeleton"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
@@ -155,8 +156,20 @@ export default function ChatbotConfigPage() {
           </div>
 
           {isLoadingBehavior ? (
-            <div className="flex flex-1 items-center justify-center text-muted-foreground">
-              Đang tải...
+            <div className="flex flex-1 gap-4 overflow-hidden">
+              <div className="flex w-48 shrink-0 flex-col gap-1">
+                <Skeleton className="h-9 w-full rounded-none" />
+                <Skeleton className="h-9 w-full rounded-none" />
+              </div>
+              <div className="flex-1 space-y-4">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <div key={i} className="rounded-none border p-4 space-y-3">
+                    <Skeleton className="h-4 w-40" />
+                    <Skeleton className="h-3 w-60" />
+                    <Skeleton className="h-20 w-full" />
+                  </div>
+                ))}
+              </div>
             </div>
           ) : (
             <div className="flex flex-1 gap-4 overflow-hidden">

@@ -1,59 +1,59 @@
 import { Monitor, Tablet, Smartphone, type LucideIcon } from "lucide-react"
 
 export const deviceSizes = {
-  desktop: { width: "100%", maxWidth: "420px", label: "Desktop", icon: Monitor },
-  tablet: { width: "100%", maxWidth: "340px", label: "Tablet", icon: Tablet },
-  mobile: { width: "100%", maxWidth: "300px", label: "Mobile", icon: Smartphone },
+  desktop: { width: "100%", maxWidth: "420px", label: "Máy tính", icon: Monitor },
+  tablet: { width: "100%", maxWidth: "340px", label: "Máy tính bảng", icon: Tablet },
+  mobile: { width: "100%", maxWidth: "300px", label: "Di động", icon: Smartphone },
 }
 
 export const chatWindowPositions = [
-  { value: "bottom_right", label: "Bottom Right" },
-  { value: "bottom_left", label: "Bottom Left" },
-  { value: "top_right", label: "Top Right" },
-  { value: "top_left", label: "Top Left" },
+  { value: "bottom_right", label: "Góc dưới bên phải" },
+  { value: "bottom_left", label: "Góc dưới bên trái" },
+  { value: "top_right", label: "Góc trên bên phải" },
+  { value: "top_left", label: "Góc trên bên trái" },
 ]
 
 export const headerLayouts = [
-  { value: "simple", label: "Simple" },
-  { value: "avatar_title", label: "Avatar + Title" },
-  { value: "centered", label: "Centered" },
-  { value: "compact", label: "Compact" },
+  { value: "simple", label: "Đơn giản" },
+  { value: "avatar_title", label: "Avatar + Tiêu đề" },
+  { value: "centered", label: "Căn giữa" },
+  { value: "compact", label: "Gọn gọn" },
 ]
 
 export const sendButtonTypes = [
-  { value: "icon", label: "Icon" },
-  { value: "text", label: "Text" },
-  { value: "icon_text", label: "Icon + Text" },
+  { value: "icon", label: "Biểu tượng" },
+  { value: "text", label: "Văn bản" },
+  { value: "icon_text", label: "Biểu tượng + Văn bản" },
 ]
 
 export const launcherAnimations = [
-  { value: "none", label: "None" },
-  { value: "pulse", label: "Pulse" },
-  { value: "bounce", label: "Bounce" },
+  { value: "none", label: "Không" },
+  { value: "pulse", label: "Nhấp nháy" },
+  { value: "bounce", label: "Nảy" },
 ]
 
 export const chatOpenAnimations = [
-  { value: "none", label: "None" },
-  { value: "fade", label: "Fade" },
-  { value: "slide_up", label: "Slide Up" },
-  { value: "scale", label: "Scale" },
+  { value: "none", label: "Không" },
+  { value: "fade", label: "Mờ dần" },
+  { value: "slide_up", label: "Trượt lên" },
+  { value: "scale", label: "Phóng to" },
 ]
 
 export const messageAnimations = [
-  { value: "none", label: "None" },
-  { value: "fade", label: "Fade" },
-  { value: "slide", label: "Slide" },
+  { value: "none", label: "Không" },
+  { value: "fade", label: "Mờ dần" },
+  { value: "slide", label: "Trượt" },
 ]
 
 export const typingIndicatorStyles = [
-  { value: "dots", label: "Dots" },
-  { value: "text", label: "Text" },
+  { value: "dots", label: "Chấm" },
+  { value: "text", label: "Văn bản" },
 ]
 
 export const launcherTypes = [
-  { value: "circle", label: "Circle" },
-  { value: "rounded_square", label: "Rounded Square" },
-  { value: "pill", label: "Pill" },
+  { value: "circle", label: "Tròn" },
+  { value: "rounded_square", label: "Vuông bo tròn" },
+  { value: "pill", label: "Viên thuốc" },
 ]
 
 export const fontFamilyOptions = [

@@ -3,6 +3,7 @@
 import * as React from "react"
 import { useState, useCallback, useEffect } from "react"
 import { Button } from "@/components/ui/button"
+import { Skeleton } from "@/components/ui/skeleton"
 import {
   useGetChatbotUiSetting,
   useUpdateChatbotUiSetting,
@@ -156,9 +157,43 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
 
   if (isLoadingUiSetting || !style) {
     return (
-      <div className="flex flex-1 items-center justify-center text-muted-foreground">
-        <Loader2Icon className="h-6 w-6 animate-spin" />
-        <span className="ml-2 text-sm">Đang tải cấu hình giao diện...</span>
+      <div className="h-full flex bg-background text-foreground overflow-hidden">
+        <div className="flex-1 flex flex-col min-w-0">
+          <div className="h-14 bg-card border-b border-border flex items-center justify-between px-4 shrink-0">
+            <div className="flex items-center gap-3">
+              <Skeleton className="h-7 w-24" />
+              <Skeleton className="h-7 w-7" />
+            </div>
+            <div className="flex items-center gap-2">
+              <Skeleton className="h-8 w-28" />
+              <Skeleton className="h-8 w-20" />
+              <Skeleton className="h-8 w-20" />
+              <Skeleton className="h-8 w-20" />
+            </div>
+          </div>
+          <div className="flex-1 flex items-center justify-center">
+            <Skeleton className="h-[300px] w-[380px] rounded-lg" />
+          </div>
+        </div>
+        <div className="w-80 border-l border-border bg-card p-4 space-y-4 shrink-0">
+          <div className="flex items-center justify-between">
+            <Skeleton className="h-5 w-20" />
+            <div className="flex items-center gap-1">
+              <Skeleton className="h-8 w-8" />
+              <Skeleton className="h-8 w-8" />
+              <Skeleton className="h-8 w-8" />
+              <Skeleton className="h-8 w-8" />
+              <Skeleton className="h-8 w-8" />
+              <Skeleton className="h-8 w-20" />
+            </div>
+          </div>
+          <Skeleton className="h-8 w-full" />
+          <div className="space-y-3">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <Skeleton key={i} className="h-10 w-full" />
+            ))}
+          </div>
+        </div>
       </div>
     )
   }
@@ -205,7 +240,7 @@ export function ChatCustomizer({ chatbotId }: ChatCustomizerProps) {
               onClick={() => setShowWelcomePreview(!showWelcomePreview)}
               className="h-8"
             >
-              <span className="text-xs">{showWelcomePreview ? "Hide" : "Show"} Welcome</span>
+              <span className="text-xs">{showWelcomePreview ? "Ẩn" : "Hiện"} Chào mừng</span>
             </Button>
             {Object.entries(deviceSizes).map(([key, device]) => {
               const IconComponent = device.icon
