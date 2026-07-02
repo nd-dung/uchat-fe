@@ -10,6 +10,7 @@ export interface StaffMessageItemProps {
   message: ChatMessageResponseDto
   isLast: boolean
   isGrouped: boolean
+  isGroupedWithNext: boolean
 }
 
 export interface StaffChatPanelProps {

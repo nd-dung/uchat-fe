@@ -206,7 +206,9 @@ export function StaffChatPanel({
   const visitorName = getVisitorName(conv.visitor)
   const isClosed = conv.status === "closed"
   const isAssignedToMe = user?.id === conv.assigned_staff_id
-  const canSendMessage = conv.status === "staff_active" && (isAdmin || isAssignedToMe)
+  const canSendMessage =
+    (conv.status === "staff_assigned" || conv.status === "staff_active") &&
+    (isAdmin || isAssignedToMe)
   const isStaffRequestPending = openHandoff?.source === "staff" && openHandoff?.visitor_response_status === "pending"
   const isVisitorRequestForMe = openHandoff?.source === "visitor" && (!openHandoff.assigned_staff_id || openHandoff.assigned_staff_id === user?.id)
 
@@ -240,7 +242,7 @@ export function StaffChatPanel({
   })()
 
   return (
-    <div className="flex h-full flex-1 flex-col overflow-hidden">
+    <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
       <div className="flex h-14 shrink-0 items-center gap-3 border-b bg-background px-4">
         {isMobile && (
           <Button variant="ghost" size="icon" className="h-8 w-8" onClick={onBack}>

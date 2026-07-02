@@ -76,10 +76,10 @@ export default function ConversationsPage() {
   const showDetail = isMobile ? !!selectedId : true
 
   return (
-    <div className="flex h-full">
+    <div className="flex h-svh min-h-0 overflow-hidden">
       {/* Conversation List */}
       {(!isMobile || !selectedId) && (
-        <div className={isMobile ? "w-full" : "w-[340px] shrink-0"}>
+        <div className={isMobile ? "min-h-0 w-full" : "min-h-0 w-[340px] shrink-0"}>
           <ConversationList
             conversations={conversations}
             selectedId={selectedId}

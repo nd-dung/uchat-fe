@@ -21,6 +21,16 @@ interface StaffMessageScrollerProps {
   isLoading: boolean
 }
 
+const MESSAGE_GROUP_TIME_WINDOW_MS = 5 * 60 * 1000
+
+function isWithinGroupTimeWindow(currentSentAt: string, previousSentAt: string) {
+  const currentTime = new Date(currentSentAt).getTime()
+  const previousTime = new Date(previousSentAt).getTime()
+
+  if (Number.isNaN(currentTime) || Number.isNaN(previousTime)) return false
+  return Math.abs(currentTime - previousTime) <= MESSAGE_GROUP_TIME_WINDOW_MS
+}
+
 export function StaffMessageScroller({
   messages,
   isLoading,
@@ -82,24 +92,29 @@ export function StaffMessageScroller({
 
       const isGrouped =
         prevMessage?.sender_type === message.sender_type &&
-        isSameDay(prevMessage.sent_at, message.sent_at)
+        isSameDay(prevMessage.sent_at, message.sent_at) &&
+        isWithinGroupTimeWindow(message.sent_at, prevMessage.sent_at)
+
+      const isGroupedWithNext =
+        nextMessage?.sender_type === message.sender_type &&
+        isSameDay(nextMessage.sent_at, message.sent_at) &&
+        isWithinGroupTimeWindow(nextMessage.sent_at, message.sent_at)
 
       const isLast = index === messages.length - 1
-      const isAnchor =
-        isLast ||
-        (nextMessage && nextMessage.sender_type !== message.sender_type)
+      const isAnchor = isLast || !isGroupedWithNext
 
       rows.push(
         <MessageScrollerItem
           key={message.id}
           messageId={String(message.id)}
           scrollAnchor={!!isAnchor}
-          className="py-1"
+          className={isGrouped ? "py-px" : "pt-3 pb-px"}
         >
           <StaffMessageItem
             message={message}
             isLast={isLast}
             isGrouped={isGrouped}
+            isGroupedWithNext={!!isGroupedWithNext}
           />
         </MessageScrollerItem>
       )
@@ -114,9 +129,9 @@ export function StaffMessageScroller({
       defaultScrollPosition="last-anchor"
       scrollPreviousItemPeek={48}
     >
-      <MessageScroller className="flex-1">
+      <MessageScroller className="min-h-0 flex-1">
         <MessageScrollerViewport preserveScrollOnPrepend>
-          <MessageScrollerContent className="py-4">
+          <MessageScrollerContent className="gap-0 py-4">
             {renderContent()}
           </MessageScrollerContent>
         </MessageScrollerViewport>

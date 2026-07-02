@@ -91,7 +91,7 @@ export function ConversationList({
   const handleMouseUp = () => setIsDragging(false)
 
   return (
-    <div className="flex h-full flex-col border-r bg-white">
+    <div className="flex h-full min-h-0 flex-col border-r bg-white">
       {/* Search */}
       <div className="shrink-0 border-b px-3 py-3">
         <div className="relative">
@@ -139,7 +139,7 @@ export function ConversationList({
       </div>
 
       {/* Conversation List */}
-      <ScrollArea className="flex-1">
+      <ScrollArea className="min-h-0 flex-1">
         {isLoading ? (
           <div className="space-y-1 p-2">
             {Array.from({ length: 6 }).map((_, i) => (

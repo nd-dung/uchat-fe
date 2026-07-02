@@ -66,7 +66,7 @@ export function StaffMessageInput({
             value={value}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
-            placeholder={disabled ? "Cuộc trò chuyện đã đóng" : placeholder}
+            placeholder={placeholder}
             disabled={disabled || isSubmitting}
             rows={1}
             className="min-h-[40px] max-h-[120px] resize-none py-2.5 pr-10"
