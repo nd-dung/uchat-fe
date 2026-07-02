@@ -1,5 +1,7 @@
 "use client"
 
+import * as React from "react"
+import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
   Collapsible,
@@ -16,10 +18,23 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
-import { ChevronRightIcon } from "lucide-react"
+import { CaretRightIcon } from "@phosphor-icons/react"
+
+const NavLink = React.forwardRef<
+  HTMLAnchorElement,
+  React.AnchorHTMLAttributes<HTMLAnchorElement> & { href: string }
+>(({ href, ...props }, ref) => {
+  return href.startsWith("/") ? (
+    <Link ref={ref} href={href} {...props} />
+  ) : (
+    <a ref={ref} href={href} {...props} />
+  )
+})
+NavLink.displayName = "NavLink"
 
 export function NavMain({
   items,
+  label,
 }: {
   items: {
     title: string
@@ -31,12 +46,13 @@ export function NavMain({
       url: string
     }[]
   }[]
+  label?: string
 }) {
   const pathname = usePathname()
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      {label && <SidebarGroupLabel>{label}</SidebarGroupLabel>}
       <SidebarMenu>
         {items.map((item) => {
           const isSubActive = item.items?.some((sub) => pathname === sub.url)
@@ -56,7 +72,7 @@ export function NavMain({
                   <SidebarMenuButton tooltip={item.title} isActive={isActive}>
                     {item.icon}
                     <span>{item.title}</span>
-                    <ChevronRightIcon className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                    <CaretRightIcon weight="regular" className="ml-auto size-4 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                   </SidebarMenuButton>
                 </CollapsibleTrigger>
                 <CollapsibleContent>
@@ -67,9 +83,9 @@ export function NavMain({
                           asChild
                           isActive={pathname === subItem.url}
                         >
-                          <a href={subItem.url}>
+                          <NavLink href={subItem.url}>
                             <span>{subItem.title}</span>
-                          </a>
+                          </NavLink>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
                     ))}
@@ -84,10 +100,10 @@ export function NavMain({
                 tooltip={item.title}
                 isActive={isActive}
               >
-                <a href={item.url}>
+                <NavLink href={item.url}>
                   {item.icon}
                   <span>{item.title}</span>
-                </a>
+                </NavLink>
               </SidebarMenuButton>
             </SidebarMenuItem>
           )

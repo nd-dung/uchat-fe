@@ -20,7 +20,14 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { ChevronsUpDownIcon, SparklesIcon, BadgeCheckIcon, CreditCardIcon, BellIcon, LogOutIcon } from "lucide-react"
+import {
+  BellIcon,
+  CaretUpDownIcon,
+  SealCheckIcon,
+  CreditCardIcon,
+  SignOutIcon,
+  SparkleIcon,
+} from "@phosphor-icons/react"
 
 export function NavUser({
   user,
@@ -50,7 +57,7 @@ export function NavUser({
                 <span className="truncate font-medium">{user.name}</span>
                 <span className="truncate text-xs">{user.email}</span>
               </div>
-              <ChevronsUpDownIcon className="ml-auto size-4" />
+              <CaretUpDownIcon weight="regular" className="ml-auto size-5" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -74,7 +81,9 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <SparklesIcon
+                <SparkleIcon
+                  weight="regular"
+                  className="size-5"
                 />
                 Upgrade to Pro
               </DropdownMenuItem>
@@ -82,24 +91,32 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <BadgeCheckIcon
+                <SealCheckIcon
+                  weight="regular"
+                  className="size-5"
                 />
                 Account
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <CreditCardIcon
+                  weight="regular"
+                  className="size-5"
                 />
                 Billing
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <BellIcon
+                  weight="regular"
+                  className="size-5"
                 />
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <LogOutIcon
+              <SignOutIcon
+                weight="regular"
+                className="size-5"
               />
               Log out
             </DropdownMenuItem>

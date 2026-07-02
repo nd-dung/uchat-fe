@@ -4,8 +4,9 @@ import * as React from "react"
 import { useParams } from "next/navigation"
 import { useFindConversations, useFindMessages } from "@/lib/api/generated/chat-conversations/chat-conversations"
 import { ConversationList } from "@/components/feature/facility/conversations/conversation-list"
-import { ChatPanel } from "@/components/feature/facility/conversations/chat-panel"
+import { StaffChatPanel } from "@/components/feature/facility/staff-chat-panel/staff-chat-panel"
 import { HandoffPanel } from "@/components/feature/facility/conversations/handoff-panel"
+import { useChatSocket } from "@/hooks/use-chat-socket"
 import type { ChatConversationDetailResponseDto } from "@/lib/api/generated/model"
 
 function useMediaQuery(query: string) {
@@ -30,6 +31,21 @@ export default function ConversationsPage() {
   const [selectedId, setSelectedId] = React.useState<number | null>(null)
   const [filter, setFilter] = React.useState("all")
   const [handoffOpen, setHandoffOpen] = React.useState(false)
+
+  const { joinConversation, leaveConversation } = useChatSocket({
+    facilityId: Number(facilityId) || null,
+  })
+
+  React.useEffect(() => {
+    if (selectedId) {
+      joinConversation(selectedId)
+    }
+    return () => {
+      if (selectedId) {
+        leaveConversation(selectedId)
+      }
+    }
+  }, [selectedId])
 
   const { data: conversationsData, isLoading } = useFindConversations()
 
@@ -77,7 +93,7 @@ export default function ConversationsPage() {
 
       {/* Chat Panel */}
       {showDetail && (
-        <ChatPanel
+        <StaffChatPanel
           conversation={selectedConversation}
           messages={messages}
           isLoadingMessages={isLoadingMessages}

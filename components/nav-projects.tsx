@@ -16,7 +16,12 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { MoreHorizontalIcon, FolderIcon, ArrowRightIcon, Trash2Icon } from "lucide-react"
+import {
+  ArrowRightIcon,
+  DotsThreeIcon,
+  FolderIcon,
+  TrashIcon,
+} from "@phosphor-icons/react"
 
 export function NavProjects({
   projects,
@@ -47,7 +52,9 @@ export function NavProjects({
                   showOnHover
                   className="aria-expanded:bg-muted"
                 >
-                  <MoreHorizontalIcon
+                  <DotsThreeIcon
+                    weight="regular"
+                    className="size-5"
                   />
                   <span className="sr-only">More</span>
                 </SidebarMenuAction>
@@ -59,17 +66,23 @@ export function NavProjects({
               >
                 <DropdownMenuItem>
                   <FolderIcon
+                    weight="regular"
+                    className="size-5"
                   />
                   <span>View Project</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <ArrowRightIcon
+                    weight="regular"
+                    className="size-5"
                   />
                   <span>Share Project</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem variant="destructive">
-                  <Trash2Icon
+                  <TrashIcon
+                    weight="regular"
+                    className="size-5"
                   />
                   <span>Delete Project</span>
                 </DropdownMenuItem>
@@ -79,7 +92,7 @@ export function NavProjects({
         ))}
         <SidebarMenuItem>
           <SidebarMenuButton className="text-sidebar-foreground/70">
-            <MoreHorizontalIcon className="text-sidebar-foreground/70" />
+            <DotsThreeIcon weight="regular" className="size-5 text-sidebar-foreground/70" />
             <span>More</span>
           </SidebarMenuButton>
         </SidebarMenuItem>

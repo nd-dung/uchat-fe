@@ -12,14 +12,14 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import {
-  LayoutDashboardIcon,
-  UsersIcon,
-  Settings2Icon,
-  BotIcon,
+  ChatCircleDotsIcon,
+  GaugeIcon,
+  GearSixIcon,
+  LinkIcon,
+  RobotIcon,
   SlidersHorizontalIcon,
-  MessageSquareIcon,
-  Link2Icon,
-} from "lucide-react"
+  UsersIcon,
+} from "@phosphor-icons/react"
 import { useGetFacility } from "@/lib/api/generated/facilities/facilities"
 import { CurrentUserResponseDtoRole } from "@/lib/api/generated/model/currentUserResponseDtoRole"
 
@@ -62,19 +62,19 @@ export function FacilitySidebar({
       {
         title: "Dashboard",
         url: `/facility/${facilityId}/dashboard`,
-        icon: <LayoutDashboardIcon />,
+        icon: <GaugeIcon weight="regular" className="size-5" />,
       },
       ...(isFacilityAdmin
         ? [
             {
               title: "Người dùng khoa",
               url: `/facility/${facilityId}/users`,
-              icon: <UsersIcon />,
+              icon: <UsersIcon weight="regular" className="size-5" />,
             },
             {
               title: "Cấu hình Chatbot",
               url: `/facility/${facilityId}/chatbot-config`,
-              icon: <SlidersHorizontalIcon />,
+              icon: <SlidersHorizontalIcon weight="regular" className="size-5" />,
             },
           ]
         : []),
@@ -83,7 +83,7 @@ export function FacilitySidebar({
             {
               title: "Cuộc trò chuyện",
               url: `/facility/${facilityId}/conversations`,
-              icon: <MessageSquareIcon />,
+              icon: <ChatCircleDotsIcon weight="regular" className="size-5" />,
             },
           ]
         : []),
@@ -92,17 +92,17 @@ export function FacilitySidebar({
             {
               title: "Chatbot Studio",
               url: `/facility/${facilityId}/chatbots`,
-              icon: <BotIcon />,
+              icon: <RobotIcon weight="regular" className="size-5" />,
             },
             {
               title: "Tích hợp MXH",
               url: `/facility/${facilityId}/social-integration`,
-              icon: <Link2Icon />,
+              icon: <LinkIcon weight="regular" className="size-5" />,
             },
             {
               title: "Cài đặt",
               url: `/facility/${facilityId}/settings`,
-              icon: <Settings2Icon />,
+              icon: <GearSixIcon weight="regular" className="size-5" />,
             },
           ]
         : []),
@@ -123,7 +123,7 @@ export function FacilitySidebar({
         </div>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={data.navMain} label="" />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

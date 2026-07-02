@@ -14,18 +14,18 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import {
-  GalleryVerticalEndIcon,
-  AudioLinesIcon,
-  TerminalIcon,
-  UsersIcon,
-  BotIcon,
   BookOpenIcon,
-  Settings2Icon,
-  FrameIcon,
-  PieChartIcon,
-  MapIcon,
-  Building2Icon,
-} from "lucide-react"
+  BuildingsIcon,
+  ChartPieSliceIcon,
+  FrameCornersIcon,
+  GearSixIcon,
+  MapTrifoldIcon,
+  RobotIcon,
+  SquaresFourIcon,
+  TerminalWindowIcon,
+  UsersIcon,
+  WaveformIcon,
+} from "@phosphor-icons/react"
 
 const data = {
   user: {
@@ -36,17 +36,17 @@ const data = {
   teams: [
     {
       name: "Acme Inc",
-      logo: <GalleryVerticalEndIcon />,
+      logo: <SquaresFourIcon weight="regular" className="size-5" />,
       plan: "Enterprise",
     },
     {
       name: "Acme Corp.",
-      logo: <AudioLinesIcon />,
+      logo: <WaveformIcon weight="regular" className="size-5" />,
       plan: "Startup",
     },
     {
       name: "Evil Corp.",
-      logo: <TerminalIcon />,
+      logo: <TerminalWindowIcon weight="regular" className="size-5" />,
       plan: "Free",
     },
   ],
@@ -54,7 +54,7 @@ const data = {
     {
       title: "Quản lý người dùng",
       url: "#",
-      icon: <UsersIcon />,
+      icon: <UsersIcon weight="regular" className="size-5" />,
       items: [
         {
           title: "Danh sách người dùng",
@@ -65,12 +65,12 @@ const data = {
     {
       title: "Quản lý khoa",
       url: "/admin/facilities",
-      icon: <Building2Icon />,
+      icon: <BuildingsIcon weight="regular" className="size-5" />,
     },
     {
       title: "Models",
       url: "#",
-      icon: <BotIcon />,
+      icon: <RobotIcon weight="regular" className="size-5" />,
       items: [
         { title: "Genesis", url: "#" },
         { title: "Explorer", url: "#" },
@@ -80,7 +80,7 @@ const data = {
     {
       title: "Documentation",
       url: "#",
-      icon: <BookOpenIcon />,
+      icon: <BookOpenIcon weight="regular" className="size-5" />,
       items: [
         { title: "Introduction", url: "#" },
         { title: "Get Started", url: "#" },
@@ -91,7 +91,7 @@ const data = {
     {
       title: "Settings",
       url: "#",
-      icon: <Settings2Icon />,
+      icon: <GearSixIcon weight="regular" className="size-5" />,
       items: [
         { title: "General", url: "#" },
         { title: "Team", url: "#" },
@@ -104,17 +104,17 @@ const data = {
     {
       name: "Design Engineering",
       url: "#",
-      icon: <FrameIcon />,
+      icon: <FrameCornersIcon weight="regular" className="size-5" />,
     },
     {
       name: "Sales & Marketing",
       url: "#",
-      icon: <PieChartIcon />,
+      icon: <ChartPieSliceIcon weight="regular" className="size-5" />,
     },
     {
       name: "Travel",
       url: "#",
-      icon: <MapIcon />,
+      icon: <MapTrifoldIcon weight="regular" className="size-5" />,
     },
   ],
 }
